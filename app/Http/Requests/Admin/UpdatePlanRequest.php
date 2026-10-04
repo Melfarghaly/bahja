@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Enums\BillingCycle;
+use App\Enums\Feature;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
@@ -30,7 +31,7 @@ class UpdatePlanRequest extends FormRequest
             'max_teachers' => ['nullable', 'integer', 'min:1'],
             'included_sms' => ['required', 'integer', 'min:0'],
             'features' => ['nullable', 'array'],
-            'features.*' => ['string'],
+            'features.*' => [new Enum(Feature::class)],
             'is_active' => ['boolean'],
         ];
     }

@@ -2,16 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\Limit;
+use App\Enums\RolloutFlag;
 use App\Http\Controllers\Controller;
 use App\Models\Tenant;
 use App\Services\Admin\NurseryAdminService;
+use App\Services\EntitlementService;
+use App\Services\RolloutService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class NurseryController extends Controller
 {
-    public function __construct(private NurseryAdminService $nurseries) {}
+    public function __construct(
+        private NurseryAdminService $nurseries,
+        private EntitlementService $entitlements,
+        private RolloutService $rollouts,
+    ) {}
 
     public function index(Request $request): View
     {
@@ -39,9 +47,21 @@ class NurseryController extends Controller
             ->load([
                 'members:id,name,phone,email',
                 'activeSubscription.plan',
+                'entitlementOverrides.grantedBy:id,name',
+                'addons',
             ]);
 
-        return view('admin.nurseries.show', ['tenant' => $tenant]);
+        return view('admin.nurseries.show', [
+            'tenant' => $tenant,
+            'entitlements' => $this->entitlements->for($tenant),
+            'rollouts' => collect(RolloutFlag::cases())
+                ->mapWithKeys(fn (RolloutFlag $flag) => [$flag->value => $this->rollouts->active($tenant, $flag)])
+                ->all(),
+            'usage' => [
+                Limit::Children->value => $this->entitlements->usage($tenant, Limit::Children),
+                Limit::Staff->value => $this->entitlements->usage($tenant, Limit::Staff),
+            ],
+        ]);
     }
 
     public function suspend(Tenant $tenant): RedirectResponse

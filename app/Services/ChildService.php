@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Child;
+use App\Models\User;
 use App\Support\TenantContext;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -20,6 +21,7 @@ class ChildService
     public function __construct(
         private SubscriptionService $subscriptions,
         private UserDirectoryService $directory,
+        private GuardianService $guardians,
         private TenantContext $tenantContext,
     ) {}
 
@@ -59,44 +61,41 @@ class ChildService
     }
 
     /**
-     * Attach (or replace) guardians with their pivot permissions.
+     * Attach (or replace) guardians with their pivot permissions. Every change
+     * goes through GuardianService so it lands in the audit trail.
      *
      * @param  array<int, array<string, mixed>>  $guardians
      */
     private function syncGuardians(Child $child, array $guardians, bool $replace = false): void
     {
-        $payload = [];
+        $keep = [];
 
         foreach ($guardians as $guardian) {
-            $userId = $this->resolveGuardianId($guardian);
+            $user = $this->resolveGuardian($guardian);
+            $keep[] = $user->id;
 
-            $payload[$userId] = [
-                'tenant_id' => $child->tenant_id,
-                'relationship' => $guardian['relationship'],
-                'role' => $guardian['role'],
-                'can_view_wall' => $guardian['can_view_wall'] ?? true,
-                'can_pickup' => $guardian['can_pickup'] ?? false,
-                'is_payer' => $guardian['is_payer'] ?? false,
-                'custody_flag' => $guardian['custody_flag'] ?? 'none',
-            ];
+            $this->guardians->attach($child, $user, $guardian);
         }
 
-        $replace
-            ? $child->guardians()->sync($payload)
-            : $child->guardians()->syncWithoutDetaching($payload);
+        if ($replace) {
+            $child->guardians()
+                ->whereKeyNot($keep)
+                ->get()
+                ->each(fn (User $stale) => $this->guardians->detach($child, $stale));
+        }
     }
 
     /**
      * @param  array<string, mixed>  $guardian
      */
-    private function resolveGuardianId(array $guardian): int
+    private function resolveGuardian(array $guardian): User
     {
         if (! empty($guardian['user_id'])) {
-            return (int) $guardian['user_id'];
+            return User::findOrFail($guardian['user_id']);
         }
 
         return $this->directory->findOrCreateByPhone($guardian['phone'], [
             'name' => $guardian['name'] ?? null,
-        ])->id;
+        ]);
     }
 }

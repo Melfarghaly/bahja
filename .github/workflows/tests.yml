@@ -15,6 +15,24 @@ jobs:
     runs-on: ubuntu-latest
     environment: Testing
 
+    strategy:
+      fail-fast: false
+      matrix:
+        database: [sqlite, pgsql]
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -50,5 +68,26 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      - name: Run Tests
+      # Superusers skip Row-Level Security, so tests connect as a plain role.
+      - name: Prepare PostgreSQL
+        if: matrix.database == 'pgsql'
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h 127.0.0.1 -U postgres -c "create role bahga login password 'secret' nosuperuser nobypassrls;"
+          psql -h 127.0.0.1 -U postgres -c "create database bahga_test owner bahga;"
+
+      - name: Run Tests (SQLite)
+        if: matrix.database == 'sqlite'
+        run: ./vendor/bin/pest
+
+      - name: Run Tests (PostgreSQL + RLS)
+        if: matrix.database == 'pgsql'
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: bahga_test
+          DB_USERNAME: bahga
+          DB_PASSWORD: secret
         run: ./vendor/bin/pest

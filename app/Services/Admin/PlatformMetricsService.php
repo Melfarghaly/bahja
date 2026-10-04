@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Enums\SubscriptionStatus;
 use App\Models\Child;
+use App\Models\CouponRedemption;
 use App\Models\Subscription;
 use App\Models\Tenant;
 use App\Models\User;
@@ -37,22 +38,29 @@ class PlatformMetricsService
     }
 
     /**
-     * Monthly Recurring Revenue in EGP. Yearly plans are normalized to a monthly figure.
+     * Monthly Recurring Revenue in EGP, after active coupon discounts. Yearly
+     * plans are normalized to a monthly figure.
      */
     public function monthlyRecurringRevenue(): int
     {
         $rows = Subscription::query()
             ->whereIn('subscriptions.status', self::ACTIVE_STATUSES)
             ->join('subscription_plans', 'subscription_plans.id', '=', 'subscriptions.subscription_plan_id')
-            ->select('subscription_plans.price_egp', 'subscription_plans.billing_cycle')
+            ->select('subscriptions.tenant_id', 'subscription_plans.price_egp', 'subscription_plans.billing_cycle')
             ->get();
+
+        $discounts = CouponRedemption::query()
+            ->whereIn('tenant_id', $rows->pluck('tenant_id'))
+            ->active()
+            ->pluck('percent_off', 'tenant_id');
 
         $mrr = 0;
 
         foreach ($rows as $row) {
-            $mrr += $row->billing_cycle === 'yearly'
-                ? (int) round($row->price_egp / 12)
-                : (int) $row->price_egp;
+            $monthly = $row->billing_cycle === 'yearly' ? $row->price_egp / 12 : $row->price_egp;
+            $percentOff = $discounts[$row->tenant_id] ?? 0;
+
+            $mrr += (int) round($monthly * (100 - $percentOff) / 100);
         }
 
         return $mrr;

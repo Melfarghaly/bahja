@@ -1,8 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NurseryController as AdminNurseryController;
+use App\Http\Controllers\Admin\NurseryEntitlementController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\RolloutController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Nursery\AttendanceController;
@@ -10,6 +13,11 @@ use App\Http\Controllers\Nursery\ChildController;
 use App\Http\Controllers\Nursery\ChildImportController;
 use App\Http\Controllers\Nursery\ClassroomController;
 use App\Http\Controllers\Nursery\DashboardController;
+use App\Http\Controllers\Nursery\Finance\ChildFeeController;
+use App\Http\Controllers\Nursery\Finance\CollectionsDashboardController;
+use App\Http\Controllers\Nursery\Finance\FeeSetupController;
+use App\Http\Controllers\Nursery\Finance\TuitionInvoiceController;
+use App\Http\Controllers\Nursery\Finance\TuitionPaymentController;
 use App\Http\Controllers\Nursery\GuardianController;
 use App\Http\Controllers\Nursery\SettingsController;
 use App\Http\Controllers\Nursery\SubscriptionController;
@@ -78,6 +86,33 @@ Route::middleware(['auth', 'tenant', 'nursery.staff'])
 
             Route::get('subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
             Route::post('subscription/change-plan', [SubscriptionController::class, 'changePlan'])->name('subscription.change-plan');
+            Route::post('subscription/coupon', [SubscriptionController::class, 'redeemCoupon'])->name('subscription.coupon');
+
+            // Bahga Pay — tuition billing (released per nursery, see admin rollouts).
+            Route::middleware(['rollout:bahga-pay', 'entitled:finance_ledger'])
+                ->prefix('finance')
+                ->name('finance.')
+                ->group(function () {
+                    Route::get('/', CollectionsDashboardController::class)->name('dashboard');
+                    Route::get('setup', [FeeSetupController::class, 'index'])->name('setup');
+                    Route::post('fee-plans', [FeeSetupController::class, 'storePlan'])->name('fee-plans.store');
+                    Route::put('fee-plans/{feePlan}', [FeeSetupController::class, 'updatePlan'])->name('fee-plans.update');
+                    Route::patch('fee-plans/{feePlan}/active', [FeeSetupController::class, 'togglePlan'])->name('fee-plans.toggle');
+                    Route::post('discounts', [FeeSetupController::class, 'storeDiscount'])->name('discounts.store');
+                    Route::put('discounts/{feeDiscount}', [FeeSetupController::class, 'updateDiscount'])->name('discounts.update');
+                    Route::patch('discounts/{feeDiscount}/active', [FeeSetupController::class, 'toggleDiscount'])->name('discounts.toggle');
+
+                    Route::get('invoices', [TuitionInvoiceController::class, 'index'])->name('invoices.index');
+                    Route::post('invoices/generate', [TuitionInvoiceController::class, 'generate'])->name('invoices.generate');
+                    Route::get('invoices/{invoice}', [TuitionInvoiceController::class, 'show'])->name('invoices.show');
+                    Route::post('invoices/{invoice}/payments', [TuitionPaymentController::class, 'store'])->name('payments.store');
+                    Route::post('invoices/{invoice}/void', [TuitionPaymentController::class, 'voidInvoice'])->name('invoices.void');
+                    Route::post('payments/{payment}/void', [TuitionPaymentController::class, 'void'])->name('payments.void');
+                    Route::get('payments/{payment}/receipt', [TuitionPaymentController::class, 'receipt'])->name('payments.receipt');
+
+                    Route::post('children/{child}/fee-plans', [ChildFeeController::class, 'store'])->name('child-fees.store');
+                    Route::patch('fee-assignments/{childFeePlan}/end', [ChildFeeController::class, 'end'])->name('child-fees.end');
+                });
 
             Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit');
             Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
@@ -99,6 +134,24 @@ Route::middleware(['auth', 'super-admin'])
         Route::get('nurseries/{tenant}', [AdminNurseryController::class, 'show'])->name('nurseries.show');
         Route::patch('nurseries/{tenant}/suspend', [AdminNurseryController::class, 'suspend'])->name('nurseries.suspend');
         Route::patch('nurseries/{tenant}/activate', [AdminNurseryController::class, 'activate'])->name('nurseries.activate');
+
+        // Entitlements: overrides + add-ons. Child bindings are scoped to {tenant}.
+        Route::scopeBindings()->group(function () {
+            Route::post('nurseries/{tenant}/overrides', [NurseryEntitlementController::class, 'storeOverride'])->name('nurseries.overrides.store');
+            Route::delete('nurseries/{tenant}/overrides/{entitlementOverride}', [NurseryEntitlementController::class, 'destroyOverride'])->name('nurseries.overrides.destroy');
+            Route::post('nurseries/{tenant}/addons', [NurseryEntitlementController::class, 'storeAddon'])->name('nurseries.addons.store');
+            Route::delete('nurseries/{tenant}/addons/{addon}', [NurseryEntitlementController::class, 'destroyAddon'])->name('nurseries.addons.destroy');
+        });
+
+        // Gradual release of V2 modules (Pennant).
+        Route::get('rollouts', [RolloutController::class, 'index'])->name('rollouts.index');
+        Route::patch('rollouts/{flag}', [RolloutController::class, 'updateEveryone'])->name('rollouts.everyone');
+        Route::patch('nurseries/{tenant}/rollouts/{flag}', [RolloutController::class, 'updateTenant'])->name('nurseries.rollouts.update');
+
+        Route::get('coupons', [CouponController::class, 'index'])->name('coupons.index');
+        Route::get('coupons/create', [CouponController::class, 'create'])->name('coupons.create');
+        Route::post('coupons', [CouponController::class, 'store'])->name('coupons.store');
+        Route::patch('coupons/{coupon}/status', [CouponController::class, 'updateStatus'])->name('coupons.status');
 
         Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
         Route::get('plans/create', [PlanController::class, 'create'])->name('plans.create');

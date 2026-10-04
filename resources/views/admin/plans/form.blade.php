@@ -47,6 +47,19 @@
             </div>
         </div>
 
+        <fieldset>
+            <legend class="block text-sm font-medium mb-2">المزايا المتضمّنة</legend>
+            @php($selectedFeatures = old('features', $plan->features ?? []))
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                @foreach (\App\Enums\Feature::cases() as $feature)
+                    <label class="flex items-center gap-2 text-sm">
+                        <input type="checkbox" name="features[]" value="{{ $feature->value }}" @checked(in_array($feature->value, $selectedFeatures, true)) class="rounded">
+                        {{ $feature->label() }}
+                    </label>
+                @endforeach
+            </div>
+        </fieldset>
+
         <label class="flex items-center gap-2 text-sm">
             <input type="hidden" name="is_active" value="0">
             <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $plan->is_active ?? true)) class="rounded">

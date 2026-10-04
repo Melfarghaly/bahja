@@ -71,4 +71,14 @@ class Tenant extends Model
             ->whereIn('status', ['trialing', 'active', 'past_due'])
             ->latest();
     }
+
+    public function addons(): HasMany
+    {
+        return $this->hasMany(TenantAddon::class);
+    }
+
+    public function entitlementOverrides(): HasMany
+    {
+        return $this->hasMany(TenantEntitlementOverride::class);
+    }
 }

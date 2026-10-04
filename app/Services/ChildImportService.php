@@ -197,7 +197,7 @@ class ChildImportService
     {
         return [
             'first_name' => $data['first_name'],
-            'last_name' => $data['last_name'] !== '' ? $data['last_name'] : '—',
+            'last_name' => ($data['last_name'] ?? '') !== '' ? $data['last_name'] : '—',
             'birth_date' => $this->normalizeDate($data['birth_date']),
             'gender' => $this->normalizeGender($data['gender']),
             'classroom_id' => $this->resolveClassroomId($data['classroom'] ?? ''),

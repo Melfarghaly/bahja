@@ -2,7 +2,16 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Schedule;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
+
+// Bahga Pay: issue the month's family invoices on the 1st (Cairo time).
+// Idempotent, so a retry or a manual run never double-bills.
+Schedule::command('tuition:generate')
+    ->monthlyOn(1, '06:00')
+    ->timezone('Africa/Cairo')
+    ->withoutOverlapping()
+    ->onOneServer();

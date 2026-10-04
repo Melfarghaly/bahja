@@ -7,16 +7,54 @@
             <h2 class="font-bold mb-3">الخطة الحالية</h2>
             @if ($plan)
                 <div class="text-3xl font-extrabold brand-text">{{ $plan->name }}</div>
-                <div class="text-sm text-gray-500 mt-1">{{ number_format($plan->price_egp) }} ج / {{ $plan->billing_cycle->value === 'yearly' ? 'سنة' : 'شهر' }}</div>
-                <div class="mt-4 text-sm">
-                    <div class="flex justify-between mb-1"><span>الأطفال</span><span>{{ $childrenCount }} / {{ $plan->max_children ?? '∞' }}</span></div>
-                    <div class="h-2 rounded-full bg-gray-100 overflow-hidden">
-                        <div class="h-full brand-bg" style="width: {{ $plan->max_children ? min(100, ($childrenCount / max($plan->max_children,1))*100) : 8 }}%"></div>
-                    </div>
+                <div class="text-sm text-gray-500 mt-1">
+                    @if ($discount)
+                        <span class="line-through text-gray-400">{{ number_format($plan->price_egp) }}</span>
+                        <span class="font-bold text-emerald-600">{{ number_format($effectivePrice) }}</span>
+                    @else
+                        {{ number_format($plan->price_egp) }}
+                    @endif
+                    ج / {{ $plan->billing_cycle->value === 'yearly' ? 'سنة' : 'شهر' }}
                 </div>
+                @if ($discount)
+                    <div class="mt-2 text-xs px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700 inline-block">
+                        خصم {{ $discount->percent_off }}% — {{ $discount->coupon->name }}
+                        ({{ $discount->discount_ends_at ? 'حتى '.$discount->discount_ends_at->toDateString() : 'مدى الحياة' }})
+                    </div>
+                @else
+                    <form method="POST" action="{{ route('nursery.subscription.coupon') }}" class="mt-3 flex gap-2">
+                        @csrf
+                        <input name="code" placeholder="لديك كود خصم؟" class="flex-1 rounded-lg border-gray-200 text-sm font-mono uppercase">
+                        <button class="brand-bg text-white px-3 py-1.5 rounded-lg text-xs font-medium">تفعيل</button>
+                    </form>
+                    @error('code')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+                @endif
             @else
-                <p class="text-sm text-gray-400">لا يوجد اشتراك نشط.</p>
+                <div class="text-3xl font-extrabold brand-text">{{ $entitlements->planName }}</div>
+                <p class="text-sm text-gray-400 mt-1">لا يوجد اشتراك نشط — تعمل الحضانة على الباقة المجانية.</p>
             @endif
+
+            <div class="mt-4 text-sm space-y-3">
+                @foreach ([[\App\Enums\Limit::Children, $childrenCount], [\App\Enums\Limit::Staff, $staffCount]] as [$limit, $used])
+                    @php($max = $entitlements->limit($limit))
+                    <div>
+                        <div class="flex justify-between mb-1"><span>{{ $limit->label() }}</span><span>{{ $used }} / {{ $max ?? '∞' }}</span></div>
+                        <div class="h-2 rounded-full bg-gray-100 overflow-hidden">
+                            <div class="h-full brand-bg" style="width: {{ $max ? min(100, ($used / max($max, 1)) * 100) : 8 }}%"></div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <h3 class="font-bold mt-6 mb-2 text-sm">المزايا المتاحة</h3>
+            <ul class="text-sm space-y-1">
+                @foreach (\App\Enums\Feature::cases() as $feature)
+                    <li class="flex justify-between {{ $entitlements->allows($feature) ? '' : 'text-gray-300' }}">
+                        <span>{{ $feature->label() }}</span>
+                        <span>{{ $entitlements->allows($feature) ? '✓' : '🔒' }}</span>
+                    </li>
+                @endforeach
+            </ul>
         </div>
 
         <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm lg:col-span-2">

@@ -26,3 +26,19 @@ it('blocks viewing a child that belongs to another tenant', function () {
         ->getJson("/api/v1/children/{$foreignChild->id}")
         ->assertNotFound();
 });
+
+it('resolves route-bound records inside the tenant context on web routes', function () {
+    [$tenantA, $ownerA] = createNurseryWithOwner();
+    [$tenantB] = createNurseryWithOwner();
+
+    $foreignChild = Child::factory()->create(['tenant_id' => $tenantB->id]);
+
+    // Route model binding must run after IdentifyTenant, so the TenantScope hides it.
+    $this->actingAs($ownerA)
+        ->get(route('nursery.children.show', $foreignChild->id))
+        ->assertNotFound();
+
+    $this->actingAs($ownerA)
+        ->post(route('nursery.attendance.check-in', $foreignChild->id))
+        ->assertNotFound();
+});

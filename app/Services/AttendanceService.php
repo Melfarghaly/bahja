@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\AttendanceMethod;
+use App\Enums\AuditAction;
 use App\Models\Attendance;
 use App\Models\Child;
 use App\Models\User;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\Gate;
  */
 class AttendanceService
 {
+    public function __construct(private AuditLogger $audit) {}
+
     public function checkIn(Child $child, User $by, AttendanceMethod $method = AttendanceMethod::Qr): Attendance
     {
         return Attendance::updateOrCreate(
@@ -38,6 +41,10 @@ class AttendanceService
         $authorized = Gate::forUser($collector)->allows('pickup', $child);
 
         if (! $authorized) {
+            $this->audit->record(AuditAction::PickupDenied, $child, [
+                'collector_id' => $collector->id,
+            ]);
+
             throw new AuthorizationException('This person is not authorized to pick up this child.');
         }
 
@@ -50,6 +57,11 @@ class AttendanceService
             'checked_out_at' => now(),
             'picked_up_by' => $collector->id,
             'pickup_verified' => true,
+        ]);
+
+        $this->audit->record(AuditAction::PickupVerified, $child, [
+            'collector_id' => $collector->id,
+            'attendance_id' => $attendance->id,
         ]);
 
         return $attendance;

@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AttendanceController;
+use App\Http\Controllers\Api\V1\AuthTokenController;
 use App\Http\Controllers\Api\V1\ChildController;
 use App\Http\Controllers\Api\V1\GuardianController;
+use App\Http\Controllers\Api\V1\MyInvoiceController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\Api\V1\WardController;
 use Illuminate\Support\Facades\Route;
@@ -12,16 +14,26 @@ use Illuminate\Support\Facades\Route;
 | API Routes (v1)
 |--------------------------------------------------------------------------
 |
-| All routes are authenticated and run through the `tenant` middleware, which
-| resolves the active nursery and enables tenant isolation. NOTE: token auth
-| (Laravel Sanctum) is the recommended addition for the mobile/SPA client —
-| run `php artisan install:api` and swap `auth` for `auth:sanctum`.
+| Clients authenticate with a Sanctum bearer token (PWA / mobile) or the
+| first-party session. Every data route runs through the `tenant` middleware,
+| which resolves the active nursery and enables tenant isolation.
 |
 */
 
-Route::prefix('v1')->middleware(['auth', 'tenant'])->group(function () {
+Route::prefix('v1/auth')->group(function () {
+    Route::post('tokens', [AuthTokenController::class, 'store'])->middleware('throttle:6,1');
+    Route::delete('tokens/current', [AuthTokenController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
     // Guardian self-service: unified siblings view.
     Route::get('me/wards', [WardController::class, 'index']);
+
+    // Bahga Pay: the guardian's own family invoices (payer only).
+    Route::middleware('rollout:bahga-pay')->group(function () {
+        Route::get('me/invoices', [MyInvoiceController::class, 'index']);
+        Route::get('me/invoices/{invoice}', [MyInvoiceController::class, 'show']);
+    });
 
     // Children.
     Route::get('children', [ChildController::class, 'index']);

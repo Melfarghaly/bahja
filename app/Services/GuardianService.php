@@ -2,8 +2,12 @@
 
 namespace App\Services;
 
+use App\Enums\AuditAction;
+use App\Enums\MemberType;
 use App\Models\Child;
+use App\Models\Tenant;
 use App\Models\User;
+use BackedEnum;
 
 /**
  * Manages the child <-> guardian links independently of child creation, e.g.
@@ -11,7 +15,10 @@ use App\Models\User;
  */
 class GuardianService
 {
-    public function __construct(private UserDirectoryService $directory) {}
+    public function __construct(
+        private UserDirectoryService $directory,
+        private AuditLogger $audit,
+    ) {}
 
     /**
      * Attach a guardian provided as name + phone (nursery web UI). Resolves or
@@ -33,21 +40,87 @@ class GuardianService
      */
     public function attach(Child $child, User $guardian, array $attributes): void
     {
+        $permissions = [
+            'relationship' => $attributes['relationship'],
+            'role' => $attributes['role'],
+            'can_view_wall' => $attributes['can_view_wall'] ?? true,
+            'can_pickup' => $attributes['can_pickup'] ?? false,
+            'is_payer' => $attributes['is_payer'] ?? false,
+            'custody_flag' => $attributes['custody_flag'] ?? 'none',
+        ];
+
+        $before = $this->currentPermissions($child, $guardian);
+
         $child->guardians()->syncWithoutDetaching([
-            $guardian->id => [
-                'tenant_id' => $child->tenant_id,
-                'relationship' => $attributes['relationship'],
-                'role' => $attributes['role'],
-                'can_view_wall' => $attributes['can_view_wall'] ?? true,
-                'can_pickup' => $attributes['can_pickup'] ?? false,
-                'is_payer' => $attributes['is_payer'] ?? false,
-                'custody_flag' => $attributes['custody_flag'] ?? 'none',
-            ],
+            $guardian->id => ['tenant_id' => $child->tenant_id] + $permissions,
         ]);
+
+        $this->ensureMembership($child, $guardian);
+
+        $this->audit->record(
+            $before === null ? AuditAction::GuardianAttached : AuditAction::GuardianUpdated,
+            $child,
+            array_filter([
+                'guardian_id' => $guardian->id,
+                'before' => $before,
+                'after' => $this->normalize($permissions),
+            ], fn ($value) => $value !== null),
+        );
     }
 
     public function detach(Child $child, User $guardian): void
     {
-        $child->guardians()->detach($guardian->id);
+        $before = $this->currentPermissions($child, $guardian);
+
+        if ($child->guardians()->detach($guardian->id) > 0) {
+            $this->audit->record(AuditAction::GuardianDetached, $child, [
+                'guardian_id' => $guardian->id,
+                'before' => $before,
+            ]);
+        }
+    }
+
+    /**
+     * A guardian must be a member of the nursery to sign in to it (the tenant
+     * middleware resolves context from memberships). Existing memberships —
+     * e.g. a teacher who is also a parent — are left untouched.
+     */
+    private function ensureMembership(Child $child, User $guardian): void
+    {
+        $tenant = Tenant::findOrFail($child->tenant_id);
+
+        if (! $tenant->members()->whereKey($guardian->id)->exists()) {
+            $tenant->members()->attach($guardian->id, [
+                'member_type' => MemberType::Guardian->value,
+                'status' => 'active',
+            ]);
+        }
+    }
+
+    /**
+     * The guardian's current per-pair permissions, or null when not linked.
+     *
+     * @return array<string, mixed>|null
+     */
+    private function currentPermissions(Child $child, User $guardian): ?array
+    {
+        $pivot = $child->guardians()->whereKey($guardian->id)->first()?->pivot;
+
+        return $pivot === null ? null : $this->normalize($pivot->only([
+            'relationship', 'role', 'can_view_wall', 'can_pickup', 'is_payer', 'custody_flag',
+        ]));
+    }
+
+    /**
+     * @param  array<string, mixed>  $permissions
+     * @return array<string, mixed>
+     */
+    private function normalize(array $permissions): array
+    {
+        foreach (['can_view_wall', 'can_pickup', 'is_payer'] as $flag) {
+            $permissions[$flag] = (bool) $permissions[$flag];
+        }
+
+        return array_map(fn ($value) => $value instanceof BackedEnum ? $value->value : $value, $permissions);
     }
 }

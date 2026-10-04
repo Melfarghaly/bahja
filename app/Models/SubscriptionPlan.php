@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\BillingCycle;
+use App\Enums\Feature;
+use App\Enums\Limit;
 use Database\Factories\SubscriptionPlanFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,6 +24,7 @@ class SubscriptionPlan extends Model
         'max_teachers',
         'included_sms',
         'features',
+        'limits',
         'is_active',
     ];
 
@@ -37,6 +40,7 @@ class SubscriptionPlan extends Model
             'max_teachers' => 'integer',
             'included_sms' => 'integer',
             'features' => 'array',
+            'limits' => 'array',
             'is_active' => 'boolean',
         ];
     }
@@ -49,5 +53,32 @@ class SubscriptionPlan extends Model
     public function isUnlimitedChildren(): bool
     {
         return $this->max_children === null;
+    }
+
+    /**
+     * The plan's features as enums; unknown legacy keys are ignored.
+     *
+     * @return array<int, Feature>
+     */
+    public function featureList(): array
+    {
+        return array_values(array_filter(array_map(
+            fn (mixed $key) => is_string($key) ? Feature::tryFrom($key) : null,
+            $this->features ?? [],
+        )));
+    }
+
+    /**
+     * Every quota of the plan keyed by Limit value (null = unlimited).
+     *
+     * @return array<string, ?int>
+     */
+    public function limitMap(): array
+    {
+        return [
+            Limit::Children->value => $this->max_children,
+            Limit::Staff->value => $this->max_teachers,
+            ...array_map(fn ($value) => $value === null ? null : (int) $value, $this->limits ?? []),
+        ];
     }
 }
