@@ -95,6 +95,9 @@ class DemoNurserySeeder extends Seeder
         // Safe Pickup 2.0 too: rotating guardian QR, pickup passes, late pickup alerts.
         Feature::for($tenant)->activate(RolloutFlag::SafePickupV2->value);
 
+        // Messaging Hub: arrival / pickup notifications to the family.
+        Feature::for($tenant)->activate(RolloutFlag::MessagingHub->value);
+
         app(TenantContext::class)->forget();
     }
 }

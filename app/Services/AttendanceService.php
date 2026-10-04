@@ -9,6 +9,7 @@ use App\Models\Attendance;
 use App\Models\Child;
 use App\Models\PickupPass;
 use App\Models\User;
+use App\Services\Notifications\AttendanceNotifications;
 use App\Services\Pickup\PickupVerificationService;
 use App\Support\Pickup\PickupCandidate;
 use Carbon\CarbonImmutable;
@@ -25,6 +26,7 @@ class AttendanceService
     public function __construct(
         private AuditLogger $audit,
         private PickupVerificationService $verification,
+        private AttendanceNotifications $notifications,
     ) {}
 
     /**
@@ -36,7 +38,7 @@ class AttendanceService
         // keyed by the day as a Carbon so it matches the stored value on every driver.
         $at = ($at ?? CarbonImmutable::now())->setTimezone(config('app.timezone'));
 
-        return Attendance::updateOrCreate(
+        $attendance = Attendance::updateOrCreate(
             ['child_id' => $child->id, 'date' => $at->startOfDay()],
             [
                 'tenant_id' => $child->tenant_id,
@@ -45,6 +47,15 @@ class AttendanceService
                 'check_in_method' => $method,
             ],
         );
+
+        // Tell the family once a day: not again when a check-in is corrected.
+        $firstToday = $attendance->wasRecentlyCreated
+            || ($attendance->wasChanged('checked_in_at') && ($attendance->getPrevious()['checked_in_at'] ?? null) === null);
+        if ($firstToday) {
+            $this->notifications->arrived($child, $attendance);
+        }
+
+        return $attendance;
     }
 
     /**
@@ -64,7 +75,7 @@ class AttendanceService
             throw new AuthorizationException(__('api.errors.pickup_not_authorized').' ('.__('pickup.reasons.'.$refusal).')');
         }
 
-        return DB::transaction(function () use ($child, $candidate, $staff) {
+        $attendance = DB::transaction(function () use ($child, $candidate, $staff) {
             if ($candidate->pass !== null) {
                 // Single use, even if two teachers scan the same code at once.
                 $pass = PickupPass::whereKey($candidate->pass->id)->lockForUpdate()->first();
@@ -89,6 +100,10 @@ class AttendanceService
 
             return $attendance;
         });
+
+        $this->notifications->pickedUp($child, $attendance, $candidate->name, $candidate->user);
+
+        return $attendance;
     }
 
     /**
@@ -97,7 +112,7 @@ class AttendanceService
      */
     public function overrideCheckOut(Child $child, User $manager, string $collectorName, string $reason): Attendance
     {
-        return DB::transaction(function () use ($child, $manager, $collectorName, $reason) {
+        $attendance = DB::transaction(function () use ($child, $manager, $collectorName, $reason) {
             $attendance = $this->todayOf($child);
             $attendance->update([
                 'checked_out_at' => now(),
@@ -117,6 +132,10 @@ class AttendanceService
 
             return $attendance;
         });
+
+        $this->notifications->pickedUp($child, $attendance, $collectorName);
+
+        return $attendance;
     }
 
     private function todayOf(Child $child): Attendance

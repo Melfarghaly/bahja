@@ -4,9 +4,11 @@ use App\Http\Controllers\Api\V1\AttendanceController;
 use App\Http\Controllers\Api\V1\AuthTokenController;
 use App\Http\Controllers\Api\V1\ChildController;
 use App\Http\Controllers\Api\V1\ClassroomController;
+use App\Http\Controllers\Api\V1\DeviceController;
 use App\Http\Controllers\Api\V1\GuardianController;
 use App\Http\Controllers\Api\V1\GuardianPickupController;
 use App\Http\Controllers\Api\V1\MyInvoiceController;
+use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\OtpController;
 use App\Http\Controllers\Api\V1\PickupController;
 use App\Http\Controllers\Api\V1\ProfileController;
@@ -44,9 +46,18 @@ Route::prefix('v1/auth')->group(function () {
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::get('me', [ProfileController::class, 'show']);
     Route::patch('me', [ProfileController::class, 'update']);
+
+    // Push notifications: the app's FCM token (one per install).
+    Route::post('me/devices', [DeviceController::class, 'store']);
+    Route::delete('me/devices', [DeviceController::class, 'destroy']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
+    // In-app notifications in this nursery (every role).
+    Route::get('me/notifications', [NotificationController::class, 'index']);
+    Route::post('me/notifications/read-all', [NotificationController::class, 'readAll']);
+    Route::post('me/notifications/{notification}/read', [NotificationController::class, 'read'])->whereNumber('notification');
+
     // Guardian app: my children (custody-blocked links are invisible).
     Route::get('me/wards', [WardController::class, 'index']);
     Route::get('me/wards/{child}', [WardController::class, 'show']);

@@ -24,6 +24,9 @@ class UpdateNurseryRequest extends FormRequest
             'tuition_due_day' => ['nullable', 'integer', 'between:1,28'],
             // Safe Pickup: latest pickup time (Cairo, HH:MM); empty disables late alerts.
             'pickup_deadline' => ['nullable', 'date_format:H:i'],
+            // Notifications: non-urgent pushes wait out the quiet hours (Cairo, may cross midnight).
+            'quiet_hours_start' => ['nullable', 'date_format:H:i', 'required_with:quiet_hours_end'],
+            'quiet_hours_end' => ['nullable', 'date_format:H:i', 'required_with:quiet_hours_start'],
         ];
     }
 }

@@ -1,10 +1,12 @@
 <?php
 
 use App\Enums\AuditAction;
+use App\Enums\NotificationType;
 use App\Models\AuditLog;
 use App\Models\Child;
 use App\Models\LatePickupAlert;
 use App\Models\User;
+use App\Models\UserNotification;
 use App\Services\AttendanceService;
 use App\Services\GuardianService;
 use App\Services\Messaging\SmsGateway;
@@ -95,8 +97,9 @@ it('respects a guardian who turned SMS off', function () {
     $this->travelTo(cairo('16:20'));
     $this->artisan('pickup:late-alerts')->assertSuccessful();
 
+    // No SMS, but the alert still lands in the app inbox.
     expect($this->sms->sent)->toBeEmpty()
-        ->and(LatePickupAlert::withoutGlobalScopes()->sole()->recipients)->toBe(0);
+        ->and(UserNotification::withoutGlobalScopes()->where('user_id', $this->mother->id)->sole()->type)->toBe(NotificationType::LatePickup);
 });
 
 it('does nothing without a deadline or without Safe Pickup', function () {

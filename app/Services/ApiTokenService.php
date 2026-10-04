@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\PushDevice;
 use App\Models\User;
 use App\Support\PhoneNumber;
 use Illuminate\Support\Facades\Hash;
@@ -47,6 +48,8 @@ class ApiTokenService
         $token = $user->currentAccessToken();
 
         if ($token instanceof PersonalAccessToken) {
+            // This install stops receiving notifications too (also enforced by the FK).
+            PushDevice::where('personal_access_token_id', $token->id)->delete();
             $token->delete();
         }
     }

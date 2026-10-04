@@ -28,3 +28,9 @@ Schedule::command('pickup:late-alerts')
     ->everyFifteenMinutes()
     ->withoutOverlapping()
     ->onOneServer();
+
+// Notifications held back by a nursery's quiet hours go out when they end.
+Schedule::command('notifications:deliver-deferred')
+    ->everyFiveMinutes()
+    ->withoutOverlapping()
+    ->onOneServer();

@@ -40,6 +40,18 @@
             </div>
         @endrolledout
         <div class="pt-4 border-t border-gray-50">
+            <span class="block text-sm font-medium mb-1">ساعات الهدوء للإشعارات</span>
+            <div class="flex items-center gap-2 text-sm">
+                <label for="quiet_hours_start">من</label>
+                <input id="quiet_hours_start" type="time" name="quiet_hours_start" value="{{ old('quiet_hours_start', $tenant->settings['quiet_hours_start'] ?? '21:00') }}" class="rounded-lg border-gray-200 text-sm">
+                <label for="quiet_hours_end">إلى</label>
+                <input id="quiet_hours_end" type="time" name="quiet_hours_end" value="{{ old('quiet_hours_end', $tenant->settings['quiet_hours_end'] ?? '07:00') }}" class="rounded-lg border-gray-200 text-sm">
+            </div>
+            <p class="text-xs text-gray-500 mt-1">الإشعارات العادية (وصول الطفل وانصرافه) تُؤجَّل حتى نهاية ساعات الهدوء. التنبيهات العاجلة تصل فوراً دائماً.</p>
+            @error('quiet_hours_start')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+            @error('quiet_hours_end')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+        </div>
+        <div class="pt-4 border-t border-gray-50">
             <button class="brand-bg text-white px-6 py-2 rounded-lg text-sm font-medium">حفظ الإعدادات</button>
         </div>
     </form>

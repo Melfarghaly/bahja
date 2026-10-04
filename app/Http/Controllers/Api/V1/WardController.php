@@ -44,8 +44,8 @@ class WardController extends Controller
 
     public function updateNotifications(UpdateWardNotificationsRequest $request, Child $child): WardResource
     {
-        return new WardResource($this->wards->updateNotifications($request->user(), $child, [
-            'sms' => $request->boolean('sms'),
-        ]));
+        $preferences = collect($request->validated())->map(fn ($value) => (bool) $value)->all();
+
+        return new WardResource($this->wards->updateNotifications($request->user(), $child, $preferences));
     }
 }

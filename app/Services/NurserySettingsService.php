@@ -14,7 +14,7 @@ class NurserySettingsService
     /**
      * Keys of the request that live inside the `settings` JSON column.
      */
-    private const SETTINGS_KEYS = ['tuition_due_day', 'pickup_deadline'];
+    private const SETTINGS_KEYS = ['tuition_due_day', 'pickup_deadline', 'quiet_hours_start', 'quiet_hours_end'];
 
     /**
      * Keys stored as integers (the others are kept as strings).
