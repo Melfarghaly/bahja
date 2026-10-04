@@ -71,3 +71,11 @@ function enableSafePickup(Tenant $tenant): void
     Feature::for($tenant)->activate(RolloutFlag::SafePickupV2->value);
     TenantEntitlementOverride::factory()->create(['tenant_id' => $tenant->id, 'key' => 'pickup_passes', 'value' => true]);
 }
+
+/**
+ * Release the Messaging Hub (arrival / pickup notifications) to a nursery.
+ */
+function enableMessagingHub(Tenant $tenant): void
+{
+    Feature::for($tenant)->activate(RolloutFlag::MessagingHub->value);
+}

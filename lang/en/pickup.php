@@ -5,7 +5,6 @@ return [
     'invalid_pass' => 'The pass code is wrong, expired or already used.',
     'no_pickup_rights' => 'You are not authorized to pick up any child in this nursery.',
     'pass_sms' => ':nursery: you are authorized to pick up :child. Pickup code: :code (valid until :until). Show it to the teacher.',
-    'late_sms' => ':nursery: :child has not been picked up yet (pickup time :deadline). Please contact the nursery.',
     'reasons' => [
         'custody_blocked' => 'Pickup forbidden by a custody order',
         'not_authorized' => 'Not authorized to pick up this child',

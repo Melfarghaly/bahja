@@ -5,19 +5,21 @@ namespace App\Services\Pickup;
 use App\Enums\AuditAction;
 use App\Enums\CustodyFlag;
 use App\Enums\MemberType;
+use App\Enums\NotificationType;
 use App\Models\Attendance;
 use App\Models\Child;
 use App\Models\LatePickupAlert;
 use App\Models\Tenant;
 use App\Models\User;
 use App\Services\AuditLogger;
-use App\Services\Messaging\SmsGateway;
+use App\Services\Notifications\NotificationRouter;
 use Carbon\CarbonImmutable;
 
 /**
  * Children still at the nursery after its pickup deadline: guardians who may
- * collect them are texted after GUARDIAN_GRACE minutes, the nursery managers
- * after MANAGER_GRACE minutes. Each stage fires once per child per day.
+ * collect them are alerted after GUARDIAN_GRACE minutes, the nursery managers
+ * after MANAGER_GRACE minutes (push, or SMS when no app is reachable). Each
+ * stage fires once per child per day.
  */
 class LatePickupService
 {
@@ -28,7 +30,7 @@ class LatePickupService
     public const MANAGER_GRACE = 45;
 
     public function __construct(
-        private SmsGateway $sms,
+        private NotificationRouter $router,
         private AuditLogger $audit,
     ) {}
 
@@ -97,30 +99,27 @@ class LatePickupService
 
     private function alertGuardians(Tenant $tenant, Child $child, CarbonImmutable $deadline): int
     {
+        // Those who can come and get the child (the router skips custody blocks too).
         $recipients = $child->guardians
-            ->filter(fn (User $g) => $g->pivot->can_pickup
-                && $g->pivot->custody_flag !== CustodyFlag::Blocked->value
-                && (json_decode((string) $g->pivot->notify_preferences, true)['sms'] ?? true) !== false
-                && filled($g->phone));
+            ->filter(fn (User $g) => $g->pivot->can_pickup && $g->pivot->custody_flag !== CustodyFlag::Blocked->value);
 
-        foreach ($recipients as $guardian) {
-            $this->sms->send($guardian->phone, $this->message($tenant, $child, $deadline));
-        }
+        $notified = $recipients->filter(fn (User $guardian) => $this->router->notify(
+            $tenant, $guardian, NotificationType::LatePickup, $this->params($tenant, $child, $deadline), $child, ['screen' => 'ward'],
+        ) !== null)->count();
 
-        $this->finish($child, $deadline, LatePickupAlert::GUARDIANS, $recipients->count());
+        $this->finish($child, $deadline, LatePickupAlert::GUARDIANS, $notified);
 
-        return $recipients->count();
+        return $notified;
     }
 
     private function alertManagers(Tenant $tenant, Child $child, CarbonImmutable $deadline): int
     {
         $managers = $tenant->members()
             ->wherePivotIn('member_type', [MemberType::Owner->value, MemberType::Admin->value])
-            ->whereNotNull('phone')
             ->get();
 
         foreach ($managers as $manager) {
-            $this->sms->send($manager->phone, $this->message($tenant, $child, $deadline));
+            $this->router->notify($tenant, $manager, NotificationType::LatePickupManagers, $this->params($tenant, $child, $deadline), $child, ['screen' => 'attendance']);
         }
 
         $this->audit->record(AuditAction::LatePickupAlerted, $child, [
@@ -141,8 +140,11 @@ class LatePickupService
             ->update(['recipients' => $recipients]);
     }
 
-    private function message(Tenant $tenant, Child $child, CarbonImmutable $deadline): string
+    /**
+     * @return array<string, string>
+     */
+    private function params(Tenant $tenant, Child $child, CarbonImmutable $deadline): array
     {
-        return __('pickup.late_sms', ['nursery' => $tenant->name, 'child' => $child->first_name, 'deadline' => $deadline->format('H:i')]);
+        return ['nursery' => $tenant->name, 'child' => $child->first_name, 'deadline' => $deadline->format('H:i')];
     }
 }

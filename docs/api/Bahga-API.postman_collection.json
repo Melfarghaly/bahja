@@ -136,6 +136,16 @@
             "key": "pass_id",
             "value": "",
             "description": "Set by \"Issue a one-time pickup pass\""
+        },
+        {
+            "key": "device_token",
+            "value": "dXk3bWZ1Y2h6U0K:APA91bHq2demo-fcm-registration-token-for-postman",
+            "description": "The app's FCM token (a demo value)"
+        },
+        {
+            "key": "notification_id",
+            "value": "",
+            "description": "Set by \"My notifications\""
         }
     ],
     "item": [
@@ -245,7 +255,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"5|1L0QlQGnlQj0jTBt3ISuUXpiOGyftOjRa2MpDUqa560a6444\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"5|mf011ejkzoIOWVn6xHNGjwvucz3ISYY9qcDRVBTWd91df631\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — بيانات دخول خاطئة",
@@ -484,7 +494,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"6|W4qN5XiWDCIbxfd5DV6X2Nb2IxaurdUr6OSZMRf287b83ff8\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"6|mQa2SRVT3ptclUOj4xWODmP6F8zRH8ayCoOChcsVa5f2b5ae\",\n    \"token_type\": \"Bearer\"\n}"
                         }
                     ],
                     "event": [
@@ -605,7 +615,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"7|PaUPOMzkNQj3q2nvQK8EwjaaUl44sicT1Z10cxzN6f667147\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"7|oq5q2TTMSKIr3bCeqFhWnE5NkFsX6vvLd5BfvliXc701082b\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — محاولة سادسة خلال دقيقة (مسموح)",
@@ -1123,7 +1133,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"162430\",\n    \"device_name\": \"mona-android\"\n}",
+                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"309648\",\n    \"device_name\": \"mona-android\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -1145,7 +1155,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"8|UMSAn4Kc1haG0LrYcOSOV1NhRSZtKlRmrjPMU6AV82fd21b4\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"8|dLuw7imGoXRAEB847KJzUHtF5Rh9FBQog6pD3Bbuad795a86\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — نفس الرمز مرة ثانية",
@@ -1183,7 +1193,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"162430\",\n    \"device_name\": \"mona-android\"\n}",
+                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"309648\",\n    \"device_name\": \"mona-android\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -6067,7 +6077,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"child_id\": 2,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"809698\"\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"child_id\": 2,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"666164\"\n}"
                         },
                         {
                             "name": "422 — رقم غير مصري ومدة أكثر من 24 ساعة",
@@ -6286,7 +6296,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"child_id\": 1,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"955581\"\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"child_id\": 1,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"626342\"\n}"
                         }
                     ],
                     "event": [
@@ -6716,7 +6726,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": [\n        {\n            \"id\": 2,\n            \"first_name\": \"ليلى\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2023-06-02\",\n            \"gender\": \"female\",\n            \"status\": \"active\",\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\"\n            },\n            \"medical_notes\": null,\n            \"my_link\": {\n                \"relationship\": \"mother\",\n                \"role\": \"primary\",\n                \"can_view_wall\": true,\n                \"can_pickup\": true,\n                \"is_payer\": true,\n                \"billing_share_bp\": null,\n                \"notifications\": {\n                    \"sms\": true\n                }\n            },\n            \"today_attendance\": {\n                \"id\": 1,\n                \"child_id\": 2,\n                \"date\": \"2026-10-04\",\n                \"checked_in_at\": \"2026-10-04T09:30:00+00:00\",\n                \"check_in_method\": \"qr\",\n                \"checked_out_at\": \"2026-10-04T09:30:00+00:00\",\n                \"picked_up_by\": null,\n                \"picked_up_by_name\": null,\n                \"pickup_verified\": true,\n                \"pickup_method\": \"pass_code\",\n                \"pickup_pass_id\": 1,\n                \"override_reason\": null\n            }\n        },\n        {\n            \"id\": 1,\n            \"first_name\": \"يوسف\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2022-03-14\",\n            \"gender\": \"male\",\n            \"status\": \"active\",\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\"\n            },\n            \"medical_notes\": {\n                \"allergies\": [\n                    \"فول سوداني\",\n                    \"بيض\"\n                ]\n            },\n            \"my_link\": {\n                \"relationship\": \"mother\",\n                \"role\": \"primary\",\n                \"can_view_wall\": true,\n                \"can_pickup\": true,\n                \"is_payer\": true,\n                \"billing_share_bp\": null,\n                \"notifications\": {\n                    \"sms\": true\n                }\n            },\n            \"today_attendance\": {\n                \"id\": 2,\n                \"child_id\": 1,\n                \"date\": \"2026-10-04\",\n                \"checked_in_at\": \"2026-10-04T09:25:00+00:00\",\n                \"check_in_method\": \"qr\",\n                \"checked_out_at\": \"2026-10-04T09:30:00+00:00\",\n                \"picked_up_by\": null,\n                \"picked_up_by_name\": null,\n                \"pickup_verified\": false,\n                \"pickup_method\": \"manual_override\",\n                \"pickup_pass_id\": null,\n                \"override_reason\": \"خالة الطفل: الأم في المستشفى واتصلت بالإدارة\"\n            }\n        }\n    ]\n}"
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 2,\n            \"first_name\": \"ليلى\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2023-06-02\",\n            \"gender\": \"female\",\n            \"status\": \"active\",\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\"\n            },\n            \"medical_notes\": null,\n            \"my_link\": {\n                \"relationship\": \"mother\",\n                \"role\": \"primary\",\n                \"can_view_wall\": true,\n                \"can_pickup\": true,\n                \"is_payer\": true,\n                \"billing_share_bp\": null,\n                \"notifications\": {\n                    \"push\": true,\n                    \"sms\": true\n                }\n            },\n            \"today_attendance\": {\n                \"id\": 1,\n                \"child_id\": 2,\n                \"date\": \"2026-10-04\",\n                \"checked_in_at\": \"2026-10-04T09:30:00+00:00\",\n                \"check_in_method\": \"qr\",\n                \"checked_out_at\": \"2026-10-04T09:30:00+00:00\",\n                \"picked_up_by\": null,\n                \"picked_up_by_name\": null,\n                \"pickup_verified\": true,\n                \"pickup_method\": \"pass_code\",\n                \"pickup_pass_id\": 1,\n                \"override_reason\": null\n            }\n        },\n        {\n            \"id\": 1,\n            \"first_name\": \"يوسف\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2022-03-14\",\n            \"gender\": \"male\",\n            \"status\": \"active\",\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\"\n            },\n            \"medical_notes\": {\n                \"allergies\": [\n                    \"فول سوداني\",\n                    \"بيض\"\n                ]\n            },\n            \"my_link\": {\n                \"relationship\": \"mother\",\n                \"role\": \"primary\",\n                \"can_view_wall\": true,\n                \"can_pickup\": true,\n                \"is_payer\": true,\n                \"billing_share_bp\": null,\n                \"notifications\": {\n                    \"push\": true,\n                    \"sms\": true\n                }\n            },\n            \"today_attendance\": {\n                \"id\": 2,\n                \"child_id\": 1,\n                \"date\": \"2026-10-04\",\n                \"checked_in_at\": \"2026-10-04T09:25:00+00:00\",\n                \"check_in_method\": \"qr\",\n                \"checked_out_at\": \"2026-10-04T09:30:00+00:00\",\n                \"picked_up_by\": null,\n                \"picked_up_by_name\": null,\n                \"pickup_verified\": false,\n                \"pickup_method\": \"manual_override\",\n                \"pickup_pass_id\": null,\n                \"override_reason\": \"خالة الطفل: الأم في المستشفى واتصلت بالإدارة\"\n            }\n        }\n    ]\n}"
                         },
                         {
                             "name": "200 — وصيّ محظور لا يرى الطفل",
@@ -6893,7 +6903,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"first_name\": \"يوسف\",\n        \"last_name\": \"محمود\",\n        \"birth_date\": \"2022-03-14\",\n        \"gender\": \"male\",\n        \"status\": \"active\",\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\"\n        },\n        \"medical_notes\": {\n            \"allergies\": [\n                \"فول سوداني\",\n                \"بيض\"\n            ]\n        },\n        \"my_link\": {\n            \"relationship\": \"mother\",\n            \"role\": \"primary\",\n            \"can_view_wall\": true,\n            \"can_pickup\": true,\n            \"is_payer\": true,\n            \"billing_share_bp\": null,\n            \"notifications\": {\n                \"sms\": true\n            }\n        },\n        \"today_attendance\": {\n            \"id\": 2,\n            \"child_id\": 1,\n            \"date\": \"2026-10-04\",\n            \"checked_in_at\": \"2026-10-04T09:25:00+00:00\",\n            \"check_in_method\": \"qr\",\n            \"checked_out_at\": \"2026-10-04T09:30:00+00:00\",\n            \"picked_up_by\": null,\n            \"picked_up_by_name\": null,\n            \"pickup_verified\": false,\n            \"pickup_method\": \"manual_override\",\n            \"pickup_pass_id\": null,\n            \"override_reason\": \"خالة الطفل: الأم في المستشفى واتصلت بالإدارة\"\n        }\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"first_name\": \"يوسف\",\n        \"last_name\": \"محمود\",\n        \"birth_date\": \"2022-03-14\",\n        \"gender\": \"male\",\n        \"status\": \"active\",\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\"\n        },\n        \"medical_notes\": {\n            \"allergies\": [\n                \"فول سوداني\",\n                \"بيض\"\n            ]\n        },\n        \"my_link\": {\n            \"relationship\": \"mother\",\n            \"role\": \"primary\",\n            \"can_view_wall\": true,\n            \"can_pickup\": true,\n            \"is_payer\": true,\n            \"billing_share_bp\": null,\n            \"notifications\": {\n                \"push\": true,\n                \"sms\": true\n            }\n        },\n        \"today_attendance\": {\n            \"id\": 2,\n            \"child_id\": 1,\n            \"date\": \"2026-10-04\",\n            \"checked_in_at\": \"2026-10-04T09:25:00+00:00\",\n            \"check_in_method\": \"qr\",\n            \"checked_out_at\": \"2026-10-04T09:30:00+00:00\",\n            \"picked_up_by\": null,\n            \"picked_up_by_name\": null,\n            \"pickup_verified\": false,\n            \"pickup_method\": \"manual_override\",\n            \"pickup_pass_id\": null,\n            \"override_reason\": \"خالة الطفل: الأم في المستشفى واتصلت بالإدارة\"\n        }\n    }\n}"
                         },
                         {
                             "name": "404 — ليس من أطفالي",
@@ -7285,18 +7295,18 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"sms\": false\n}",
+                            "raw": "{\n    \"push\": true,\n    \"sms\": false\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
                                 }
                             }
                         },
-                        "description": "تفعيل/إيقاف رسائل SMS لهذا الطفل (ومنها تذكيرات الدفع). يُحترم الإيقاف في كل الرسائل غير الطارئة.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`404` | `not_found` | ليس من أطفالك\n`422` | `validation_failed` | `sms` مطلوب (true/false)"
+                        "description": "اختيارات الإشعارات لهذا الطفل (أرسل أحدهما أو كليهما):\n\n| الحقل | يتحكم في |\n|---|---|\n| `push` | إشعارات التطبيق (وصل، انصرف، ...) |\n| `sms` | الرسائل النصية: تذكيرات الدفع، وبديل التنبيهات العاجلة عندما لا يصل الإشعار لأي جهاز |\n\nالقيمة الحالية في `my_link.notifications`. التنبيهات الطارئة فقط تتجاوز هذه الاختيارات.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`404` | `not_found` | ليس من أطفالك\n`422` | `validation_failed` | لا `push` ولا `sms`، أو قيمة غير منطقية"
                     },
                     "response": [
                         {
-                            "name": "200 — إيقاف رسائل SMS",
+                            "name": "200 — إيقاف SMS مع إبقاء إشعارات التطبيق",
                             "originalRequest": {
                                 "method": "PATCH",
                                 "header": [
@@ -7344,7 +7354,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"sms\": false\n}",
+                                    "raw": "{\n    \"push\": true,\n    \"sms\": false\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -7366,10 +7376,10 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"first_name\": \"يوسف\",\n        \"last_name\": \"محمود\",\n        \"birth_date\": \"2022-03-14\",\n        \"gender\": \"male\",\n        \"status\": \"active\",\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\"\n        },\n        \"medical_notes\": {\n            \"allergies\": [\n                \"فول سوداني\",\n                \"بيض\"\n            ]\n        },\n        \"my_link\": {\n            \"relationship\": \"mother\",\n            \"role\": \"primary\",\n            \"can_view_wall\": true,\n            \"can_pickup\": true,\n            \"is_payer\": true,\n            \"billing_share_bp\": null,\n            \"notifications\": {\n                \"sms\": false\n            }\n        },\n        \"today_attendance\": {\n            \"id\": 2,\n            \"child_id\": 1,\n            \"date\": \"2026-10-04\",\n            \"checked_in_at\": \"2026-10-04T09:25:00+00:00\",\n            \"check_in_method\": \"qr\",\n            \"checked_out_at\": \"2026-10-04T09:30:00+00:00\",\n            \"picked_up_by\": null,\n            \"picked_up_by_name\": null,\n            \"pickup_verified\": false,\n            \"pickup_method\": \"manual_override\",\n            \"pickup_pass_id\": null,\n            \"override_reason\": \"خالة الطفل: الأم في المستشفى واتصلت بالإدارة\"\n        }\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"first_name\": \"يوسف\",\n        \"last_name\": \"محمود\",\n        \"birth_date\": \"2022-03-14\",\n        \"gender\": \"male\",\n        \"status\": \"active\",\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\"\n        },\n        \"medical_notes\": {\n            \"allergies\": [\n                \"فول سوداني\",\n                \"بيض\"\n            ]\n        },\n        \"my_link\": {\n            \"relationship\": \"mother\",\n            \"role\": \"primary\",\n            \"can_view_wall\": true,\n            \"can_pickup\": true,\n            \"is_payer\": true,\n            \"billing_share_bp\": null,\n            \"notifications\": {\n                \"push\": true,\n                \"sms\": false\n            }\n        },\n        \"today_attendance\": {\n            \"id\": 2,\n            \"child_id\": 1,\n            \"date\": \"2026-10-04\",\n            \"checked_in_at\": \"2026-10-04T09:25:00+00:00\",\n            \"check_in_method\": \"qr\",\n            \"checked_out_at\": \"2026-10-04T09:30:00+00:00\",\n            \"picked_up_by\": null,\n            \"picked_up_by_name\": null,\n            \"pickup_verified\": false,\n            \"pickup_method\": \"manual_override\",\n            \"pickup_pass_id\": null,\n            \"override_reason\": \"خالة الطفل: الأم في المستشفى واتصلت بالإدارة\"\n        }\n    }\n}"
                         },
                         {
-                            "name": "422 — قيمة ناقصة",
+                            "name": "422 — لا push ولا sms",
                             "originalRequest": {
                                 "method": "PATCH",
                                 "header": [
@@ -7439,7 +7449,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"sms\": [\n            \"حقل الرسائل النصية مطلوب.\"\n        ]\n    }\n}"
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"sms\": [\n            \"حقل الرسائل النصية مطلوب عند غياب push.\"\n        ],\n        \"push\": [\n            \"حقل push مطلوب عند غياب الرسائل النصية.\"\n        ]\n    }\n}"
                         }
                     ],
                     "event": [
@@ -7457,7 +7467,1005 @@
             ]
         },
         {
-            "name": "6. وليّ الأمر: الفواتير والدفع — Bahga Pay",
+            "name": "6. الإشعارات — Notifications",
+            "description": "صندوق الإشعارات داخل التطبيق لكل الأدوار، وتسجيل جهاز التطبيق لاستقبال الإشعارات الفورية (FCM).\n\n**كيف تعمل:** كل إشعار يُحفظ في الصندوق أولاً، ثم يُرسَل حسب أولويته:\n\n| `priority` | السلوك |\n|---|---|\n| `high` | فوراً حتى في ساعات الهدوء، وSMS إن لم يصل لأي جهاز (مثل تأخر الاستلام) |\n| `normal` | Push، ويُؤجَّل حتى نهاية ساعات هدوء الحضانة (مثل وصول الطفل وانصرافه) |\n\nوليّ الأمر يتحكم في Push/SMS لكل طفل من `PATCH /me/wards/{id}/notifications`. الوصيّ المحظور بحكم حضانة لا يصله أي شيء عن الطفل.",
+            "item": [
+                {
+                    "name": "Register this device for push",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/devices",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "devices"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"token\": \"{{device_token}}\",\n    \"platform\": \"android\",\n    \"locale\": \"ar\",\n    \"app_version\": \"2.1.0\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "أرسله التطبيق **بعد كل تسجيل دخول، وكلما غيّر Firebase التوكن** (`onTokenRefresh`). لا يحتاج `X-Tenant-Id`: الجهاز يستقبل إشعارات كل حضانات المستخدم.\n\n- `token`: توكن FCM للجهاز. `platform`: `android` / `ios` / `web`.\n- `locale`: لغة نص الإشعار على هذا الجهاز (`ar` افتراضياً).\n- `201` جهاز جديد، `200` تحديث جهاز معروف. لو سجّل حساب آخر الدخول على نفس الجهاز ينتقل التوكن إليه.\n- الجهاز مرتبط بتوكن الدخول: **تسجيل الخروج يوقف إشعاراته تلقائياً**.\n\nحمولة الإشعار (`data`) تحوي: `notification_id`, `type`, `tenant_id`, `child_id`, `screen` — استخدمها لفتح الشاشة الصحيحة.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`401` | `unauthenticated` | بدون توكن\n`422` | `validation_failed` | توكن قصير أو منصة غير معروفة"
+                    },
+                    "response": [
+                        {
+                            "name": "201 — تسجيل جهاز جديد",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/devices",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "devices"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"token\": \"{{device_token}}\",\n    \"platform\": \"android\",\n    \"locale\": \"ar\",\n    \"app_version\": \"2.1.0\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"platform\": \"android\",\n        \"locale\": \"ar\",\n        \"app_version\": \"2.1.0\",\n        \"last_seen_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "200 — تحديث نفس الجهاز (توكن معروف)",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/devices",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "devices"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"token\": \"{{device_token}}\",\n    \"platform\": \"android\",\n    \"locale\": \"en\",\n    \"app_version\": \"2.1.1\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"platform\": \"android\",\n        \"locale\": \"en\",\n        \"app_version\": \"2.1.1\",\n        \"last_seen_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "422 — منصة غير معروفة وتوكن قصير",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/devices",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "devices"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"token\": \"abc\",\n    \"platform\": \"symbian\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Unprocessable Content",
+                            "code": 422,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"token\": [\n            \"يجب ألا يقل طول token عن 20 حرفاً.\"\n        ],\n        \"platform\": [\n            \"القيمة المختارة لـ platform غير صحيحة.\"\n        ]\n    }\n}"
+                        },
+                        {
+                            "name": "401 — بدون توكن دخول",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/devices",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "devices"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "noauth"
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"token\": \"{{device_token}}\",\n    \"platform\": \"android\",\n    \"locale\": \"ar\",\n    \"app_version\": \"2.1.0\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Unauthorized",
+                            "code": 401,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"يجب تسجيل الدخول أولاً.\",\n    \"code\": \"unauthenticated\"\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [201, 200]', () => pm.expect(pm.response.code).to.be.oneOf([201, 200]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "My notifications (inbox)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/notifications",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "notifications"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "description": "صندوق الإشعارات في الحضانة الحالية، الأحدث أولاً (20 في الصفحة)، مع `unread_count` لشارة العدد.\n\n- `?unread=1` غير المقروءة فقط.\n- `title` و`body` بلغة الطلب (`Accept-Language`).\n- `deep_link.screen`: الشاشة التي يفتحها التطبيق (`ward` / `attendance`)، و`child_id` للطفل المعني.\n- الأنواع الحالية: `child_arrived`, `child_picked_up`, `late_pickup`, `late_pickup_managers`.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`401` | `unauthenticated` | بدون توكن\n`403` | `forbidden` | لست عضواً في هذه الحضانة"
+                    },
+                    "response": [
+                        {
+                            "name": "200 — صندوق الإشعارات",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/notifications",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "notifications"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 4,\n            \"type\": \"child_picked_up\",\n            \"priority\": \"normal\",\n            \"title\": \"انصرف يوسف\",\n            \"body\": \"انصرف يوسف مع خالة الطفل من حضانة البراعم الساعة 12:30.\",\n            \"child_id\": 1,\n            \"deep_link\": {\n                \"screen\": \"ward\"\n            },\n            \"read\": false,\n            \"read_at\": null,\n            \"created_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 3,\n            \"type\": \"child_picked_up\",\n            \"priority\": \"normal\",\n            \"title\": \"انصرف ليلى\",\n            \"body\": \"انصرف ليلى مع عم سيد السائق من حضانة البراعم الساعة 12:30.\",\n            \"child_id\": 2,\n            \"deep_link\": {\n                \"screen\": \"ward\"\n            },\n            \"read\": false,\n            \"read_at\": null,\n            \"created_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 2,\n            \"type\": \"child_arrived\",\n            \"priority\": \"normal\",\n            \"title\": \"وصل يوسف الحضانة\",\n            \"body\": \"وصل يوسف إلى حضانة البراعم الساعة 12:30.\",\n            \"child_id\": 1,\n            \"deep_link\": {\n                \"screen\": \"ward\"\n            },\n            \"read\": false,\n            \"read_at\": null,\n            \"created_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 1,\n            \"type\": \"child_arrived\",\n            \"priority\": \"normal\",\n            \"title\": \"وصل ليلى الحضانة\",\n            \"body\": \"وصل ليلى إلى حضانة البراعم الساعة 12:30.\",\n            \"child_id\": 2,\n            \"deep_link\": {\n                \"screen\": \"ward\"\n            },\n            \"read\": false,\n            \"read_at\": null,\n            \"created_at\": \"2026-10-04T09:30:00+00:00\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/me/notifications?page=1\",\n        \"last\": \"http://localhost/api/v1/me/notifications?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/me/notifications?page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/me/notifications\",\n        \"per_page\": 20,\n        \"to\": 4,\n        \"total\": 4\n    },\n    \"unread_count\": 4\n}"
+                        },
+                        {
+                            "name": "200 — غير المقروءة فقط بالإنجليزية",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/notifications?unread=1",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "notifications"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "unread",
+                                            "value": "1"
+                                        }
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "en"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 4,\n            \"type\": \"child_picked_up\",\n            \"priority\": \"normal\",\n            \"title\": \"يوسف left\",\n            \"body\": \"يوسف left حضانة البراعم with خالة الطفل at 12:30.\",\n            \"child_id\": 1,\n            \"deep_link\": {\n                \"screen\": \"ward\"\n            },\n            \"read\": false,\n            \"read_at\": null,\n            \"created_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 3,\n            \"type\": \"child_picked_up\",\n            \"priority\": \"normal\",\n            \"title\": \"ليلى left\",\n            \"body\": \"ليلى left حضانة البراعم with عم سيد السائق at 12:30.\",\n            \"child_id\": 2,\n            \"deep_link\": {\n                \"screen\": \"ward\"\n            },\n            \"read\": false,\n            \"read_at\": null,\n            \"created_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 2,\n            \"type\": \"child_arrived\",\n            \"priority\": \"normal\",\n            \"title\": \"يوسف arrived\",\n            \"body\": \"يوسف arrived at حضانة البراعم at 12:30.\",\n            \"child_id\": 1,\n            \"deep_link\": {\n                \"screen\": \"ward\"\n            },\n            \"read\": false,\n            \"read_at\": null,\n            \"created_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 1,\n            \"type\": \"child_arrived\",\n            \"priority\": \"normal\",\n            \"title\": \"ليلى arrived\",\n            \"body\": \"ليلى arrived at حضانة البراعم at 12:30.\",\n            \"child_id\": 2,\n            \"deep_link\": {\n                \"screen\": \"ward\"\n            },\n            \"read\": false,\n            \"read_at\": null,\n            \"created_at\": \"2026-10-04T09:30:00+00:00\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/me/notifications?page=1\",\n        \"last\": \"http://localhost/api/v1/me/notifications?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/me/notifications?page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"Next &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/me/notifications\",\n        \"per_page\": 20,\n        \"to\": 4,\n        \"total\": 4\n    },\n    \"unread_count\": 4\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [200]', () => pm.expect(pm.response.code).to.be.oneOf([200]));",
+                                    "const first = pm.response.json().data?.[0];",
+                                    "if (first) pm.collectionVariables.set('notification_id', first.id);"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Mark a notification read",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/notifications/{{notification_id}}/read",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "notifications",
+                                "{{notification_id}}",
+                                "read"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "description": "عند فتح الإشعار. التكرار آمن (لا يغيّر وقت القراءة الأول).\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`404` | `not_found` | ليس إشعارك أو غير موجود"
+                    },
+                    "response": [
+                        {
+                            "name": "200 — قراءة إشعار",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/notifications/{{notification_id}}/read",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "notifications",
+                                        "{{notification_id}}",
+                                        "read"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 4,\n        \"type\": \"child_picked_up\",\n        \"priority\": \"normal\",\n        \"title\": \"انصرف يوسف\",\n        \"body\": \"انصرف يوسف مع خالة الطفل من حضانة البراعم الساعة 12:30.\",\n        \"child_id\": 1,\n        \"deep_link\": {\n            \"screen\": \"ward\"\n        },\n        \"read\": true,\n        \"read_at\": \"2026-10-04T09:30:00+00:00\",\n        \"created_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "404 — إشعار شخص آخر",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/notifications/{{notification_id}}/read",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "notifications",
+                                        "{{notification_id}}",
+                                        "read"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"العنصر المطلوب غير موجود.\",\n    \"code\": \"not_found\"\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [200]', () => pm.expect(pm.response.code).to.be.oneOf([200]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Mark all read",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/notifications/read-all",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "notifications",
+                                "read-all"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "description": "كل إشعاراتي في هذه الحضانة مقروءة. يعيد `unread_count: 0`.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`401` | `unauthenticated` | بدون توكن"
+                    },
+                    "response": [
+                        {
+                            "name": "200 — قراءة الكل",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/notifications/read-all",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "notifications",
+                                        "read-all"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"unread_count\": 0\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [200]', () => pm.expect(pm.response.code).to.be.oneOf([200]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Stop push on this device",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/devices",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "devices"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"token\": \"{{device_token}}\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "عندما يطفئ المستخدم الإشعارات من إعدادات التطبيق. آمن التكرار (`204` دائماً). لا داعي له عند تسجيل الخروج: يحدث تلقائياً.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`422` | `validation_failed` | `token` مطلوب"
+                    },
+                    "response": [
+                        {
+                            "name": "204 — إيقاف الإشعارات على هذا الجهاز",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/devices",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "devices"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"token\": \"{{device_token}}\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "No Content",
+                            "code": 204,
+                            "_postman_previewlanguage": "text",
+                            "header": [
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": ""
+                        },
+                        {
+                            "name": "422 — بدون توكن الجهاز",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/devices",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "devices"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "[]",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Unprocessable Content",
+                            "code": 422,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"token\": [\n            \"حقل token مطلوب.\"\n        ]\n    }\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [204]', () => pm.expect(pm.response.code).to.be.oneOf([204]));"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "7. وليّ الأمر: الفواتير والدفع — Bahga Pay",
             "description": "متاحة فقط عندما تكون «بهجة باي» مفعّلة للحضانة (`capabilities.bahga_pay`)، والدفع الإلكتروني عندما تشمله الخطة (`capabilities.online_payments`).",
             "item": [
                 {
@@ -8442,7 +9450,7 @@
             ]
         },
         {
-            "name": "7. الإدارة: الاشتراك — Owner",
+            "name": "8. الإدارة: الاشتراك — Owner",
             "description": "اشتراك الحضانة في منصة بهجة: الاستهلاك، الخطط، والترقية.",
             "item": [
                 {
@@ -9018,7 +10026,7 @@
             ]
         },
         {
-            "name": "8. Webhooks (للبوابات فقط — Server to server)",
+            "name": "9. Webhooks (للبوابات فقط — Server to server)",
             "description": "إشعارات بوابات الدفع. **لا تستدعيها التطبيقات**؛ موجودة للتوثيق واختبار التكامل. لا تقبل إلا الطلبات الموقّعة.",
             "item": [
                 {
@@ -9113,7 +10121,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M447JZ6JQAPQW6XDXR0J46FZ\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44AB7HDXAW588YDBDCTT109\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -9178,7 +10186,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M447JZ6JQAPQW6XDXR0J46FZ\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44AB7HDXAW588YDBDCTT109\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -9243,7 +10251,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M447JZ6JQAPQW6XDXR0J46FZ\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44AB7HDXAW588YDBDCTT109\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -9360,7 +10368,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"requestId\": \"req-1\",\n    \"fawryRefNumber\": \"966512345\",\n    \"merchantRefNumber\": \"BHG1-01M447JZ60Q47R0JYEWNFFEVA8\",\n    \"paymentAmount\": 3520,\n    \"orderAmount\": \"3515.00\",\n    \"fawryFees\": 5,\n    \"orderStatus\": \"PAID\",\n    \"paymentMethod\": \"PAYATFAWRY\",\n    \"paymentRefrenceNumber\": \"24601\",\n    \"messageSignature\": \"6471c0bdd08fd957b18b2e4fdfec9c0f47c11a2548935da4695e3b2dec9369e1\"\n}",
+                                    "raw": "{\n    \"requestId\": \"req-1\",\n    \"fawryRefNumber\": \"966512345\",\n    \"merchantRefNumber\": \"BHG1-01M44AB7GYX5AZMAJTC0KTRQR2\",\n    \"paymentAmount\": 3520,\n    \"orderAmount\": \"3515.00\",\n    \"fawryFees\": 5,\n    \"orderStatus\": \"PAID\",\n    \"paymentMethod\": \"PAYATFAWRY\",\n    \"paymentRefrenceNumber\": \"24601\",\n    \"messageSignature\": \"ab3eb0ea87f995d0020d733bacdbf78cee24b97f970b94452c554033c1b54531\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -9419,7 +10427,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"merchantRefNumber\": \"BHG1-01M447JZ60Q47R0JYEWNFFEVA8\",\n    \"orderStatus\": \"PAID\",\n    \"paymentAmount\": \"1.00\",\n    \"orderAmount\": \"1.00\",\n    \"messageSignature\": \"forged\"\n}",
+                                    "raw": "{\n    \"merchantRefNumber\": \"BHG1-01M44AB7GYX5AZMAJTC0KTRQR2\",\n    \"orderStatus\": \"PAID\",\n    \"paymentAmount\": \"1.00\",\n    \"orderAmount\": \"1.00\",\n    \"messageSignature\": \"forged\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -9459,7 +10467,7 @@
             ]
         },
         {
-            "name": "9. مرجع الأخطاء — Error reference",
+            "name": "10. مرجع الأخطاء — Error reference",
             "description": "أمثلة على شكل الخطأ الموحّد. القائمة الكاملة للأكواد في وصف المجموعة.",
             "item": [
                 {
@@ -9677,7 +10685,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"message\": \"The given data was invalid.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"sms\": [\n            \"The sms field is required.\"\n        ]\n    }\n}"
+                            "body": "{\n    \"message\": \"The given data was invalid.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"sms\": [\n            \"The sms field is required when push is not present.\"\n        ],\n        \"push\": [\n            \"The push field is required when sms is not present.\"\n        ]\n    }\n}"
                         }
                     ],
                     "event": [
@@ -9695,7 +10703,7 @@
             ]
         },
         {
-            "name": "10. إنهاء الجلسة — Logout",
+            "name": "11. إنهاء الجلسة — Logout",
             "description": "في النهاية حتى لا يُلغى توكن المالك أثناء تشغيل المجموعة كاملة (Collection Runner).",
             "item": [
                 {

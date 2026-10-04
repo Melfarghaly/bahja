@@ -90,7 +90,7 @@ return [
     ],
     'logout' => [
         'expect' => [204],
-        'folder' => '10. إنهاء الجلسة — Logout',
+        'folder' => '11. إنهاء الجلسة — Logout',
         'name' => 'Logout (revoke current token)',
         'method' => 'DELETE', 'path' => 'v1/auth/tokens/current', 'auth' => 'owner', 'tenant' => false,
         'description' => 'يلغي التوكن المستخدم في هذا الطلب فقط (تسجيل خروج من هذا الجهاز). لا يعيد body (`204`).'
@@ -294,15 +294,60 @@ return [
         'folder' => '5. وليّ الأمر: أطفالي — Guardian',
         'name' => 'My child — notification settings',
         'method' => 'PATCH', 'path' => 'v1/me/wards/{{child_id}}/notifications', 'auth' => 'guardian',
-        'body' => ['sms' => false],
-        'description' => 'تفعيل/إيقاف رسائل SMS لهذا الطفل (ومنها تذكيرات الدفع). يُحترم الإيقاف في كل الرسائل غير الطارئة.'
-            .$errors('`404` | `not_found` | ليس من أطفالك', '`422` | `validation_failed` | `sms` مطلوب (true/false)'),
+        'body' => ['push' => true, 'sms' => false],
+        'description' => "اختيارات الإشعارات لهذا الطفل (أرسل أحدهما أو كليهما):\n\n| الحقل | يتحكم في |\n|---|---|\n| `push` | إشعارات التطبيق (وصل، انصرف، ...) |\n| `sms` | الرسائل النصية: تذكيرات الدفع، وبديل التنبيهات العاجلة عندما لا يصل الإشعار لأي جهاز |\n\nالقيمة الحالية في `my_link.notifications`. التنبيهات الطارئة فقط تتجاوز هذه الاختيارات."
+            .$errors('`404` | `not_found` | ليس من أطفالك', '`422` | `validation_failed` | لا `push` ولا `sms`، أو قيمة غير منطقية'),
+    ],
+
+    /* --------------------------------------------------- Notifications */
+    'devices_store' => [
+        'expect' => [201, 200],
+        'folder' => '6. الإشعارات — Notifications',
+        'name' => 'Register this device for push',
+        'method' => 'POST', 'path' => 'v1/me/devices', 'auth' => 'guardian', 'tenant' => false,
+        'body' => ['token' => '{{device_token}}', 'platform' => 'android', 'locale' => 'ar', 'app_version' => '2.1.0'],
+        'description' => "أرسله التطبيق **بعد كل تسجيل دخول، وكلما غيّر Firebase التوكن** (`onTokenRefresh`). لا يحتاج `X-Tenant-Id`: الجهاز يستقبل إشعارات كل حضانات المستخدم.\n\n- `token`: توكن FCM للجهاز. `platform`: `android` / `ios` / `web`.\n- `locale`: لغة نص الإشعار على هذا الجهاز (`ar` افتراضياً).\n- `201` جهاز جديد، `200` تحديث جهاز معروف. لو سجّل حساب آخر الدخول على نفس الجهاز ينتقل التوكن إليه.\n- الجهاز مرتبط بتوكن الدخول: **تسجيل الخروج يوقف إشعاراته تلقائياً**.\n\nحمولة الإشعار (`data`) تحوي: `notification_id`, `type`, `tenant_id`, `child_id`, `screen` — استخدمها لفتح الشاشة الصحيحة."
+            .$errors('`401` | `unauthenticated` | بدون توكن', '`422` | `validation_failed` | توكن قصير أو منصة غير معروفة'),
+    ],
+    'notifications_index' => [
+        'expect' => [200],
+        'folder' => '6. الإشعارات — Notifications',
+        'name' => 'My notifications (inbox)',
+        'method' => 'GET', 'path' => 'v1/me/notifications', 'auth' => 'guardian',
+        'script' => "const first = pm.response.json().data?.[0];\nif (first) pm.collectionVariables.set('notification_id', first.id);",
+        'description' => "صندوق الإشعارات في الحضانة الحالية، الأحدث أولاً (20 في الصفحة)، مع `unread_count` لشارة العدد.\n\n- `?unread=1` غير المقروءة فقط.\n- `title` و`body` بلغة الطلب (`Accept-Language`).\n- `deep_link.screen`: الشاشة التي يفتحها التطبيق (`ward` / `attendance`)، و`child_id` للطفل المعني.\n- الأنواع الحالية: `child_arrived`, `child_picked_up`, `late_pickup`, `late_pickup_managers`."
+            .$errors('`401` | `unauthenticated` | بدون توكن', '`403` | `forbidden` | لست عضواً في هذه الحضانة'),
+    ],
+    'notifications_read' => [
+        'expect' => [200],
+        'folder' => '6. الإشعارات — Notifications',
+        'name' => 'Mark a notification read',
+        'method' => 'POST', 'path' => 'v1/me/notifications/{{notification_id}}/read', 'auth' => 'guardian',
+        'description' => 'عند فتح الإشعار. التكرار آمن (لا يغيّر وقت القراءة الأول).'
+            .$errors('`404` | `not_found` | ليس إشعارك أو غير موجود'),
+    ],
+    'notifications_read_all' => [
+        'expect' => [200],
+        'folder' => '6. الإشعارات — Notifications',
+        'name' => 'Mark all read',
+        'method' => 'POST', 'path' => 'v1/me/notifications/read-all', 'auth' => 'guardian',
+        'description' => 'كل إشعاراتي في هذه الحضانة مقروءة. يعيد `unread_count: 0`.'
+            .$errors('`401` | `unauthenticated` | بدون توكن'),
+    ],
+    'devices_destroy' => [
+        'expect' => [204],
+        'folder' => '6. الإشعارات — Notifications',
+        'name' => 'Stop push on this device',
+        'method' => 'DELETE', 'path' => 'v1/me/devices', 'auth' => 'guardian', 'tenant' => false,
+        'body' => ['token' => '{{device_token}}'],
+        'description' => 'عندما يطفئ المستخدم الإشعارات من إعدادات التطبيق. آمن التكرار (`204` دائماً). لا داعي له عند تسجيل الخروج: يحدث تلقائياً.'
+            .$errors('`422` | `validation_failed` | `token` مطلوب'),
     ],
 
     /* -------------------------------------------------------- Bahga Pay */
     'payment_methods' => [
         'expect' => [200],
-        'folder' => '6. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '7. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'Payment methods',
         'method' => 'GET', 'path' => 'v1/me/payment-methods', 'auth' => 'guardian',
         'description' => "طرق الدفع الإلكتروني المتاحة في هذه الحضانة.\n\n| `kind` | سلوك التطبيق |\n|---|---|\n| `redirect` | افتح `checkout_url` في متصفح/WebView (Paymob) |\n| `payment_code` | اعرض `payment_code` ليدفعه في أي منفذ فوري |\n\nإذا كان `online_payments_enabled: false` اعرض «الدفع لدى الحضانة»."
@@ -310,7 +355,7 @@ return [
     ],
     'invoices_index' => [
         'expect' => [200],
-        'folder' => '6. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '7. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'My invoices',
         'method' => 'GET', 'path' => 'v1/me/invoices', 'auth' => 'guardian',
         'script' => "const first = pm.response.json().data?.[0];\nif (first) pm.collectionVariables.set('invoice_id', first.id);",
@@ -319,7 +364,7 @@ return [
     ],
     'invoices_show' => [
         'expect' => [200],
-        'folder' => '6. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '7. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'My invoice',
         'method' => 'GET', 'path' => 'v1/me/invoices/{{invoice_id}}', 'auth' => 'guardian',
         'description' => 'الفاتورة ببنودها (`items`: رسوم موجبة وخصومات سالبة) والإيصالات المدفوعة (`receipts`).'
@@ -327,7 +372,7 @@ return [
     ],
     'checkout' => [
         'expect' => [200, 201, 422],
-        'folder' => '6. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '7. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'Pay invoice online (checkout)',
         'method' => 'POST', 'path' => 'v1/me/invoices/{{invoice_id}}/checkout', 'auth' => 'guardian',
         'body' => ['gateway' => 'paymob'],
@@ -339,7 +384,7 @@ return [
     /* -------------------------------------------------------- Owner */
     'subscription' => [
         'expect' => [200],
-        'folder' => '7. الإدارة: الاشتراك — Owner',
+        'folder' => '8. الإدارة: الاشتراك — Owner',
         'name' => 'Subscription & usage',
         'method' => 'GET', 'path' => 'v1/subscription', 'auth' => 'owner',
         'description' => "اشتراك الحضانة في بهجة مع `entitlements` الفعلية (الخطة + الإضافات + الاستثناءات): المزايا المتاحة، والحدود مع الاستهلاك الحالي (`limit: null` = غير محدود).\n\n**الصلاحية:** المالك / المدير."
@@ -347,7 +392,7 @@ return [
     ],
     'plans' => [
         'expect' => [200],
-        'folder' => '7. الإدارة: الاشتراك — Owner',
+        'folder' => '8. الإدارة: الاشتراك — Owner',
         'name' => 'Plans',
         'method' => 'GET', 'path' => 'v1/subscription/plans', 'auth' => 'owner',
         'script' => "const plans = pm.response.json().data || [];\nif (plans.length) pm.collectionVariables.set('plan_id', plans[plans.length - 1].id);",
@@ -356,7 +401,7 @@ return [
     ],
     'change_plan' => [
         'expect' => [200],
-        'folder' => '7. الإدارة: الاشتراك — Owner',
+        'folder' => '8. الإدارة: الاشتراك — Owner',
         'name' => 'Change plan',
         'method' => 'POST', 'path' => 'v1/subscription/change-plan', 'auth' => 'owner',
         'body' => ['subscription_plan_id' => '{{plan_id}}'],
@@ -367,7 +412,7 @@ return [
     /* ------------------------------------------------------- Webhooks */
     'webhook_paymob' => [
         'expect' => [200, 401],
-        'folder' => '8. Webhooks (للبوابات فقط — Server to server)',
+        'folder' => '9. Webhooks (للبوابات فقط — Server to server)',
         'name' => 'Paymob — transaction processed callback',
         'method' => 'POST', 'path' => 'webhooks/payments/paymob', 'auth' => null, 'tenant' => false,
         'query' => ['hmac' => '<HMAC-SHA512>'],
@@ -377,7 +422,7 @@ return [
     ],
     'webhook_fawry' => [
         'expect' => [200, 401],
-        'folder' => '8. Webhooks (للبوابات فقط — Server to server)',
+        'folder' => '9. Webhooks (للبوابات فقط — Server to server)',
         'name' => 'Fawry — server notification V2',
         'method' => 'POST', 'path' => 'webhooks/payments/fawry', 'auth' => null, 'tenant' => false,
         'body' => ['fawryRefNumber' => '966512345', 'merchantRefNumber' => 'BHG1-…', 'orderStatus' => 'PAID', 'orderAmount' => '1850.00', 'messageSignature' => '<SHA-256>'],
@@ -388,14 +433,14 @@ return [
     /* --------------------------------------------------------- Errors */
     'error_route' => [
         'expect' => [404],
-        'folder' => '9. مرجع الأخطاء — Error reference',
+        'folder' => '10. مرجع الأخطاء — Error reference',
         'name' => 'Unknown endpoint',
         'method' => 'GET', 'path' => 'v1/does-not-exist', 'auth' => null, 'tenant' => false,
         'description' => 'مثال على شكل الخطأ الموحّد لمسار غير موجود.',
     ],
     'error_language' => [
         'expect' => [422],
-        'folder' => '9. مرجع الأخطاء — Error reference',
+        'folder' => '10. مرجع الأخطاء — Error reference',
         'name' => 'Same error in English (Accept-Language: en)',
         'method' => 'PATCH', 'path' => 'v1/me/wards/{{child_id}}/notifications', 'auth' => 'guardian',
         'body' => [],

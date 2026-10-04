@@ -17,8 +17,10 @@ class UpdateWardNotificationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // Payment reminders and other SMS for this child.
-            'sms' => ['required', 'boolean'],
+            // SMS for this child (payment reminders, fallback when no app is reachable).
+            'sms' => ['required_without:push', 'boolean'],
+            // App notifications for this child (arrived, picked up, ...).
+            'push' => ['required_without:sms', 'boolean'],
         ];
     }
 }

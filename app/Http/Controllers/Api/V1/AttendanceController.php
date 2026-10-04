@@ -60,7 +60,7 @@ class AttendanceController extends Controller
     {
         $method = AttendanceMethod::tryFrom($request->validated('method') ?? '') ?? AttendanceMethod::Qr;
         $items = collect($request->validated('children'));
-        $children = Child::whereKey($items->pluck('child_id'))->get()->keyBy('id');
+        $children = Child::whereKey($items->pluck('child_id'))->with('guardians')->get()->keyBy('id');
 
         $records = $items->map(fn (array $item) => $this->attendance->checkIn(
             $children[$item['child_id']],

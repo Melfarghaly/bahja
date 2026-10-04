@@ -40,7 +40,10 @@ class WardResource extends JsonResource
                 'can_pickup' => (bool) $link->can_pickup,
                 'is_payer' => (bool) $link->is_payer,
                 'billing_share_bp' => $link->billing_share_bp === null ? null : (int) $link->billing_share_bp,
-                'notifications' => ['sms' => ($preferences['sms'] ?? true) !== false],
+                'notifications' => [
+                    'push' => ($preferences['push'] ?? true) !== false,
+                    'sms' => ($preferences['sms'] ?? true) !== false,
+                ],
             ],
             'today_attendance' => $this->when($this->relationLoaded('attendances'), fn () => $today ? new AttendanceResource($today) : null),
         ];

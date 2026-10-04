@@ -59,4 +59,14 @@ return [
         'log_channel' => env('SMS_LOG_CHANNEL', env('LOG_CHANNEL', 'stack')),
     ],
 
+    // Push notifications to the apps. "log" writes to the log only; "fcm"
+    // needs a Firebase service account (path to the JSON file, or the JSON).
+    'push' => [
+        'driver' => env('PUSH_DRIVER', 'log'),
+        'log_channel' => env('PUSH_LOG_CHANNEL', env('LOG_CHANNEL', 'stack')),
+        'fcm' => [
+            'credentials' => env('FCM_CREDENTIALS'),
+        ],
+    ],
+
 ];

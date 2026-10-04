@@ -7,6 +7,9 @@ use App\Enums\RolloutFlag;
 use App\Services\EntitlementService;
 use App\Services\Messaging\LogSmsGateway;
 use App\Services\Messaging\SmsGateway;
+use App\Services\Notifications\Push\FcmPushGateway;
+use App\Services\Notifications\Push\LogPushGateway;
+use App\Services\Notifications\Push\PushGateway;
 use App\Services\Payments\PaymentGateway;
 use App\Services\Payments\PaymobGateway;
 use App\Services\RolloutService;
@@ -15,6 +18,7 @@ use App\Support\TenantContext;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\RateLimiter;
@@ -40,6 +44,12 @@ class AppServiceProvider extends ServiceProvider
         // Outgoing SMS. Add a provider driver here when one is contracted.
         $this->app->bind(SmsGateway::class, fn () => match (config('services.sms.driver')) {
             default => new LogSmsGateway,
+        });
+
+        // Push notifications (FCM for Android, iOS and web).
+        $this->app->bind(PushGateway::class, fn () => match (config('services.push.driver')) {
+            'fcm' => FcmPushGateway::fromConfig(),
+            default => new LogPushGateway,
         });
     }
 
@@ -87,8 +97,13 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('checkout', fn (Request $request) => Limit::perMinute(10)->by('checkout|'.($request->user()?->id ?: $request->ip())));
 
         // Queue workers reuse one process and DB session across jobs: start each
-        // job with no tenant and no RLS bypass so nothing carries over.
-        Queue::before(function (): void {
+        // job with no tenant and no RLS bypass so nothing carries over. A sync
+        // job runs inside the caller (request or command) and keeps its context.
+        Queue::before(function (JobProcessing $event): void {
+            if ($event->connectionName === 'sync') {
+                return;
+            }
+
             $this->app->make(TenantContext::class)->forget();
             $this->app->make(RowLevelSecurity::class)->disableBypass();
         });

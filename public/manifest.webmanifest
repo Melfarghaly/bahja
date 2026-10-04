@@ -1,0 +1,25 @@
+{
+    "name": "بهجة — إدارة الحضانة",
+    "short_name": "بهجة",
+    "description": "الحضور والانصراف الآمن والتحصيل والتواصل مع أولياء الأمور",
+    "lang": "ar",
+    "dir": "rtl",
+    "id": "/app",
+    "start_url": "/app?source=pwa",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait",
+    "background_color": "#f4f2ed",
+    "theme_color": "#134E4A",
+    "icons": [
+        { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+        { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+        { "src": "/icons/maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+        { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+        { "src": "/icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    ],
+    "shortcuts": [
+        { "name": "الحضور اليوم", "url": "/app/attendance", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+        { "name": "الأطفال", "url": "/app/children", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+    ]
+}
