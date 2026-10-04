@@ -33,6 +33,7 @@ class CollectionsDashboardController extends Controller
             'agingMax' => max(1, ...array_map(fn ($b) => $b['amount']->piasters, $aging)),
             'lateFamilies' => $this->reports->topLateFamilies($tenant),
             'byMethod' => $this->reports->collectedByMethod($tenant, $month),
+            'followUps' => $this->reports->followUps($tenant),
             'methods' => TuitionPaymentMethod::cases(),
         ]);
     }

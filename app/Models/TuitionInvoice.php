@@ -74,6 +74,16 @@ class TuitionInvoice extends Model
         return $this->hasMany(TuitionInvoiceItem::class);
     }
 
+    public function dunningNotices(): HasMany
+    {
+        return $this->hasMany(DunningNotice::class);
+    }
+
+    public function paymentIntents(): HasMany
+    {
+        return $this->hasMany(PaymentIntent::class);
+    }
+
     public function payments(): HasMany
     {
         return $this->hasMany(TuitionPayment::class);

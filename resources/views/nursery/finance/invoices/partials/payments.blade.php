@@ -70,3 +70,40 @@
         @error('reason')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
     </details>
 @endif
+
+@if ($invoice->paymentIntents->isNotEmpty() || $invoice->dunningNotices->isNotEmpty())
+    <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm text-sm space-y-4">
+        @if ($invoice->paymentIntents->isNotEmpty())
+            <div>
+                <h3 class="font-bold mb-2">محاولات الدفع الإلكتروني</h3>
+                <ul class="divide-y divide-gray-50">
+                    @foreach ($invoice->paymentIntents as $intent)
+                        <li class="py-2 flex justify-between gap-2">
+                            <span>{{ $intent->gateway->label() }} · {{ $intent->amount()->format() }}</span>
+                            <span class="text-xs {{ $intent->status === \App\Enums\PaymentIntentStatus::NeedsReview ? 'text-amber-700 font-medium' : 'text-gray-500' }}">
+                                {{ $intent->status->label() }}{{ $intent->failure_reason ? ' — '.$intent->failure_reason : '' }}
+                            </span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if ($invoice->dunningNotices->isNotEmpty())
+            <div>
+                <h3 class="font-bold mb-2">التذكيرات</h3>
+                <ul class="divide-y divide-gray-50">
+                    @foreach ($invoice->dunningNotices as $notice)
+                        <li class="py-2 flex justify-between gap-2">
+                            <span>{{ $notice->step->label() }}</span>
+                            <span class="text-xs text-gray-500">
+                                {{ match ($notice->status) { 'sent' => 'أُرسل', 'skipped' => 'لم يُرسل ('.$notice->skip_reason.')', 'failed' => 'فشل الإرسال', default => $notice->status } }}
+                                · {{ $notice->created_at->format('Y-m-d') }}
+                            </span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
+@endif

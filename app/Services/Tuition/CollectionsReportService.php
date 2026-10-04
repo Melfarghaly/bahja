@@ -2,7 +2,10 @@
 
 namespace App\Services\Tuition;
 
+use App\Enums\DunningStep;
+use App\Enums\PaymentIntentStatus;
 use App\Enums\TuitionInvoiceStatus;
+use App\Models\PaymentIntent;
 use App\Models\Tenant;
 use App\Models\TuitionInvoice;
 use App\Models\TuitionPayment;
@@ -158,6 +161,31 @@ class CollectionsReportService
             ->get()
             ->mapWithKeys(fn ($row) => [$row->method => Money::of((int) $row->total)])
             ->all();
+    }
+
+    /**
+     * Invoices that need a human: escalated after the reminder ladder, or
+     * online money that arrived but could not be applied automatically.
+     *
+     * @return array{escalated: Collection<int, TuitionInvoice>, needsReview: Collection<int, PaymentIntent>}
+     */
+    public function followUps(Tenant $tenant): array
+    {
+        return [
+            'escalated' => $this->invoices($tenant)->collectible()
+                ->whereHas('dunningNotices', fn ($q) => $q->where('step', DunningStep::Escalated->value))
+                ->with('payer:id,name,phone')
+                ->orderBy('due_on')
+                ->limit(20)
+                ->get(),
+            'needsReview' => PaymentIntent::withoutGlobalScopes()
+                ->where('tenant_id', $tenant->id)
+                ->where('status', PaymentIntentStatus::NeedsReview->value)
+                ->with(['invoice' => fn ($q) => $q->withoutGlobalScopes()->select('id', 'number')])
+                ->latest('completed_at')
+                ->limit(20)
+                ->get(),
+        ];
     }
 
     private function invoices(Tenant $tenant)

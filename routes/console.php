@@ -15,3 +15,10 @@ Schedule::command('tuition:generate')
     ->timezone('Africa/Cairo')
     ->withoutOverlapping()
     ->onOneServer();
+
+// Bahga Pay: daily payment reminders at a civil hour (no SMS at night).
+Schedule::command('tuition:remind')
+    ->dailyAt('10:00')
+    ->timezone('Africa/Cairo')
+    ->withoutOverlapping()
+    ->onOneServer();

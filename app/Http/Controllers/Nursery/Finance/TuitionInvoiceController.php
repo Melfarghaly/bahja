@@ -53,6 +53,8 @@ class TuitionInvoiceController extends Controller
             'payer:id,name,phone,email',
             'items.child:id,first_name,last_name',
             'payments' => fn ($q) => $q->with('receivedBy:id,name')->latest('paid_at'),
+            'dunningNotices' => fn ($q) => $q->oldest('id'),
+            'paymentIntents' => fn ($q) => $q->latest('id'),
         ]);
 
         return view('nursery.finance.invoices.show', [

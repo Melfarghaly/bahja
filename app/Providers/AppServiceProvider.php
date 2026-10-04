@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Enums\Feature;
 use App\Enums\RolloutFlag;
 use App\Services\EntitlementService;
+use App\Services\Messaging\LogSmsGateway;
+use App\Services\Messaging\SmsGateway;
 use App\Services\Payments\PaymentGateway;
 use App\Services\Payments\PaymobGateway;
 use App\Services\RolloutService;
@@ -31,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Swap the gateway implementation here (Paymob / Fawry) without touching callers.
         $this->app->bind(PaymentGateway::class, PaymobGateway::class);
+
+        // Outgoing SMS. Add a provider driver here when one is contracted.
+        $this->app->bind(SmsGateway::class, fn () => match (config('services.sms.driver')) {
+            default => new LogSmsGateway,
+        });
     }
 
     /**

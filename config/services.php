@@ -53,4 +53,10 @@ return [
         'expiry_hours' => env('FAWRY_EXPIRY_HOURS', 48),
     ],
 
+    // Outgoing SMS (payment reminders). "log" writes to the log only.
+    'sms' => [
+        'driver' => env('SMS_DRIVER', 'log'),
+        'log_channel' => env('SMS_LOG_CHANNEL', env('LOG_CHANNEL', 'stack')),
+    ],
+
 ];
