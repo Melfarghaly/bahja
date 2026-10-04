@@ -37,12 +37,27 @@ class MomentResource extends JsonResource
                 'first_name' => $child->first_name,
                 'acknowledged_at' => $child->pivot->acknowledged_at ? Carbon::parse($child->pivot->acknowledged_at)->toIso8601String() : null,
             ])),
-            'photos' => $this->whenLoaded('media', fn () => $this->media->map(fn (MomentMedia $media) => [
+            'photos' => $this->whenLoaded('media', fn () => $this->media->reject->isVideo()->values()->map(fn (MomentMedia $media) => [
                 'id' => $media->id,
                 'width' => $media->width,
                 'height' => $media->height,
                 ...$urls->for($media),
             ])),
+            // Streamable (HTTP Range); `poster_url` may be null when the app sent no poster.
+            'videos' => $this->whenLoaded('media', fn () => $this->media->filter->isVideo()->values()->map(function (MomentMedia $media) use ($urls) {
+                $links = $urls->for($media);
+
+                return [
+                    'id' => $media->id,
+                    'width' => $media->width,
+                    'height' => $media->height,
+                    'duration_ms' => $media->duration_ms,
+                    'size' => $media->size,
+                    'url' => $links['url'],
+                    'poster_url' => $links['thumb_url'],
+                    'expires_at' => $links['expires_at'],
+                ];
+            })),
             'requires_ack' => $this->requires_ack,
             'published_at' => $this->published_at->toIso8601String(),
         ];

@@ -49,7 +49,7 @@ class PruneWallMedia extends Command
 
                             // Files last: a failed transaction never leaves rows without files.
                             foreach ($batch as $media) {
-                                Storage::disk($media->disk)->delete([$media->path, $media->thumb_path]);
+                                Storage::disk($media->disk)->delete(array_filter([$media->path, $media->thumb_path]));
                             }
 
                             $removed += $batch->count();

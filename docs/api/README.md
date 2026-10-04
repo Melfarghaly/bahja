@@ -7,7 +7,7 @@
 |---|---|
 | `Bahga-API.postman_collection.json` | المجموعة الكاملة: 53 طلباً في 12 مجلداً، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
 | `Bahga-API-local.postman_environment.json` | بيئة محلية بحسابات البيانات التجريبية |
-| `samples/photo.jpg` | صورة تجريبية لطلب نشر الصور (multipart) |
+| `samples/photo.jpg`, `samples/clip.mp4` | ملفات تجريبية لطلبات نشر الصور والفيديو (multipart) |
 
 ## التشغيل محلياً
 ```bash
@@ -84,7 +84,7 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 | POST | `/v1/me/notifications/{id}/read` | الجميع | قراءة إشعار |
 | POST | `/v1/me/notifications/read-all` | الجميع | قراءة الكل |
 | GET | `/v1/moments` | موظفون | حائط الحضانة (فلاتر: طفل، فصل، تاريخ) |
-| POST | `/v1/moments` | موظفون | نشر تحديث (JSON) أو صور (multipart) لطفل أو لفصل |
+| POST | `/v1/moments` | موظفون | نشر تحديث (JSON) أو صور/فيديو قصير (multipart) لطفل أو لفصل؛ `client_ref` يمنع التكرار عند إعادة الإرسال |
 | DELETE | `/v1/moments/{id}` | موظفون | حذف تحديث (المعلمة خلال 24 ساعة، الإدارة دائماً) |
 | GET | `/v1/me/wards/{id}/moments` | وليّ أمر | يوميات طفلي |
 | POST | `/v1/me/wards/{id}/moments/{moment}/acknowledge` | وليّ أمر | الإقرار بتقرير حادثة |
@@ -106,7 +106,8 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 
 ## صور الحائط اليومي
 - تُخزَّن على قرص خاص (`WALL_DISK`، افتراضياً `local` = `storage/app/private`؛ في الإنتاج bucket خاص على S3/R2) — **لا تستخدم القرص العام أبداً**.
-- تُعرض فقط عبر روابط موقّعة صالحة 30 دقيقة (`photos[].url`)، والجدولة تحذف الصور بعد مدة الاحتفاظ في الخطة (`wall:prune-media`).
+- تُعرض فقط عبر روابط موقّعة صالحة 30 دقيقة (`photos[].url`، `videos[].url`)، والجدولة تحذف الوسائط بعد مدة الاحتفاظ في الخطة (`wall:prune-media`).
+- الفيديو يُخدَم بـ HTTP Range من القرص المحلي، ومن S3/R2 عبر رابط مؤقت للـ bucket. الخادم لا يعيد ترميز الفيديو: التطبيق يضغطه ويرفع صورة الغلاف.
 
 مسارات الاستلام الآمن متاحة فقط عندما تكون `capabilities.safe_pickup` مفعّلة للحضانة في `GET /v1/me`.
 

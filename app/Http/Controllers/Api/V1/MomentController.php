@@ -36,11 +36,13 @@ class MomentController extends Controller
         $moment = $this->moments->post(
             $this->tenantContext->get(),
             $request->user(),
-            $request->safe()->except('photos'),
+            $request->safe()->except(['photos', 'videos', 'video_posters', 'video_durations']),
             $request->file('photos', []),
+            $request->videos(),
         );
 
-        return (new MomentResource($moment))->response()->setStatusCode(201);
+        // 200 when this was a retry of an update that had already arrived.
+        return (new MomentResource($moment))->response()->setStatusCode($moment->wasRecentlyCreated ? 201 : 200);
     }
 
     public function destroy(Request $request, Moment $moment): Response

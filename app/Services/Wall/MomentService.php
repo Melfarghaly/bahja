@@ -17,6 +17,7 @@ use App\Services\EntitlementService;
 use App\Services\Exceptions\PlanLimitException;
 use App\Services\Notifications\QuietHours;
 use Carbon\CarbonImmutable;
+use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -46,35 +47,44 @@ class MomentService
     public function __construct(
         private MediaConsentService $consents,
         private PhotoProcessor $photos,
+        private VideoStore $videos,
         private EntitlementService $entitlements,
         private WallNotifications $notifications,
         private AuditLogger $audit,
     ) {}
 
     /**
-     * @param  array{type: string, body?: ?string, payload?: array<string, mixed>, child_ids?: array<int, int>, classroom_id?: ?int, except_child_ids?: array<int, int>}  $data
+     * @param  array{type: string, client_ref?: ?string, body?: ?string, payload?: array<string, mixed>, child_ids?: array<int, int>, classroom_id?: ?int, except_child_ids?: array<int, int>}  $data
      * @param  array<int, UploadedFile>  $photos
+     * @param  array<int, array{file: UploadedFile, poster: ?UploadedFile, duration_ms: ?int}>  $videos
      *
      * @throws ValidationException when no child is left, or a child has no photo consent.
-     * @throws PlanLimitException when a child would exceed the plan's daily photos.
+     * @throws PlanLimitException when a child would exceed the plan's daily media allowance.
      */
-    public function post(Tenant $tenant, User $author, array $data, array $photos = []): Moment
+    public function post(Tenant $tenant, User $author, array $data, array $photos = [], array $videos = []): Moment
     {
+        // A retry of an update that already arrived (the app lost the response).
+        if (isset($data['client_ref']) && ($existing = $this->alreadyPosted($data['client_ref'])) !== null) {
+            return $existing;
+        }
+
         $type = MomentType::from($data['type']);
         $children = $this->children($data);
 
-        if ($photos !== []) {
+        // Photos and videos follow the same consent rules and daily allowance.
+        if ($photos !== [] || $videos !== []) {
             $this->assertConsent($children);
-            $this->assertDailyPhotos($tenant, $children, count($photos));
+            $this->assertDailyPhotos($tenant, $children, count($photos) + count($videos));
         }
 
-        $stored = $this->storePhotos($tenant, $photos);
+        $stored = $this->storeMedia($tenant, $photos, $videos);
 
         try {
             $moment = DB::transaction(function () use ($tenant, $author, $data, $type, $children, $stored) {
                 $moment = Moment::create([
                     'tenant_id' => $tenant->id,
                     'author_id' => $author->id,
+                    'client_ref' => $data['client_ref'] ?? null,
                     'classroom_id' => $data['classroom_id'] ?? null,
                     'type' => $type,
                     'body' => $data['body'] ?? null,
@@ -100,6 +110,11 @@ class MomentService
         } catch (Throwable $e) {
             $this->deleteFiles($stored);
 
+            // Two retries raced: the other one stored it, answer with that one.
+            if ($e instanceof UniqueConstraintViolationException && isset($data['client_ref'])) {
+                return $this->alreadyPosted($data['client_ref']) ?? throw $e;
+            }
+
             throw $e;
         }
 
@@ -107,6 +122,12 @@ class MomentService
         $this->notifications->posted($tenant, $moment);
 
         return $moment;
+    }
+
+    private function alreadyPosted(string $clientRef): ?Moment
+    {
+        return Moment::withTrashed()->where('client_ref', $clientRef)->first()
+            ?->load(['author:id,name', 'classroom:id,name', 'children', 'media']);
     }
 
     /**
@@ -195,9 +216,10 @@ class MomentService
 
     /**
      * @param  array<int, UploadedFile>  $photos
+     * @param  array<int, array{file: UploadedFile, poster: ?UploadedFile, duration_ms: ?int}>  $videos
      * @return array<int, array<string, mixed>>
      */
-    private function storePhotos(Tenant $tenant, array $photos): array
+    private function storeMedia(Tenant $tenant, array $photos, array $videos): array
     {
         $stored = [];
 
@@ -207,6 +229,13 @@ class MomentService
                     $stored[] = $this->photos->store($photo, $tenant->id);
                 } catch (RuntimeException) {
                     throw ValidationException::withMessages(["photos.{$index}" => __('validation.image', ['attribute' => __('validation.attributes.photo')])]);
+                }
+            }
+            foreach (array_values($videos) as $index => $video) {
+                try {
+                    $stored[] = $this->videos->store($video['file'], $video['poster'], $video['duration_ms'], $tenant->id);
+                } catch (RuntimeException) {
+                    throw ValidationException::withMessages(["video_posters.{$index}" => __('validation.image', ['attribute' => __('validation.attributes.photo')])]);
                 }
             }
         } catch (Throwable $e) {
@@ -224,7 +253,7 @@ class MomentService
     private function deleteFiles(array $files): void
     {
         foreach ($files as $file) {
-            Storage::disk($file['disk'])->delete([$file['path'], $file['thumb_path']]);
+            Storage::disk($file['disk'])->delete(array_filter([$file['path'], $file['thumb_path'] ?? null]));
         }
     }
 
