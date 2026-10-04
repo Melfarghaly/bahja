@@ -39,6 +39,7 @@ use Database\Seeders\SubscriptionPlanSeeder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Laravel\Pennant\Feature;
 use Tests\Postman\PostmanCollection;
 use Tests\Support\FakePushGateway;
@@ -150,10 +151,10 @@ it('generates the Postman collection from real API responses', function () {
                 return $withFiles($value);
             }
             if (is_string($value) && str_starts_with($value, '@file:')) {
-                $copy = tempnam(sys_get_temp_dir(), 'pm').'.jpg';
+                $copy = tempnam(sys_get_temp_dir(), 'pm').'.'.pathinfo($value, PATHINFO_EXTENSION);
                 copy(base_path('docs/api/'.substr($value, 6)), $copy);
 
-                return new UploadedFile($copy, basename($value), 'image/jpeg', null, true);
+                return new UploadedFile($copy, basename($value), str_ends_with($value, '.mp4') ? 'video/mp4' : 'image/jpeg', null, true);
             }
 
             return $value;
@@ -171,6 +172,9 @@ it('generates the Postman collection from real API responses', function () {
         $fill = function ($value) use (&$fill, $v) {
             if (is_array($value)) {
                 return array_map($fill, $value);
+            }
+            if ($value === '{{$guid}}') {
+                return (string) Str::uuid();   // Postman's dynamic variable
             }
             if (is_string($value) && preg_match('/^\{\{(\w+)\}\}$/', $value, $m)) {
                 return $v[$m[1]];
@@ -384,6 +388,11 @@ it('generates the Postman collection from real API responses', function () {
     $photoLimit->delete();
     app(EntitlementService::class)->forget($tenant);
 
+    $run('moments_store_video', 'فيديو قصير مع غلاف', 201);
+    $run('moments_store_video', 'ملف ليس فيديو', 422, ['body' => ['type' => 'video', 'child_ids' => ['{{child_id}}'], 'videos' => ['@file:samples/photo.jpg']]]);
+    $retry = ['type' => 'note', 'child_ids' => ['{{child_id}}'], 'body' => 'نام جيداً اليوم', 'client_ref' => '6f1c2d3e-4b5a-4c6d-8e7f-9a0b1c2d3e4f'];
+    $run('moments_store', 'إرسال لأول مرة بـ client_ref', 201, ['body' => $retry]);
+    $run('moments_store', 'إعادة الإرسال: نفس التحديث بدون تكرار', 200, ['body' => $retry]);
     $run('moments_store', 'الغداء لكل الفصل ما عدا طفل', 201);
     $run('moments_store', 'نوم لطفل واحد', 201, ['body' => ['type' => 'nap', 'child_ids' => ['{{child_id}}'], 'payload' => ['from' => '12:30', 'to' => '14:00']]]);
     $run('moments_store', 'وجبة بدون الكمية', 422, ['body' => ['type' => 'meal', 'child_ids' => ['{{child_id}}'], 'payload' => ['meal' => 'lunch']]]);

@@ -14,7 +14,7 @@ class MediaUrls
     public const TTL_MINUTES = 30;
 
     /**
-     * @return array{url: string, thumb_url: string, expires_at: string}
+     * @return array{url: string, thumb_url: ?string, expires_at: string}
      */
     public function for(MomentMedia $media): array
     {
@@ -25,6 +25,10 @@ class MediaUrls
             'variant' => $variant,
         ]);
 
-        return ['url' => $link('full'), 'thumb_url' => $link('thumb'), 'expires_at' => $expires->toIso8601String()];
+        return [
+            'url' => $link('full'),
+            'thumb_url' => $media->thumb_path ? $link('thumb') : null,
+            'expires_at' => $expires->toIso8601String(),
+        ];
     }
 }

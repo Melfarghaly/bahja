@@ -265,7 +265,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"5|cPTzRwLK2lTvOpZfNMlIUtVzQnbdFsR63BqItsDbb3e0b6b2\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"5|bo34JaHCeyhK5HwomAGRAyKvpXjpuTZfaufVlxJ2fda5e444\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — بيانات دخول خاطئة",
@@ -504,7 +504,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"6|TqhGNENdNmenxx6fkGMNnG82DzNoo8YM73HAOu2Gcdbb429e\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"6|k8aNVDnzpTKX0B9lA6BZCEvHXlWqdxJGzQAa8Bve03bc27ba\",\n    \"token_type\": \"Bearer\"\n}"
                         }
                     ],
                     "event": [
@@ -625,7 +625,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"7|5zTKkVqJNtWDcGiWujexFHuR1ipnM8XqZTGekhxjcbee925c\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"7|Q1Na7GXioeYG4HXBLeZAIgKEGWwHDbmWrvOUWBh0c107c37a\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — محاولة سادسة خلال دقيقة (مسموح)",
@@ -1143,7 +1143,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"158584\",\n    \"device_name\": \"mona-android\"\n}",
+                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"286800\",\n    \"device_name\": \"mona-android\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -1165,7 +1165,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"8|Rq1m0w3CLRh6CjYyiKyxir3H0EJiAmW0iIWMAvvN1bdb3a06\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"8|nDrOR6LQTFUo0G68vBThweshFhmgGtlqDifrhgqC3ab7f78c\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — نفس الرمز مرة ثانية",
@@ -1203,7 +1203,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"158584\",\n    \"device_name\": \"mona-android\"\n}",
+                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"286800\",\n    \"device_name\": \"mona-android\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -6087,7 +6087,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"child_id\": 2,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"602420\"\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"child_id\": 2,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"451377\"\n}"
                         },
                         {
                             "name": "422 — رقم غير مصري ومدة أكثر من 24 ساعة",
@@ -6306,7 +6306,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"child_id\": 1,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"671451\"\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"child_id\": 1,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"922015\"\n}"
                         }
                     ],
                     "event": [
@@ -9105,7 +9105,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"type\": \"photo\",\n        \"summary\": \"صور جديدة\",\n        \"body\": \"يوم الرسم بالألوان المائية\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [\n            {\n                \"id\": 1,\n                \"width\": 512,\n                \"height\": 512,\n                \"url\": \"http://localhost/media/1/1/full?expires=1791108000&signature=61fc81317b86e7a1bee8f093c3fdd462138f629fd52a92510dee8c12637b8cef\",\n                \"thumb_url\": \"http://localhost/media/1/1/thumb?expires=1791108000&signature=95aa78606cfb0043954a508444759211fe9cc20a09ca19d83649249b66b1158d\",\n                \"expires_at\": \"2026-10-04T10:00:00+00:00\"\n            }\n        ],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"type\": \"photo\",\n        \"summary\": \"صور جديدة\",\n        \"body\": \"يوم الرسم بالألوان المائية\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [\n            {\n                \"id\": 1,\n                \"width\": 512,\n                \"height\": 512,\n                \"url\": \"http://localhost/media/1/1/full?expires=1791108000&signature=61fc81317b86e7a1bee8f093c3fdd462138f629fd52a92510dee8c12637b8cef\",\n                \"thumb_url\": \"http://localhost/media/1/1/thumb?expires=1791108000&signature=95aa78606cfb0043954a508444759211fe9cc20a09ca19d83649249b66b1158d\",\n                \"expires_at\": \"2026-10-04T10:00:00+00:00\"\n            }\n        ],\n        \"videos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
                         },
                         {
                             "name": "422 — صورة جماعية مع طفل بدون إذن",
@@ -9286,6 +9286,266 @@
                     ]
                 },
                 {
+                    "name": "Teacher — post a short video (multipart)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/moments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "moments"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{teacher_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "type",
+                                    "value": "video",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "child_ids[]",
+                                    "value": "{{child_id}}",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "body",
+                                    "value": "أول خطوات في الرقص",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "videos[]",
+                                    "type": "file",
+                                    "src": "samples/clip.mp4"
+                                },
+                                {
+                                    "key": "video_posters[]",
+                                    "type": "file",
+                                    "src": "samples/photo.jpg"
+                                },
+                                {
+                                    "key": "video_durations[]",
+                                    "value": "3000",
+                                    "type": "text"
+                                }
+                            ]
+                        },
+                        "description": "فيديو قصير مع صورة غلاف: `videos[]` (حتى 3، mp4/mov، حتى 50MB لكل فيديو)، و`video_posters[]` و`video_durations[]` (بالمللي ثانية) بنفس الترتيب.\n\n- **اضغط الفيديو على الجهاز قبل الرفع** (720p تكفي للحائط)، واستخرج إطاراً كصورة غلاف — الخادم لا يعيد ترميز الفيديو.\n- الغلاف يُعاد ترميزه (حذف EXIF/GPS) ويُعرض في `videos[].poster_url`.\n- `videos[].url` يدعم **HTTP Range** (التقديم والتأخير، ومشغّلات iOS تتطلبه)، صالح 30 دقيقة.\n- نفس قواعد إذن التصوير وحد الوسائط اليومي في الخطة.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`402` | `plan_limit_reached` | تجاوز حد الوسائط اليومي\n`422` | `validation_failed` | لا يوجد إذن تصوير، أو ملف ليس فيديو، أو أكبر من 50MB"
+                    },
+                    "response": [
+                        {
+                            "name": "201 — فيديو قصير مع غلاف",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "type",
+                                            "value": "video",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "child_ids[]",
+                                            "value": "{{child_id}}",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "body",
+                                            "value": "أول خطوات في الرقص",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "videos[]",
+                                            "type": "file",
+                                            "src": "samples/clip.mp4"
+                                        },
+                                        {
+                                            "key": "video_posters[]",
+                                            "type": "file",
+                                            "src": "samples/photo.jpg"
+                                        },
+                                        {
+                                            "key": "video_durations[]",
+                                            "value": "3000",
+                                            "type": "text"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"type\": \"video\",\n        \"summary\": \"فيديو جديد\",\n        \"body\": \"أول خطوات في الرقص\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"videos\": [\n            {\n                \"id\": 2,\n                \"width\": 512,\n                \"height\": 512,\n                \"duration_ms\": 3000,\n                \"size\": 2204,\n                \"url\": \"http://localhost/media/1/2/full?expires=1791108000&signature=60343daf8f523e6a5bfbd195744e13a054e417ec02cbc3a90d62de9e84db1e32\",\n                \"poster_url\": \"http://localhost/media/1/2/thumb?expires=1791108000&signature=a134e9cea06591499fe75a791b91e3f33a93bf3ae08dc33491fba3c235ff1c61\",\n                \"expires_at\": \"2026-10-04T10:00:00+00:00\"\n            }\n        ],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "422 — ملف ليس فيديو",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "type",
+                                            "value": "video",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "child_ids[]",
+                                            "value": "{{child_id}}",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "videos[]",
+                                            "type": "file",
+                                            "src": "samples/photo.jpg"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Unprocessable Content",
+                            "code": 422,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"videos.0\": [\n            \"The videos.0 field must be a file of type: video/mp4, application/mp4, video/quicktime.\"\n        ]\n    }\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [201]', () => pm.expect(pm.response.code).to.be.oneOf([201]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
                     "name": "Teacher — post an update for a whole class",
                     "request": {
                         "method": "POST",
@@ -9331,16 +9591,156 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    }\n}",
+                            "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    },\n    \"client_ref\": \"{{$guid}}\"\n}",
                             "options": {
                                 "raw": {
                                     "language": "json"
                                 }
                             }
                         },
-                        "description": "تحديث واحد لعدة أطفال: `child_ids` (حتى 100) **أو** `classroom_id` مع `except_child_ids` (\"الغداء لكل الفصل ما عدا عمر\").\n\n| `type` | الحقول | مثال `summary` |\n|---|---|---|\n| `meal` | `payload.meal` (breakfast/lunch/snack/dinner)، `payload.amount` (all/most/half/little/none) | وجبة الغداء: أكل نصفه |\n| `nap` | `payload.from`, `payload.to` (HH:MM) | نام من 12:30 إلى 14:00 |\n| `diaper` | `payload.kind` (wet/dirty/dry) | تغيير حفاض (مبلل) |\n| `mood` | `payload.mood` (happy/calm/tired/sad/upset) | المزاج: سعيد |\n| `activity` | `payload.title` | نشاط: الرسم |\n| `note`, `health`, `incident` | `body` مطلوب | — |\n| `photo` | `photos[]` (multipart) | صور جديدة |\n\nكل أسرة يصلها **إشعار واحد** حتى لو لها أكثر من طفل في التحديث. `summary` يُعرض بلغة الطلب.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`403` | `forbidden` | ليس من موظفي الحضانة\n`422` | `validation_failed` | حقول النوع ناقصة، أو `child_ids` مع `classroom_id` معاً"
+                        "description": "**`client_ref` (UUID اختياري، موصى به):** معرّف التحديث من التطبيق. إعادة إرسال نفس الطلب (بعد انقطاع الشبكة) تعيد نفس التحديث بـ `200` بدل إنشاء نسخة ثانية — أساس الإرسال بدون إنترنت.\n\nتحديث واحد لعدة أطفال: `child_ids` (حتى 100) **أو** `classroom_id` مع `except_child_ids` (\"الغداء لكل الفصل ما عدا عمر\").\n\n| `type` | الحقول | مثال `summary` |\n|---|---|---|\n| `meal` | `payload.meal` (breakfast/lunch/snack/dinner)، `payload.amount` (all/most/half/little/none) | وجبة الغداء: أكل نصفه |\n| `nap` | `payload.from`, `payload.to` (HH:MM) | نام من 12:30 إلى 14:00 |\n| `diaper` | `payload.kind` (wet/dirty/dry) | تغيير حفاض (مبلل) |\n| `mood` | `payload.mood` (happy/calm/tired/sad/upset) | المزاج: سعيد |\n| `activity` | `payload.title` | نشاط: الرسم |\n| `note`, `health`, `incident` | `body` مطلوب | — |\n| `photo` | `photos[]` (multipart) | صور جديدة |\n\nكل أسرة يصلها **إشعار واحد** حتى لو لها أكثر من طفل في التحديث. `summary` يُعرض بلغة الطلب.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`403` | `forbidden` | ليس من موظفي الحضانة\n`422` | `validation_failed` | حقول النوع ناقصة، أو `child_ids` مع `classroom_id` معاً"
                     },
                     "response": [
+                        {
+                            "name": "201 — إرسال لأول مرة بـ client_ref",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"type\": \"note\",\n    \"child_ids\": [\n        \"{{child_id}}\"\n    ],\n    \"body\": \"نام جيداً اليوم\",\n    \"client_ref\": \"6f1c2d3e-4b5a-4c6d-8e7f-9a0b1c2d3e4f\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"type\": \"note\",\n        \"summary\": \"ملاحظة جديدة\",\n        \"body\": \"نام جيداً اليوم\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"videos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "200 — إعادة الإرسال: نفس التحديث بدون تكرار",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"type\": \"note\",\n    \"child_ids\": [\n        \"{{child_id}}\"\n    ],\n    \"body\": \"نام جيداً اليوم\",\n    \"client_ref\": \"6f1c2d3e-4b5a-4c6d-8e7f-9a0b1c2d3e4f\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"type\": \"note\",\n        \"summary\": \"ملاحظة جديدة\",\n        \"body\": \"نام جيداً اليوم\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"videos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
                         {
                             "name": "201 — الغداء لكل الفصل ما عدا طفل",
                             "originalRequest": {
@@ -9387,7 +9787,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    }\n}",
+                                    "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    },\n    \"client_ref\": \"{{$guid}}\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -9409,7 +9809,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"type\": \"meal\",\n        \"summary\": \"وجبة الغداء: أكل نصفه\",\n        \"body\": null,\n        \"payload\": {\n            \"meal\": \"lunch\",\n            \"amount\": \"half\"\n        },\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\"\n        },\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            },\n            {\n                \"id\": 5,\n                \"first_name\": \"آدم\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 4,\n        \"type\": \"meal\",\n        \"summary\": \"وجبة الغداء: أكل نصفه\",\n        \"body\": null,\n        \"payload\": {\n            \"meal\": \"lunch\",\n            \"amount\": \"half\"\n        },\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\"\n        },\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            },\n            {\n                \"id\": 5,\n                \"first_name\": \"آدم\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"videos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
                         },
                         {
                             "name": "201 — نوم لطفل واحد",
@@ -9479,7 +9879,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"type\": \"nap\",\n        \"summary\": \"نام من 12:30 إلى 14:00\",\n        \"body\": null,\n        \"payload\": {\n            \"from\": \"12:30\",\n            \"to\": \"14:00\"\n        },\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 5,\n        \"type\": \"nap\",\n        \"summary\": \"نام من 12:30 إلى 14:00\",\n        \"body\": null,\n        \"payload\": {\n            \"from\": \"12:30\",\n            \"to\": \"14:00\"\n        },\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"videos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
                         },
                         {
                             "name": "422 — وجبة بدون الكمية",
@@ -9597,7 +9997,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    }\n}",
+                                    "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    },\n    \"client_ref\": \"{{$guid}}\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -9758,7 +10158,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 4,\n        \"type\": \"incident\",\n        \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n        \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"requires_ack\": true,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 6,\n        \"type\": \"incident\",\n        \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n        \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"videos\": [],\n        \"requires_ack\": true,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
                         },
                         {
                             "name": "422 — بدون وصف",
@@ -9954,7 +10354,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": [\n        {\n            \"id\": 2,\n            \"type\": \"meal\",\n            \"summary\": \"وجبة الغداء: أكل نصفه\",\n            \"body\": null,\n            \"payload\": {\n                \"meal\": \"lunch\",\n                \"amount\": \"half\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                },\n                {\n                    \"id\": 5,\n                    \"first_name\": \"آدم\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/moments?page=1\",\n        \"last\": \"http://localhost/api/v1/moments?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/moments?page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/moments\",\n        \"per_page\": 20,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 4,\n            \"type\": \"meal\",\n            \"summary\": \"وجبة الغداء: أكل نصفه\",\n            \"body\": null,\n            \"payload\": {\n                \"meal\": \"lunch\",\n                \"amount\": \"half\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                },\n                {\n                    \"id\": 5,\n                    \"first_name\": \"آدم\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"videos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/moments?page=1\",\n        \"last\": \"http://localhost/api/v1/moments?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/moments?page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/moments\",\n        \"per_page\": 20,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
                         },
                         {
                             "name": "403 — وليّ أمر يحاول الوصول",
@@ -10136,7 +10536,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": [\n        {\n            \"id\": 4,\n            \"type\": \"incident\",\n            \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n            \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n            \"payload\": {},\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"requires_ack\": true,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 3,\n            \"type\": \"nap\",\n            \"summary\": \"نام من 12:30 إلى 14:00\",\n            \"body\": null,\n            \"payload\": {\n                \"from\": \"12:30\",\n                \"to\": \"14:00\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 2,\n            \"type\": \"meal\",\n            \"summary\": \"وجبة الغداء: أكل نصفه\",\n            \"body\": null,\n            \"payload\": {\n                \"meal\": \"lunch\",\n                \"amount\": \"half\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 1,\n            \"type\": \"photo\",\n            \"summary\": \"صور جديدة\",\n            \"body\": \"يوم الرسم بالألوان المائية\",\n            \"payload\": {},\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [\n                {\n                    \"id\": 1,\n                    \"width\": 512,\n                    \"height\": 512,\n                    \"url\": \"http://localhost/media/1/1/full?expires=1791108000&signature=61fc81317b86e7a1bee8f093c3fdd462138f629fd52a92510dee8c12637b8cef\",\n                    \"thumb_url\": \"http://localhost/media/1/1/thumb?expires=1791108000&signature=95aa78606cfb0043954a508444759211fe9cc20a09ca19d83649249b66b1158d\",\n                    \"expires_at\": \"2026-10-04T10:00:00+00:00\"\n                }\n            ],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n        \"last\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/me/wards/1/moments\",\n        \"per_page\": 20,\n        \"to\": 4,\n        \"total\": 4\n    }\n}"
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 6,\n            \"type\": \"incident\",\n            \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n            \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n            \"payload\": {},\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"videos\": [],\n            \"requires_ack\": true,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 5,\n            \"type\": \"nap\",\n            \"summary\": \"نام من 12:30 إلى 14:00\",\n            \"body\": null,\n            \"payload\": {\n                \"from\": \"12:30\",\n                \"to\": \"14:00\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"videos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 4,\n            \"type\": \"meal\",\n            \"summary\": \"وجبة الغداء: أكل نصفه\",\n            \"body\": null,\n            \"payload\": {\n                \"meal\": \"lunch\",\n                \"amount\": \"half\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"videos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 3,\n            \"type\": \"note\",\n            \"summary\": \"ملاحظة جديدة\",\n            \"body\": \"نام جيداً اليوم\",\n            \"payload\": {},\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"videos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 2,\n            \"type\": \"video\",\n            \"summary\": \"فيديو جديد\",\n            \"body\": \"أول خطوات في الرقص\",\n            \"payload\": {},\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"videos\": [\n                {\n                    \"id\": 2,\n                    \"width\": 512,\n                    \"height\": 512,\n                    \"duration_ms\": 3000,\n                    \"size\": 2204,\n                    \"url\": \"http://localhost/media/1/2/full?expires=1791108000&signature=60343daf8f523e6a5bfbd195744e13a054e417ec02cbc3a90d62de9e84db1e32\",\n                    \"poster_url\": \"http://localhost/media/1/2/thumb?expires=1791108000&signature=a134e9cea06591499fe75a791b91e3f33a93bf3ae08dc33491fba3c235ff1c61\",\n                    \"expires_at\": \"2026-10-04T10:00:00+00:00\"\n                }\n            ],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 1,\n            \"type\": \"photo\",\n            \"summary\": \"صور جديدة\",\n            \"body\": \"يوم الرسم بالألوان المائية\",\n            \"payload\": {},\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [\n                {\n                    \"id\": 1,\n                    \"width\": 512,\n                    \"height\": 512,\n                    \"url\": \"http://localhost/media/1/1/full?expires=1791108000&signature=61fc81317b86e7a1bee8f093c3fdd462138f629fd52a92510dee8c12637b8cef\",\n                    \"thumb_url\": \"http://localhost/media/1/1/thumb?expires=1791108000&signature=95aa78606cfb0043954a508444759211fe9cc20a09ca19d83649249b66b1158d\",\n                    \"expires_at\": \"2026-10-04T10:00:00+00:00\"\n                }\n            ],\n            \"videos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n        \"last\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/me/wards/1/moments\",\n        \"per_page\": 20,\n        \"to\": 6,\n        \"total\": 6\n    }\n}"
                         },
                         {
                             "name": "404 — وصيّ محظور",
@@ -10319,7 +10719,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 4,\n        \"type\": \"incident\",\n        \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n        \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": \"2026-10-04T09:30:00+00:00\"\n            }\n        ],\n        \"photos\": [],\n        \"requires_ack\": true,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 6,\n        \"type\": \"incident\",\n        \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n        \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": \"2026-10-04T09:30:00+00:00\"\n            }\n        ],\n        \"photos\": [],\n        \"videos\": [],\n        \"requires_ack\": true,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
                         },
                         {
                             "name": "422 — تحديث ليس حادثة",
@@ -12282,7 +12682,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44CN03QGW8SDPM05Z313SJ7\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44J5N3RRQZRJNRZ94M37K51\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -12347,7 +12747,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44CN03QGW8SDPM05Z313SJ7\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44J5N3RRQZRJNRZ94M37K51\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -12412,7 +12812,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44CN03QGW8SDPM05Z313SJ7\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44J5N3RRQZRJNRZ94M37K51\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -12529,7 +12929,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"requestId\": \"req-1\",\n    \"fawryRefNumber\": \"966512345\",\n    \"merchantRefNumber\": \"BHG1-01M44CN037YXG2XTCPMWW43RWT\",\n    \"paymentAmount\": 3520,\n    \"orderAmount\": \"3515.00\",\n    \"fawryFees\": 5,\n    \"orderStatus\": \"PAID\",\n    \"paymentMethod\": \"PAYATFAWRY\",\n    \"paymentRefrenceNumber\": \"24601\",\n    \"messageSignature\": \"807705061a749849098e7eee7086fcd3a23f4509aa5afb148a09c94f0adb0881\"\n}",
+                                    "raw": "{\n    \"requestId\": \"req-1\",\n    \"fawryRefNumber\": \"966512345\",\n    \"merchantRefNumber\": \"BHG1-01M44J5N37XD9AJFV40H992BH1\",\n    \"paymentAmount\": 3520,\n    \"orderAmount\": \"3515.00\",\n    \"fawryFees\": 5,\n    \"orderStatus\": \"PAID\",\n    \"paymentMethod\": \"PAYATFAWRY\",\n    \"paymentRefrenceNumber\": \"24601\",\n    \"messageSignature\": \"3734b1f46f3ed3a18df4079a3cd2b7cfbac994d742df116cf482757e5185d189\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -12588,7 +12988,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"merchantRefNumber\": \"BHG1-01M44CN037YXG2XTCPMWW43RWT\",\n    \"orderStatus\": \"PAID\",\n    \"paymentAmount\": \"1.00\",\n    \"orderAmount\": \"1.00\",\n    \"messageSignature\": \"forged\"\n}",
+                                    "raw": "{\n    \"merchantRefNumber\": \"BHG1-01M44J5N37XD9AJFV40H992BH1\",\n    \"orderStatus\": \"PAID\",\n    \"paymentAmount\": \"1.00\",\n    \"orderAmount\": \"1.00\",\n    \"messageSignature\": \"forged\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"

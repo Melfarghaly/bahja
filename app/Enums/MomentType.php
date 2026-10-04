@@ -8,6 +8,7 @@ namespace App\Enums;
 enum MomentType: string
 {
     case Photo = 'photo';
+    case Video = 'video';
     case Note = 'note';
     case Meal = 'meal';
     case Nap = 'nap';
@@ -21,6 +22,7 @@ enum MomentType: string
     {
         return match ($this) {
             self::Photo => 'صور',
+            self::Video => 'فيديو',
             self::Note => 'ملاحظة',
             self::Meal => 'وجبة',
             self::Nap => 'نوم',

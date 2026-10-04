@@ -21,7 +21,7 @@ class Moment extends Model
     use BelongsToTenant, HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'tenant_id', 'author_id', 'classroom_id', 'type', 'body', 'payload',
+        'tenant_id', 'author_id', 'client_ref', 'classroom_id', 'type', 'body', 'payload',
         'children_count', 'media_count', 'requires_ack', 'published_at',
     ];
 

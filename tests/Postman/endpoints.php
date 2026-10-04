@@ -372,13 +372,22 @@ return [
         'description' => "**`multipart/form-data`**: `photos[]` حتى 10 صور (JPEG/PNG/WebP، حتى 10MB لكل صورة — يُفضَّل ضغطها على الجهاز قبل الرفع).\n\n- الخادم يحذف بيانات EXIF/GPS، ويعدّل اتجاه الصورة، ويحفظ نسخة حتى 2048px ومصغّرة 480px.\n- طفل واحد ⇐ يحتاج `wall`؛ أكثر من طفل (صورة جماعية) ⇐ كل طفل يحتاج `wall` + `group_photos`. الرسالة تذكر أسماء من ينقصه الإذن.\n- الخطة المجانية: 3 صور يومياً لكل طفل، وتُحذف الصور بعد 30 يوماً.\n- حد الطلبات: 30 نشراً/دقيقة لكل معلمة.\n\n> في Postman: افتح تبويب Body واختر ملف الصورة، أو شغّل newman مع `--working-dir docs/api`."
             .$errors('`402` | `plan_limit_reached` | تجاوز حد الصور اليومي للطفل في الخطة', '`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | لا يوجد إذن تصوير/صور جماعية، أو ملف ليس صورة'),
     ],
+    'moments_store_video' => [
+        'expect' => [201],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Teacher — post a short video (multipart)',
+        'method' => 'POST', 'path' => 'v1/moments', 'auth' => 'teacher', 'multipart' => true,
+        'body' => ['type' => 'video', 'child_ids' => ['{{child_id}}'], 'body' => 'أول خطوات في الرقص', 'videos' => ['@file:samples/clip.mp4'], 'video_posters' => ['@file:samples/photo.jpg'], 'video_durations' => [3000]],
+        'description' => "فيديو قصير مع صورة غلاف: `videos[]` (حتى 3، mp4/mov، حتى 50MB لكل فيديو)، و`video_posters[]` و`video_durations[]` (بالمللي ثانية) بنفس الترتيب.\n\n- **اضغط الفيديو على الجهاز قبل الرفع** (720p تكفي للحائط)، واستخرج إطاراً كصورة غلاف — الخادم لا يعيد ترميز الفيديو.\n- الغلاف يُعاد ترميزه (حذف EXIF/GPS) ويُعرض في `videos[].poster_url`.\n- `videos[].url` يدعم **HTTP Range** (التقديم والتأخير، ومشغّلات iOS تتطلبه)، صالح 30 دقيقة.\n- نفس قواعد إذن التصوير وحد الوسائط اليومي في الخطة."
+            .$errors('`402` | `plan_limit_reached` | تجاوز حد الوسائط اليومي', '`422` | `validation_failed` | لا يوجد إذن تصوير، أو ملف ليس فيديو، أو أكبر من 50MB'),
+    ],
     'moments_store' => [
         'expect' => [201],
         'folder' => '7. الحائط اليومي — Daily Wall',
         'name' => 'Teacher — post an update for a whole class',
         'method' => 'POST', 'path' => 'v1/moments', 'auth' => 'teacher',
-        'body' => ['type' => 'meal', 'classroom_id' => '{{classroom_id}}', 'except_child_ids' => ['{{second_child_id}}'], 'payload' => ['meal' => 'lunch', 'amount' => 'half']],
-        'description' => "تحديث واحد لعدة أطفال: `child_ids` (حتى 100) **أو** `classroom_id` مع `except_child_ids` (\"الغداء لكل الفصل ما عدا عمر\").\n\n| `type` | الحقول | مثال `summary` |\n|---|---|---|\n| `meal` | `payload.meal` (breakfast/lunch/snack/dinner)، `payload.amount` (all/most/half/little/none) | وجبة الغداء: أكل نصفه |\n| `nap` | `payload.from`, `payload.to` (HH:MM) | نام من 12:30 إلى 14:00 |\n| `diaper` | `payload.kind` (wet/dirty/dry) | تغيير حفاض (مبلل) |\n| `mood` | `payload.mood` (happy/calm/tired/sad/upset) | المزاج: سعيد |\n| `activity` | `payload.title` | نشاط: الرسم |\n| `note`, `health`, `incident` | `body` مطلوب | — |\n| `photo` | `photos[]` (multipart) | صور جديدة |\n\nكل أسرة يصلها **إشعار واحد** حتى لو لها أكثر من طفل في التحديث. `summary` يُعرض بلغة الطلب."
+        'body' => ['type' => 'meal', 'classroom_id' => '{{classroom_id}}', 'except_child_ids' => ['{{second_child_id}}'], 'payload' => ['meal' => 'lunch', 'amount' => 'half'], 'client_ref' => '{{$guid}}'],
+        'description' => "**`client_ref` (UUID اختياري، موصى به):** معرّف التحديث من التطبيق. إعادة إرسال نفس الطلب (بعد انقطاع الشبكة) تعيد نفس التحديث بـ `200` بدل إنشاء نسخة ثانية — أساس الإرسال بدون إنترنت.\n\nتحديث واحد لعدة أطفال: `child_ids` (حتى 100) **أو** `classroom_id` مع `except_child_ids` (\"الغداء لكل الفصل ما عدا عمر\").\n\n| `type` | الحقول | مثال `summary` |\n|---|---|---|\n| `meal` | `payload.meal` (breakfast/lunch/snack/dinner)، `payload.amount` (all/most/half/little/none) | وجبة الغداء: أكل نصفه |\n| `nap` | `payload.from`, `payload.to` (HH:MM) | نام من 12:30 إلى 14:00 |\n| `diaper` | `payload.kind` (wet/dirty/dry) | تغيير حفاض (مبلل) |\n| `mood` | `payload.mood` (happy/calm/tired/sad/upset) | المزاج: سعيد |\n| `activity` | `payload.title` | نشاط: الرسم |\n| `note`, `health`, `incident` | `body` مطلوب | — |\n| `photo` | `photos[]` (multipart) | صور جديدة |\n\nكل أسرة يصلها **إشعار واحد** حتى لو لها أكثر من طفل في التحديث. `summary` يُعرض بلغة الطلب."
             .$errors('`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | حقول النوع ناقصة، أو `child_ids` مع `classroom_id` معاً'),
     ],
     'incident_store' => [

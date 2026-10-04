@@ -8,6 +8,7 @@ return [
     'delete_window' => 'A teacher can delete her update within 24 hours; after that, a manager can.',
     'not_an_incident' => 'This update does not need acknowledgement.',
     'summary' => [
+        'video' => 'New video',
         'photo' => 'New photos',
         'note' => 'New note',
         'meal' => ':meal: :amount',

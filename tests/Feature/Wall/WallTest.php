@@ -245,3 +245,71 @@ it('keeps the wall hidden until released to the nursery', function () {
     [$other, $otherOwner] = createNurseryWithOwner();
     $this->actingAs($otherOwner)->withHeader('X-Tenant-Id', $other->id)->getJson('/api/v1/moments')->assertNotFound();
 });
+
+it('posts a short video with its poster and streams it with HTTP ranges', function () {
+    grantPhotoConsent($this->yousef);
+    $clip = UploadedFile::fake()->createWithContent('clip.mp4', str_repeat("\x00\x00\x00\x18ftypmp42", 4096));
+
+    $response = ($this->asTeacher)()->post('/api/v1/moments', [
+        'type' => 'video', 'child_ids' => [$this->yousef->id], 'body' => 'أول خطوات في الرقص',
+        'videos' => [$clip], 'video_posters' => [jpegWithExif(640, 360, orientation: 1)], 'video_durations' => [12_500],
+    ], ['Accept' => 'application/json'])->assertCreated()
+        ->assertJsonPath('data.summary', 'فيديو جديد')
+        ->assertJsonCount(0, 'data.photos')
+        ->assertJsonPath('data.videos.0.duration_ms', 12_500)
+        ->assertJsonPath('data.videos.0.width', 640);
+
+    $video = $response->json('data.videos.0');
+    $media = MomentMedia::withoutGlobalScopes()->sole();
+    expect($media->kind)->toBe('video')
+        ->and($media->path)->toEndWith('.mp4')
+        ->and(Storage::disk('local')->get($media->thumb_path))->not->toContain('SpyPhone');   // poster re-encoded
+
+    auth()->forgetGuards();
+    $this->get($video['poster_url'])->assertOk()->assertHeader('Content-Type', 'image/jpeg');
+
+    $partial = $this->get($video['url'], ['Range' => 'bytes=0-99']);
+    $partial->assertStatus(206)->assertHeader('Content-Range', 'bytes 0-99/'.(12 * 4096))->assertHeader('Accept-Ranges', 'bytes');
+    expect(strlen($partial->streamedContent()))->toBe(100);
+});
+
+it('applies consent, type and size rules to videos too', function () {
+    $clip = fn () => UploadedFile::fake()->createWithContent('clip.mp4', str_repeat("\x00\x00\x00\x18ftypmp42", 64));
+
+    ($this->asTeacher)()->post('/api/v1/moments', ['type' => 'video', 'child_ids' => [$this->yousef->id], 'videos' => [$clip()]], ['Accept' => 'application/json'])
+        ->assertUnprocessable()->assertJsonPath('errors.child_ids.0', 'لا يوجد إذن تصوير لـ: يوسف');
+
+    grantPhotoConsent($this->yousef);
+    ($this->asTeacher)()->post('/api/v1/moments', ['type' => 'video', 'child_ids' => [$this->yousef->id]], ['Accept' => 'application/json'])
+        ->assertUnprocessable()->assertJsonValidationErrors('videos');
+    ($this->asTeacher)()->post('/api/v1/moments', ['type' => 'video', 'child_ids' => [$this->yousef->id], 'videos' => [UploadedFile::fake()->create('virus.exe', 10, 'application/x-msdownload')]], ['Accept' => 'application/json'])
+        ->assertUnprocessable()->assertJsonValidationErrors('videos.0');
+
+    // Videos count toward the Free plan's 3 media per child per day.
+    ($this->asTeacher)()->post('/api/v1/moments', ['type' => 'video', 'child_ids' => [$this->yousef->id], 'videos' => [$clip(), $clip(), $clip()]], ['Accept' => 'application/json'])->assertCreated();
+    ($this->asTeacher)()->post('/api/v1/moments', ['type' => 'photo', 'child_ids' => [$this->yousef->id], 'photos' => [UploadedFile::fake()->image('a.jpg', 400, 300)]], ['Accept' => 'application/json'])
+        ->assertStatus(402);
+});
+
+it('erases a video and its poster with the moment', function () {
+    grantPhotoConsent($this->yousef);
+    $id = ($this->asTeacher)()->post('/api/v1/moments', [
+        'type' => 'video', 'child_ids' => [$this->yousef->id],
+        'videos' => [UploadedFile::fake()->createWithContent('clip.mp4', str_repeat("\x00\x00\x00\x18ftypmp42", 64))],
+        'video_posters' => [UploadedFile::fake()->image('poster.jpg', 320, 180)],
+    ], ['Accept' => 'application/json'])->assertCreated()->json('data.id');
+    expect(Storage::disk('local')->allFiles())->toHaveCount(2);
+
+    ($this->asTeacher)()->deleteJson("/api/v1/moments/{$id}")->assertNoContent();
+    expect(Storage::disk('local')->allFiles())->toBeEmpty();
+});
+
+it('never posts the same update twice when the app retries', function () {
+    $body = ['type' => 'meal', 'child_ids' => [$this->yousef->id], 'payload' => ['meal' => 'lunch', 'amount' => 'all'], 'client_ref' => '0b8f7a42-3c55-4c6e-9a7b-1d2e3f4a5b6c'];
+
+    $first = ($this->asTeacher)()->postJson('/api/v1/moments', $body)->assertCreated()->json('data.id');
+    ($this->asTeacher)()->postJson('/api/v1/moments', $body)->assertOk()->assertJsonPath('data.id', $first);
+
+    expect(Moment::withoutGlobalScopes()->count())->toBe(1)
+        ->and(UserNotification::withoutGlobalScopes()->count())->toBe(1);   // the family is told once
+});

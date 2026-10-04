@@ -19,13 +19,15 @@ class PhotoProcessor
 
     public const THUMB_SIDE = 480;
 
+    public const POSTER_SIDE = 720;
+
     /** Refuse decompression bombs before decoding. */
     public const MAX_PIXELS = 40_000_000;
 
     private const QUALITY = 82;
 
     /**
-     * @return array{disk: string, path: string, thumb_path: string, mime: string, size: int, width: int, height: int}
+     * @return array{kind: string, disk: string, path: string, thumb_path: string, mime: string, size: int, width: int, height: int}
      *
      * @throws RuntimeException when the file is not a decodable photo.
      */
@@ -53,6 +55,7 @@ class PhotoProcessor
         Storage::disk($disk)->put("{$base}-thumb.jpg", $this->jpeg($thumb));
 
         return [
+            'kind' => 'photo',
             'disk' => $disk,
             'path' => "{$base}.jpg",
             'thumb_path' => "{$base}-thumb.jpg",
@@ -61,6 +64,31 @@ class PhotoProcessor
             'width' => imagesx($full),
             'height' => imagesy($full),
         ];
+    }
+
+    /**
+     * A video's poster: re-encoded (no EXIF), at most 720px.
+     *
+     * @return array{path: string, width: int, height: int}
+     *
+     * @throws RuntimeException when the file is not a decodable image.
+     */
+    public function poster(UploadedFile $file, int $tenantId): array
+    {
+        $info = @getimagesize($file->getRealPath());
+        $image = $info !== false && $info[0] * $info[1] <= self::MAX_PIXELS
+            ? @imagecreatefromstring((string) file_get_contents($file->getRealPath()))
+            : false;
+        if (! $image instanceof GdImage) {
+            throw new RuntimeException('not a usable poster');
+        }
+
+        $still = $this->fit($this->upright($image, $file, $info[2]), self::POSTER_SIDE);
+        $disk = (string) config('filesystems.wall_disk');
+        $path = sprintf('wall/%d/%s/%s-poster.jpg', $tenantId, now()->format('Y/m'), Str::uuid());
+        Storage::disk($disk)->put($path, $this->jpeg($still));
+
+        return ['path' => $path, 'width' => imagesx($still), 'height' => imagesy($still)];
     }
 
     private function upright(GdImage $image, UploadedFile $file, int $type): GdImage
