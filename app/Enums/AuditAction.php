@@ -21,4 +21,8 @@ enum AuditAction: string
     case FeeDiscountSaved = 'fee_discount.saved';
     case FeeAssigned = 'fee.assigned';
     case FeeAssignmentEnded = 'fee.assignment_ended';
+    case TuitionInvoicesGenerated = 'tuition.invoices_generated';
+    case TuitionInvoiceVoided = 'tuition.invoice_voided';
+    case TuitionPaymentRecorded = 'tuition.payment_recorded';
+    case TuitionPaymentVoided = 'tuition.payment_voided';
 }

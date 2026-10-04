@@ -15,6 +15,7 @@ use App\Http\Controllers\Nursery\ClassroomController;
 use App\Http\Controllers\Nursery\DashboardController;
 use App\Http\Controllers\Nursery\Finance\ChildFeeController;
 use App\Http\Controllers\Nursery\Finance\FeeSetupController;
+use App\Http\Controllers\Nursery\Finance\TuitionInvoiceController;
 use App\Http\Controllers\Nursery\GuardianController;
 use App\Http\Controllers\Nursery\SettingsController;
 use App\Http\Controllers\Nursery\SubscriptionController;
@@ -97,6 +98,10 @@ Route::middleware(['auth', 'tenant', 'nursery.staff'])
                     Route::post('discounts', [FeeSetupController::class, 'storeDiscount'])->name('discounts.store');
                     Route::put('discounts/{feeDiscount}', [FeeSetupController::class, 'updateDiscount'])->name('discounts.update');
                     Route::patch('discounts/{feeDiscount}/active', [FeeSetupController::class, 'toggleDiscount'])->name('discounts.toggle');
+
+                    Route::get('invoices', [TuitionInvoiceController::class, 'index'])->name('invoices.index');
+                    Route::post('invoices/generate', [TuitionInvoiceController::class, 'generate'])->name('invoices.generate');
+                    Route::get('invoices/{invoice}', [TuitionInvoiceController::class, 'show'])->name('invoices.show');
 
                     Route::post('children/{child}/fee-plans', [ChildFeeController::class, 'store'])->name('child-fees.store');
                     Route::patch('fee-assignments/{childFeePlan}/end', [ChildFeeController::class, 'end'])->name('child-fees.end');
