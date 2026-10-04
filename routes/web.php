@@ -22,6 +22,7 @@ use App\Http\Controllers\Nursery\GuardianController;
 use App\Http\Controllers\Nursery\SettingsController;
 use App\Http\Controllers\Nursery\SubscriptionController;
 use App\Http\Controllers\Nursery\TeacherController;
+use App\Http\Controllers\PayController;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -166,5 +167,16 @@ Route::middleware(['auth', 'super-admin'])
         Route::get('settings', [AdminSettingsController::class, 'edit'])->name('settings.edit');
         Route::post('settings', [AdminSettingsController::class, 'update'])->name('settings.update');
     });
+
+/*
+|--------------------------------------------------------------------------
+| Public pay links (Bahga Pay) — signed URLs sent to parents by SMS
+|--------------------------------------------------------------------------
+*/
+Route::get('pay/return', [PayController::class, 'returned'])->name('pay.return');
+Route::middleware(['signed', 'tenant.route', 'throttle:30,1'])->group(function () {
+    Route::get('pay/{tenant}/{invoice}', [PayController::class, 'show'])->name('pay.show');
+    Route::post('pay/{tenant}/{invoice}/{gateway}', [PayController::class, 'checkout'])->name('pay.checkout');
+});
 
 require __DIR__.'/auth.php';

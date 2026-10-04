@@ -5,6 +5,7 @@ namespace App\Services\Tuition;
 use App\Enums\AuditAction;
 use App\Enums\TuitionInvoiceStatus;
 use App\Enums\TuitionPaymentMethod;
+use App\Models\PaymentIntent;
 use App\Models\Tenant;
 use App\Models\TuitionInvoice;
 use App\Models\TuitionPayment;
@@ -73,6 +74,43 @@ class TuitionPaymentService
                 'amount_piasters' => $amount->piasters,
                 'method' => $payment->method->value,
             ], $cashier, $invoice->tenant_id);
+
+            return $payment;
+        });
+    }
+
+    /**
+     * Record a payment confirmed by a gateway. Called by OnlinePaymentService
+     * inside its transaction, after it validated amount and invoice state.
+     */
+    public function recordOnline(TuitionInvoice $invoice, PaymentIntent $intent, ?string $gatewayReference): TuitionPayment
+    {
+        return DB::transaction(function () use ($invoice, $intent, $gatewayReference) {
+            $invoice = $this->lock($invoice);
+
+            $payment = TuitionPayment::create([
+                'tenant_id' => $invoice->tenant_id,
+                'tuition_invoice_id' => $invoice->id,
+                'payment_intent_id' => $intent->id,
+                'receipt_number' => $this->numbers->next($this->tenantOf($invoice), DocumentNumberService::RECEIPT),
+                'method' => $intent->gateway->paymentMethod(),
+                'amount_piasters' => $intent->amount_piasters,
+                'reference' => $gatewayReference,
+                'paid_at' => now(),
+                'received_by' => null,
+            ]);
+
+            $this->applyToInvoice($invoice, $intent->amount_piasters);
+            $this->ledger->postPaymentReceived($payment, $invoice);
+
+            $this->audit->record(AuditAction::TuitionPaymentRecorded, $payment, [
+                'invoice' => $invoice->number,
+                'receipt' => $payment->receipt_number,
+                'amount_piasters' => $intent->amount_piasters,
+                'method' => $payment->method->value,
+                'gateway' => $intent->gateway->value,
+                'gateway_reference' => $gatewayReference,
+            ], tenantId: $invoice->tenant_id);
 
             return $payment;
         });

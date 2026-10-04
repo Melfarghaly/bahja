@@ -22,6 +22,7 @@ class TuitionPayment extends Model
     protected $fillable = [
         'tenant_id',
         'tuition_invoice_id',
+        'payment_intent_id',
         'receipt_number',
         'method',
         'amount_piasters',

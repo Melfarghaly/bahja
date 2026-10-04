@@ -35,4 +35,22 @@ return [
         ],
     ],
 
+    // Bahga Pay online gateways. Verify every flow in the gateway's sandbox
+    // (base URLs below are the test environments) before going live.
+    'paymob' => [
+        'base_url' => env('PAYMOB_BASE_URL', 'https://accept.paymob.com'),
+        'secret_key' => env('PAYMOB_SECRET_KEY'),
+        'public_key' => env('PAYMOB_PUBLIC_KEY'),
+        'hmac_secret' => env('PAYMOB_HMAC_SECRET'),
+        'integration_ids' => env('PAYMOB_INTEGRATION_IDS'),   // comma-separated: card,wallet
+        'expiry_minutes' => env('PAYMOB_EXPIRY_MINUTES', 60),
+    ],
+
+    'fawry' => [
+        'base_url' => env('FAWRY_BASE_URL', 'https://atfawry.fawrystaging.com'),
+        'merchant_code' => env('FAWRY_MERCHANT_CODE'),
+        'secure_key' => env('FAWRY_SECURE_KEY'),
+        'expiry_hours' => env('FAWRY_EXPIRY_HOURS', 48),
+    ],
+
 ];

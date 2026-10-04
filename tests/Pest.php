@@ -59,3 +59,5 @@ function enableBahgaPay(Tenant $tenant): void
 {
     Feature::for($tenant)->activate(RolloutFlag::BahgaPay->value);
 }
+
+require_once __DIR__.'/Support/payments.php';

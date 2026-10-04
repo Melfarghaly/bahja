@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\V1\GuardianController;
 use App\Http\Controllers\Api\V1\MyInvoiceController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\Api\V1\WardController;
+use App\Http\Controllers\Webhooks\PaymentWebhookController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,11 @@ use Illuminate\Support\Facades\Route;
 | which resolves the active nursery and enables tenant isolation.
 |
 */
+
+// Payment gateway notifications: no auth, trust comes from the signature only.
+Route::post('webhooks/payments/{provider}', PaymentWebhookController::class)
+    ->middleware('throttle:120,1')
+    ->name('webhooks.payments');
 
 Route::prefix('v1/auth')->group(function () {
     Route::post('tokens', [AuthTokenController::class, 'store'])->middleware('throttle:6,1');
@@ -33,6 +39,8 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::middleware('rollout:bahga-pay')->group(function () {
         Route::get('me/invoices', [MyInvoiceController::class, 'index']);
         Route::get('me/invoices/{invoice}', [MyInvoiceController::class, 'show']);
+        Route::post('me/invoices/{invoice}/checkout', [MyInvoiceController::class, 'checkout'])
+            ->middleware(['entitled:auto_collection', 'throttle:10,1']);
     });
 
     // Children.
