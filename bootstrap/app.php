@@ -8,6 +8,7 @@ use App\Http\Middleware\IdentifyTenant;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,6 +25,14 @@ return Application::configure(basePath: dirname(__DIR__))
             'nursery.staff' => EnsureNurseryStaff::class,
             'nursery.admin' => EnsureNurseryAdmin::class,
         ]);
+
+        // The tenant context MUST be set before route model binding runs,
+        // otherwise `{child}` etc. resolve without the TenantScope and leak
+        // records across tenants.
+        $middleware->prependToPriorityList(
+            before: SubstituteBindings::class,
+            prepend: IdentifyTenant::class,
+        );
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

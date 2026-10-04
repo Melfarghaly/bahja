@@ -20,6 +20,15 @@ class Child extends Model
 
     protected $table = 'children';
 
+    /**
+     * Mirror the column default so freshly created models expose a status.
+     *
+     * @var array<string, mixed>
+     */
+    protected $attributes = [
+        'status' => 'active',
+    ];
+
     protected $fillable = [
         'tenant_id',
         'classroom_id',
