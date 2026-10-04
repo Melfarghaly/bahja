@@ -125,3 +125,20 @@ it('never lets one nursery edit another nursery\'s fee plan', function () {
         ->put(route('nursery.finance.fee-plans.update', $foreign), ['name' => 'hack', 'amount' => '1', 'frequency' => 'monthly'])
         ->assertNotFound();
 });
+
+it('lets the nursery choose its invoice due day without wiping other settings', function () {
+    $this->tenant->update(['settings' => ['theme' => 'teal']]);
+
+    $this->actingAs($this->owner)
+        ->put(route('nursery.settings.update'), ['name' => $this->tenant->name, 'tuition_due_day' => 10])
+        ->assertRedirect()
+        ->assertSessionHasNoErrors();
+
+    expect($this->tenant->fresh()->settings)->toBe(['theme' => 'teal', 'tuition_due_day' => 10]);
+
+    $this->actingAs($this->owner)
+        ->put(route('nursery.settings.update'), ['name' => $this->tenant->name, 'tuition_due_day' => 31])
+        ->assertSessionHasErrors('tuition_due_day');
+
+    $this->actingAs($this->owner)->get(route('nursery.settings.edit'))->assertOk()->assertSee('يوم استحقاق فواتير المصروفات');
+});
