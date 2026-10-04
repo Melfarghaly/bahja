@@ -6,6 +6,7 @@ use App\Enums\TuitionInvoiceStatus;
 use App\Models\Concerns\BelongsToTenant;
 use App\Support\Money;
 use Database\Factories\TuitionInvoiceFactory;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +35,7 @@ class TuitionInvoice extends Model
         'total_piasters',
         'paid_piasters',
         'status',
+        'billing_key',
         'voided_at',
         'voided_by',
         'void_reason',
@@ -55,6 +57,11 @@ class TuitionInvoice extends Model
             'status' => TuitionInvoiceStatus::class,
             'voided_at' => 'datetime',
         ];
+    }
+
+    public static function billingKey(int $payerId, DateTimeInterface $period): string
+    {
+        return $payerId.':'.$period->format('Y-m');
     }
 
     public function payer(): BelongsTo

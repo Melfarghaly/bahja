@@ -51,7 +51,7 @@
                 </p>
             </div>
 
-            @includeIf('nursery.finance.invoices.partials.payments')
+            @include('nursery.finance.invoices.partials.payments')
         </div>
     </div>
 @endsection

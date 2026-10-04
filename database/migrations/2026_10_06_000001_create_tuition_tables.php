@@ -66,14 +66,18 @@ return new class extends Migration
             $table->unsignedBigInteger('total_piasters');
             $table->unsignedBigInteger('paid_piasters')->default(0); // cache of non-void payments
             $table->string('status')->default('open');           // App\Enums\TuitionInvoiceStatus
+            // "<payer_id>:<YYYY-MM>" while the invoice is live, NULL once voided:
+            // one live family invoice per payer per period, re-billable after a void.
+            $table->string('billing_key')->nullable();
             $table->timestamp('voided_at')->nullable();
             $table->foreignId('voided_by')->nullable()->constrained('users')->nullOnDelete();
             $table->string('void_reason')->nullable();
             $table->timestamps();
 
             $table->unique(['tenant_id', 'number']);
-            // One family invoice per payer per period: makes generation idempotent.
-            $table->unique(['tenant_id', 'payer_id', 'period_start']);
+            // Makes generation idempotent (NULLs never collide, so voided rows don't block).
+            $table->unique(['tenant_id', 'billing_key']);
+            $table->index(['tenant_id', 'payer_id', 'period_start']);
             $table->index(['tenant_id', 'status', 'due_on']);
         });
 

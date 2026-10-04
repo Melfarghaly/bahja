@@ -16,6 +16,7 @@ use App\Http\Controllers\Nursery\DashboardController;
 use App\Http\Controllers\Nursery\Finance\ChildFeeController;
 use App\Http\Controllers\Nursery\Finance\FeeSetupController;
 use App\Http\Controllers\Nursery\Finance\TuitionInvoiceController;
+use App\Http\Controllers\Nursery\Finance\TuitionPaymentController;
 use App\Http\Controllers\Nursery\GuardianController;
 use App\Http\Controllers\Nursery\SettingsController;
 use App\Http\Controllers\Nursery\SubscriptionController;
@@ -102,6 +103,10 @@ Route::middleware(['auth', 'tenant', 'nursery.staff'])
                     Route::get('invoices', [TuitionInvoiceController::class, 'index'])->name('invoices.index');
                     Route::post('invoices/generate', [TuitionInvoiceController::class, 'generate'])->name('invoices.generate');
                     Route::get('invoices/{invoice}', [TuitionInvoiceController::class, 'show'])->name('invoices.show');
+                    Route::post('invoices/{invoice}/payments', [TuitionPaymentController::class, 'store'])->name('payments.store');
+                    Route::post('invoices/{invoice}/void', [TuitionPaymentController::class, 'voidInvoice'])->name('invoices.void');
+                    Route::post('payments/{payment}/void', [TuitionPaymentController::class, 'void'])->name('payments.void');
+                    Route::get('payments/{payment}/receipt', [TuitionPaymentController::class, 'receipt'])->name('payments.receipt');
 
                     Route::post('children/{child}/fee-plans', [ChildFeeController::class, 'store'])->name('child-fees.store');
                     Route::patch('fee-assignments/{childFeePlan}/end', [ChildFeeController::class, 'end'])->name('child-fees.end');

@@ -148,10 +148,11 @@ class TuitionBillingService
      */
     private function issueFamilyInvoice(Tenant $tenant, CarbonImmutable $period, int $payerId, array $children, ?FeeDiscount $siblingDiscount): ?TuitionInvoice
     {
+        $billingKey = TuitionInvoice::billingKey($payerId, $period);
+
         $exists = TuitionInvoice::withoutGlobalScopes()
             ->where('tenant_id', $tenant->id)
-            ->where('payer_id', $payerId)
-            ->whereDate('period_start', $period->toDateString())
+            ->where('billing_key', $billingKey)
             ->exists();
 
         if ($exists) {
@@ -164,7 +165,7 @@ class TuitionBillingService
         $total = $subtotal - $discount;
 
         try {
-            return DB::transaction(function () use ($tenant, $period, $payerId, $lines, $subtotal, $discount, $total) {
+            return DB::transaction(function () use ($tenant, $period, $payerId, $billingKey, $lines, $subtotal, $discount, $total) {
                 $invoice = TuitionInvoice::create([
                     'tenant_id' => $tenant->id,
                     'number' => $this->numbers->next($tenant, DocumentNumberService::INVOICE),
@@ -178,6 +179,7 @@ class TuitionBillingService
                     'paid_piasters' => 0,
                     // A fully discounted invoice (100% scholarship) has nothing to collect.
                     'status' => $total === 0 ? TuitionInvoiceStatus::Paid : TuitionInvoiceStatus::Open,
+                    'billing_key' => $billingKey,
                 ]);
 
                 foreach ($lines as $line) {
