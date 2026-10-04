@@ -25,10 +25,13 @@ class ChildFeeService
      */
     public function assign(Child $child, array $data): ChildFeePlan
     {
-        return DB::transaction(function () use ($child, $data) {
+        // Billing is monthly: an enrollment always starts on the 1st.
+        $startsOn = CarbonImmutable::parse($data['starts_on'])->startOfMonth();
+
+        return DB::transaction(function () use ($child, $data, $startsOn) {
             $alreadyOpen = $child->feePlans()
                 ->where('fee_plan_id', $data['fee_plan_id'])
-                ->where(fn ($q) => $q->whereNull('ends_on')->orWhereDate('ends_on', '>=', $data['starts_on']))
+                ->where(fn ($q) => $q->whereNull('ends_on')->orWhereDate('ends_on', '>=', $startsOn->toDateString()))
                 ->exists();
 
             if ($alreadyOpen) {
@@ -41,7 +44,7 @@ class ChildFeeService
                 'tenant_id' => $child->tenant_id,
                 'fee_plan_id' => $data['fee_plan_id'],
                 'fee_discount_id' => $data['fee_discount_id'] ?? null,
-                'starts_on' => CarbonImmutable::parse($data['starts_on'])->startOfMonth(),
+                'starts_on' => $startsOn,
             ]);
 
             $this->audit->record(AuditAction::FeeAssigned, $child, [

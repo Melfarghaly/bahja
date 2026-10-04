@@ -62,6 +62,7 @@ it('enrolls a child in a fee plan from the start of the chosen month', function 
 
     $this->actingAs($this->owner)
         ->post(route('nursery.finance.child-fees.store', $child), ['fee_plan_id' => $plan->id, 'fee_discount_id' => $staff->id, 'starts_on' => '2026-11'])
+        ->assertRedirect()
         ->assertSessionHasNoErrors();
 
     $assignment = ChildFeePlan::sole();
@@ -71,6 +72,7 @@ it('enrolls a child in a fee plan from the start of the chosen month', function 
     // The same open plan cannot be assigned twice.
     $this->actingAs($this->owner)
         ->post(route('nursery.finance.child-fees.store', $child), ['fee_plan_id' => $plan->id, 'starts_on' => '2026-12'])
+        ->assertRedirect()
         ->assertSessionHasErrors('fee_plan_id');
 });
 
@@ -94,6 +96,7 @@ it('ends an enrollment at the end of the chosen month', function () {
 
     $this->actingAs($this->owner)
         ->patch(route('nursery.finance.child-fees.end', $assignment), ['ends_on' => '2026-12'])
+        ->assertRedirect()
         ->assertSessionHasNoErrors();
 
     expect($assignment->fresh()->ends_on->toDateString())->toBe('2026-12-31');
