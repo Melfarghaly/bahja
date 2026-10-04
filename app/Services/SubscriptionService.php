@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Limit;
 use App\Enums\SubscriptionStatus;
 use App\Models\Subscription;
 use App\Models\SubscriptionPlan;
@@ -10,10 +11,13 @@ use App\Services\Exceptions\PlanLimitException;
 use Illuminate\Support\Facades\DB;
 
 /**
- * Owns subscription lifecycle and plan-quota enforcement.
+ * Owns subscription lifecycle and plan-quota enforcement. Quotas themselves
+ * are resolved by the EntitlementService (plan + add-ons + overrides).
  */
 class SubscriptionService
 {
+    public function __construct(private EntitlementService $entitlements) {}
+
     /**
      * Start a tenant on a plan with a trial window.
      */
@@ -40,24 +44,38 @@ class SubscriptionService
             $subscription = $tenant->activeSubscription()->firstOrFail();
             $subscription->update(['subscription_plan_id' => $plan->id]);
 
+            $this->entitlements->forget($tenant);
+
             return $subscription->fresh('plan');
         });
     }
 
     /**
-     * Guard used before enrolling a child. Throws when the plan cap is reached.
+     * Guard used before enrolling a child. Throws when the quota is reached.
+     *
+     * @throws PlanLimitException
      */
     public function assertCanAddChild(Tenant $tenant): void
     {
-        $plan = $this->currentPlan($tenant);
+        $this->assertCanAdd($tenant, Limit::Children);
+    }
 
-        if ($plan === null || $plan->isUnlimitedChildren()) {
-            return;
-        }
+    /**
+     * Guard used before adding a staff member. Throws when the quota is reached.
+     *
+     * @throws PlanLimitException
+     */
+    public function assertCanAddStaff(Tenant $tenant): void
+    {
+        $this->assertCanAdd($tenant, Limit::Staff);
+    }
 
-        if ($tenant->children()->count() >= $plan->max_children) {
-            throw new PlanLimitException('children', $plan->max_children);
-        }
+    /**
+     * @throws PlanLimitException
+     */
+    public function assertCanAdd(Tenant $tenant, Limit $limit): void
+    {
+        $this->entitlements->for($tenant)->assertCanAdd($limit, $this->entitlements->usage($tenant, $limit));
     }
 
     private function assertWithinChildLimit(Tenant $tenant, SubscriptionPlan $plan): void
@@ -65,10 +83,5 @@ class SubscriptionService
         if ($plan->max_children !== null && $tenant->children()->count() > $plan->max_children) {
             throw new PlanLimitException('children', $plan->max_children);
         }
-    }
-
-    private function currentPlan(Tenant $tenant): ?SubscriptionPlan
-    {
-        return $tenant->activeSubscription()->with('plan')->first()?->plan;
     }
 }

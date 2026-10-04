@@ -7,6 +7,7 @@ use App\Http\Requests\Nursery\StoreTeacherRequest;
 use App\Http\Requests\Nursery\UpdateTeacherRequest;
 use App\Models\Classroom;
 use App\Models\User;
+use App\Services\Exceptions\PlanLimitException;
 use App\Services\TeacherService;
 use App\Support\TenantContext;
 use Illuminate\Contracts\View\View;
@@ -34,7 +35,11 @@ class TeacherController extends Controller
 
     public function store(StoreTeacherRequest $request): RedirectResponse
     {
-        $this->teachers->create($request->validated());
+        try {
+            $this->teachers->create($request->validated());
+        } catch (PlanLimitException) {
+            return back()->withInput()->with('error', 'تم بلوغ الحد الأقصى للموظفين في خطتك الحالية. يرجى الترقية أو شراء مقعد إضافي.');
+        }
 
         return redirect()->route('nursery.teachers.index')->with('status', 'تمت إضافة المعلمة.');
     }

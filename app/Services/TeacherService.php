@@ -15,6 +15,7 @@ class TeacherService
 {
     public function __construct(
         private UserDirectoryService $directory,
+        private SubscriptionService $subscriptions,
         private TenantContext $tenantContext,
     ) {}
 
@@ -30,6 +31,11 @@ class TeacherService
                 'name' => $data['name'],
                 'email' => $data['email'] ?? null,
             ]);
+
+            // Only a new staff member consumes quota; re-saving an existing one doesn't.
+            if (! $teacher->teachesIn($tenant)) {
+                $this->subscriptions->assertCanAddStaff($tenant);
+            }
 
             $teacher->nurseriesAsTeacher()->syncWithoutDetaching([
                 $tenant->id => [

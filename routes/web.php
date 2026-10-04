@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NurseryController as AdminNurseryController;
+use App\Http\Controllers\Admin\NurseryEntitlementController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\UserController;
@@ -99,6 +100,14 @@ Route::middleware(['auth', 'super-admin'])
         Route::get('nurseries/{tenant}', [AdminNurseryController::class, 'show'])->name('nurseries.show');
         Route::patch('nurseries/{tenant}/suspend', [AdminNurseryController::class, 'suspend'])->name('nurseries.suspend');
         Route::patch('nurseries/{tenant}/activate', [AdminNurseryController::class, 'activate'])->name('nurseries.activate');
+
+        // Entitlements: overrides + add-ons. Child bindings are scoped to {tenant}.
+        Route::scopeBindings()->group(function () {
+            Route::post('nurseries/{tenant}/overrides', [NurseryEntitlementController::class, 'storeOverride'])->name('nurseries.overrides.store');
+            Route::delete('nurseries/{tenant}/overrides/{entitlementOverride}', [NurseryEntitlementController::class, 'destroyOverride'])->name('nurseries.overrides.destroy');
+            Route::post('nurseries/{tenant}/addons', [NurseryEntitlementController::class, 'storeAddon'])->name('nurseries.addons.store');
+            Route::delete('nurseries/{tenant}/addons/{addon}', [NurseryEntitlementController::class, 'destroyAddon'])->name('nurseries.addons.destroy');
+        });
 
         Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
         Route::get('plans/create', [PlanController::class, 'create'])->name('plans.create');

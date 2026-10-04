@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnforcePlanQuota;
+use App\Http\Middleware\EnsureEntitled;
 use App\Http\Middleware\EnsureNurseryAdmin;
 use App\Http\Middleware\EnsureNurseryStaff;
 use App\Http\Middleware\EnsureSuperAdmin;
@@ -21,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'tenant' => IdentifyTenant::class,
             'plan.quota' => EnforcePlanQuota::class,
+            'entitled' => EnsureEntitled::class,
             'super-admin' => EnsureSuperAdmin::class,
             'nursery.staff' => EnsureNurseryStaff::class,
             'nursery.admin' => EnsureNurseryAdmin::class,

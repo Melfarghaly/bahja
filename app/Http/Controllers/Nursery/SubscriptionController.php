@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Nursery;
 
+use App\Enums\Limit;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePlanRequest;
 use App\Models\Child;
 use App\Models\Invoice;
 use App\Models\SubscriptionPlan;
+use App\Services\EntitlementService;
 use App\Services\SubscriptionService;
 use App\Support\TenantContext;
 use Illuminate\Contracts\View\View;
@@ -16,6 +18,7 @@ class SubscriptionController extends Controller
 {
     public function __construct(
         private SubscriptionService $subscriptions,
+        private EntitlementService $entitlements,
         private TenantContext $tenantContext,
     ) {}
 
@@ -29,6 +32,8 @@ class SubscriptionController extends Controller
             'plan' => $subscription?->plan,
             'plans' => SubscriptionPlan::where('is_active', true)->orderBy('price_egp')->get(),
             'childrenCount' => Child::count(),
+            'staffCount' => $this->entitlements->usage($tenant, Limit::Staff),
+            'entitlements' => $this->entitlements->for($tenant),
             'invoices' => Invoice::latest()->limit(12)->get(),
         ]);
     }
