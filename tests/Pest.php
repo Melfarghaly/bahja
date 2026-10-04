@@ -1,10 +1,14 @@
 <?php
 
+use App\Enums\RolloutFlag;
 use App\Models\Tenant;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Pennant\Feature;
+use Tests\TestCase;
 
-pest()->extend(Tests\TestCase::class)
-    ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
+pest()->extend(TestCase::class)
+    ->use(RefreshDatabase::class)
     ->in('Feature');
 
 expect()->extend('toBeOne', function () {
@@ -46,4 +50,12 @@ function attachTeacher(Tenant $tenant, ?User $teacher = null): User
     $tenant->members()->attach($teacher->id, ['member_type' => 'teacher', 'status' => 'active']);
 
     return $teacher;
+}
+
+/**
+ * Release Bahga Pay to a nursery (rollout flag) — tuition routes 404 otherwise.
+ */
+function enableBahgaPay(Tenant $tenant): void
+{
+    Feature::for($tenant)->activate(RolloutFlag::BahgaPay->value);
 }

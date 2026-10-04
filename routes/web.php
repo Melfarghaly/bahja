@@ -13,6 +13,8 @@ use App\Http\Controllers\Nursery\ChildController;
 use App\Http\Controllers\Nursery\ChildImportController;
 use App\Http\Controllers\Nursery\ClassroomController;
 use App\Http\Controllers\Nursery\DashboardController;
+use App\Http\Controllers\Nursery\Finance\ChildFeeController;
+use App\Http\Controllers\Nursery\Finance\FeeSetupController;
 use App\Http\Controllers\Nursery\GuardianController;
 use App\Http\Controllers\Nursery\SettingsController;
 use App\Http\Controllers\Nursery\SubscriptionController;
@@ -82,6 +84,23 @@ Route::middleware(['auth', 'tenant', 'nursery.staff'])
             Route::get('subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
             Route::post('subscription/change-plan', [SubscriptionController::class, 'changePlan'])->name('subscription.change-plan');
             Route::post('subscription/coupon', [SubscriptionController::class, 'redeemCoupon'])->name('subscription.coupon');
+
+            // Bahga Pay — tuition billing (released per nursery, see admin rollouts).
+            Route::middleware(['rollout:bahga-pay', 'entitled:finance_ledger'])
+                ->prefix('finance')
+                ->name('finance.')
+                ->group(function () {
+                    Route::get('setup', [FeeSetupController::class, 'index'])->name('setup');
+                    Route::post('fee-plans', [FeeSetupController::class, 'storePlan'])->name('fee-plans.store');
+                    Route::put('fee-plans/{feePlan}', [FeeSetupController::class, 'updatePlan'])->name('fee-plans.update');
+                    Route::patch('fee-plans/{feePlan}/active', [FeeSetupController::class, 'togglePlan'])->name('fee-plans.toggle');
+                    Route::post('discounts', [FeeSetupController::class, 'storeDiscount'])->name('discounts.store');
+                    Route::put('discounts/{feeDiscount}', [FeeSetupController::class, 'updateDiscount'])->name('discounts.update');
+                    Route::patch('discounts/{feeDiscount}/active', [FeeSetupController::class, 'toggleDiscount'])->name('discounts.toggle');
+
+                    Route::post('children/{child}/fee-plans', [ChildFeeController::class, 'store'])->name('child-fees.store');
+                    Route::patch('fee-assignments/{childFeePlan}/end', [ChildFeeController::class, 'end'])->name('child-fees.end');
+                });
 
             Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit');
             Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');

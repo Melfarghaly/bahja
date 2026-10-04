@@ -56,6 +56,14 @@ class AppServiceProvider extends ServiceProvider
             Pennant::define($flag->value, fn (mixed $scope) => $this->app->make(RolloutService::class)->resolve($flag, $scope));
         }
 
+        // @rolledout('bahga-pay') ... @endrolledout — false outside a tenant context.
+        Blade::if('rolledout', function (string $flag): bool {
+            $tenant = $this->app->make(TenantContext::class)->get();
+
+            return $tenant !== null
+                && $this->app->make(RolloutService::class)->active($tenant, RolloutFlag::from($flag));
+        });
+
         // Queue workers reuse one process and DB session across jobs: start each
         // job with no tenant and no RLS bypass so nothing carries over.
         Queue::before(function (): void {

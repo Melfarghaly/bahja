@@ -53,7 +53,10 @@
             @if ($isAdmin)
                 <a href="{{ route('nursery.teachers.index') }}" class="nav-link {{ $is('nursery.teachers.*') }}"><span class="nav-ic"></span><span>المعلّمات</span></a>
                 <a href="{{ route('nursery.classrooms.index') }}" class="nav-link {{ $is('nursery.classrooms.*') }}"><span class="nav-ic"></span><span>الفصول</span></a>
-                <a href="{{ route('nursery.subscription.show') }}" class="nav-link {{ $is('nursery.subscription.*') }}"><span class="nav-ic"></span><span>المالية والاشتراك</span></a>
+                @rolledout('bahga-pay')
+                    <a href="{{ route('nursery.finance.setup') }}" class="nav-link {{ $is('nursery.finance.setup') }}"><span class="nav-ic"></span><span>إعداد الرسوم</span></a>
+                @endrolledout
+                <a href="{{ route('nursery.subscription.show') }}" class="nav-link {{ $is('nursery.subscription.*') }}"><span class="nav-ic"></span><span>اشتراك بهجة</span></a>
                 <a href="{{ route('nursery.settings.edit') }}" class="nav-link {{ $is('nursery.settings.*') }}"><span class="nav-ic"></span><span>الإعدادات</span></a>
             @endif
         </nav>

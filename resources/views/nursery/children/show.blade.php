@@ -70,6 +70,10 @@
         </div>
     </div>
 
+    @if ($managesFees)
+        @include('nursery.children.partials.fees')
+    @endif
+
     {{-- Recent attendance --}}
     <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
         <h3 class="font-bold mb-3">آخر سجلات الحضور</h3>

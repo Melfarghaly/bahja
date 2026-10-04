@@ -17,4 +17,8 @@ enum AuditAction: string
     case CouponCreated = 'coupon.created';
     case CouponStatusChanged = 'coupon.status_changed';
     case CouponRedeemed = 'coupon.redeemed';
+    case FeePlanSaved = 'fee_plan.saved';
+    case FeeDiscountSaved = 'fee_discount.saved';
+    case FeeAssigned = 'fee.assigned';
+    case FeeAssignmentEnded = 'fee.assignment_ended';
 }
