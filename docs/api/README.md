@@ -5,8 +5,9 @@
 ## الملفات
 | الملف | الوصف |
 |---|---|
-| `Bahga-API.postman_collection.json` | المجموعة الكاملة: 44 طلباً في 11 مجلداً، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
+| `Bahga-API.postman_collection.json` | المجموعة الكاملة: 53 طلباً في 12 مجلداً، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
 | `Bahga-API-local.postman_environment.json` | بيئة محلية بحسابات البيانات التجريبية |
+| `samples/photo.jpg` | صورة تجريبية لطلب نشر الصور (multipart) |
 
 ## التشغيل محلياً
 ```bash
@@ -41,6 +42,7 @@ php artisan test --group=postman
 ```bash
 npx newman run docs/api/Bahga-API.postman_collection.json \
   -e docs/api/Bahga-API-local.postman_environment.json \
+  --working-dir docs/api \
   --env-var base_url=http://127.0.0.1:8000/api
 ```
 > حد الدخول 6 محاولات/دقيقة: انتظر دقيقة بين تشغيلين متتاليين.
@@ -81,6 +83,13 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 | GET | `/v1/me/notifications` | الجميع | صندوق الإشعارات + عدد غير المقروء |
 | POST | `/v1/me/notifications/{id}/read` | الجميع | قراءة إشعار |
 | POST | `/v1/me/notifications/read-all` | الجميع | قراءة الكل |
+| GET | `/v1/moments` | موظفون | حائط الحضانة (فلاتر: طفل، فصل، تاريخ) |
+| POST | `/v1/moments` | موظفون | نشر تحديث (JSON) أو صور (multipart) لطفل أو لفصل |
+| DELETE | `/v1/moments/{id}` | موظفون | حذف تحديث (المعلمة خلال 24 ساعة، الإدارة دائماً) |
+| GET | `/v1/me/wards/{id}/moments` | وليّ أمر | يوميات طفلي |
+| POST | `/v1/me/wards/{id}/moments/{moment}/acknowledge` | وليّ أمر | الإقرار بتقرير حادثة |
+| GET | `/v1/me/wards/{id}/photo-consent` | وليّ أمر | إذن التصوير الحالي |
+| PUT | `/v1/me/wards/{id}/photo-consent` | وليّ أمر أساسي | منح/سحب إذن التصوير والصور الجماعية |
 | GET | `/v1/me/payment-methods` | وليّ أمر | طرق الدفع المتاحة |
 | GET | `/v1/me/invoices` | وليّ أمر | فواتيري |
 | GET | `/v1/me/invoices/{id}` | وليّ أمر | الفاتورة والإيصالات |
@@ -94,6 +103,10 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 - التطبيق يسجّل توكن FCM عبر `POST /v1/me/devices` بعد كل دخول وعند تجديد التوكن، ولا يحتاج إلغاءه عند الخروج.
 - على الخادم: `PUSH_DRIVER=fcm` و`FCM_CREDENTIALS` (ملف حساب الخدمة من Firebase). الافتراضي `log` يكتب الإشعارات في السجل فقط.
 - تحتاج عامل طابور: `php artisan queue:work --queue=notifications,payments,default`، والجدولة (`schedule:run`) لإرسال ما أُجِّل بسبب ساعات الهدوء.
+
+## صور الحائط اليومي
+- تُخزَّن على قرص خاص (`WALL_DISK`، افتراضياً `local` = `storage/app/private`؛ في الإنتاج bucket خاص على S3/R2) — **لا تستخدم القرص العام أبداً**.
+- تُعرض فقط عبر روابط موقّعة صالحة 30 دقيقة (`photos[].url`)، والجدولة تحذف الصور بعد مدة الاحتفاظ في الخطة (`wall:prune-media`).
 
 مسارات الاستلام الآمن متاحة فقط عندما تكون `capabilities.safe_pickup` مفعّلة للحضانة في `GET /v1/me`.
 
