@@ -26,6 +26,9 @@ class AttendanceResource extends JsonResource
             'picked_up_by' => $this->picked_up_by,
             'picked_up_by_name' => $this->whenLoaded('pickedUpBy', fn () => $this->pickedUpBy?->name),
             'pickup_verified' => $this->pickup_verified,
+            'pickup_method' => $this->pickup_method?->value,
+            'pickup_pass_id' => $this->pickup_pass_id,
+            'override_reason' => $this->override_reason,
         ];
     }
 }

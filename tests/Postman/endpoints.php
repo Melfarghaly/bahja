@@ -45,6 +45,25 @@ return [
         'script' => $saveToken('guardian'),
         'description' => 'دخول وليّ الأمر برقم الهاتف. يحفظ `guardian_token`.',
     ],
+    'otp_request' => [
+        'expect' => [202],
+        'folder' => '1. المصادقة — Auth',
+        'name' => 'OTP — request SMS code (parents)',
+        'method' => 'POST', 'path' => 'v1/auth/otp', 'auth' => null, 'tenant' => false,
+        'body' => ['phone' => '{{guardian_login}}'],
+        'description' => "**الدخول بدون كلمة مرور لأولياء الأمور.** يرسل رمزاً من 6 أرقام بالـ SMS صالحاً 5 دقائق.\n\n- يقبل الرقم بأي صيغة: `01…` أو `+20…` أو `0020…`.\n- **الاستجابة واحدة سواء كان الرقم مسجلاً أم لا** (لا يكشف الأرقام المسجلة، ولا تُرسل رسالة لرقم غير مسجل).\n- `resend_after`: الثواني قبل السماح بطلب رمز جديد، `expires_in`: صلاحية الرمز.\n- حد: 5 رموز في الساعة لكل رقم، و6 طلبات في الدقيقة لكل IP."
+            .$errors('`422` | `validation_failed` | رقم غير صحيح، أو طلب جديد قبل 60 ثانية، أو تجاوز 5 رموز في الساعة (`errors.phone`)', '`429` | `too_many_requests` | أكثر من 6 طلبات في الدقيقة'),
+    ],
+    'otp_verify' => [
+        'expect' => [201, 422],
+        'folder' => '1. المصادقة — Auth',
+        'name' => 'OTP — verify code → token',
+        'method' => 'POST', 'path' => 'v1/auth/otp/verify', 'auth' => null, 'tenant' => false,
+        'body' => ['phone' => '{{guardian_login}}', 'code' => '123456', 'device_name' => 'mona-android'],
+        'script' => "if (pm.response.code === 201) {\n    pm.collectionVariables.set('guardian_token', pm.response.json().token);\n}",
+        'description' => "يتحقق من الرمز ويصدر **توكن الجهاز** (مثل الدخول بكلمة المرور) ويوثّق رقم الهاتف.\n\n- الرمز يُستخدم مرة واحدة، و**5 محاولات خاطئة تُبطله**.\n- يحفظ `guardian_token` عند النجاح.\n\n> في Postman ضع الرمز الذي وصلك بالـ SMS (محلياً يُكتب في `storage/logs/laravel.log`)."
+            .$errors('`422` | `validation_failed` | رمز خاطئ أو منتهٍ أو استُنفدت محاولاته (`errors.code`)', '`429` | `too_many_requests` | أكثر من 10 محاولات في الدقيقة'),
+    ],
     'me' => [
         'expect' => [200],
         'folder' => '1. المصادقة — Auth',
@@ -57,12 +76,21 @@ return [
             "    console.log('tenant_id =', nurseries[0].id);",
             '}',
         ]),
-        'description' => "**أول طلب يرسله التطبيق بعد الدخول.** لا يحتاج `X-Tenant-Id`.\n\nيعيد بيانات المستخدم وكل حضانة ينتمي إليها مع:\n- `roles`: owner / admin / teacher / guardian (قد تجتمع أدوار، مثلاً معلمة وهي أيضاً وليّة أمر).\n- `capabilities`: ما يقرره التطبيق لعرض الشاشات:\n  - `take_attendance`, `view_children` → شاشات المعلمة\n  - `manage_children`, `manage_nursery` → شاشات الإدارة\n  - `guardian` → شاشات وليّ الأمر\n  - `bahga_pay` → الفواتير، `online_payments` → زر الدفع الإلكتروني\n\nأرسل `id` الحضانة المختارة في الهيدر **`X-Tenant-Id`** في كل الطلبات التالية."
+        'description' => "**أول طلب يرسله التطبيق بعد الدخول.** لا يحتاج `X-Tenant-Id`.\n\nيعيد بيانات المستخدم وكل حضانة ينتمي إليها مع:\n- `roles`: owner / admin / teacher / guardian (قد تجتمع أدوار، مثلاً معلمة وهي أيضاً وليّة أمر).\n- `capabilities`: ما يقرره التطبيق لعرض الشاشات:\n  - `take_attendance`, `view_children` → شاشات المعلمة\n  - `manage_children`, `manage_nursery` → شاشات الإدارة\n  - `guardian` → شاشات وليّ الأمر\n  - `bahga_pay` → الفواتير، `online_payments` → زر الدفع الإلكتروني\n  - `safe_pickup` → كود الاستلام (QR) والتصاريح لوليّ الأمر، وشاشة المسح عند الباب للمعلمة\n\nأرسل `id` الحضانة المختارة في الهيدر **`X-Tenant-Id`** في كل الطلبات التالية."
             .$errors('`401` | `unauthenticated` | توكن ناقص أو منتهٍ'),
+    ],
+    'me_update' => [
+        'expect' => [200],
+        'folder' => '1. المصادقة — Auth',
+        'name' => 'Me — update profile',
+        'method' => 'PATCH', 'path' => 'v1/me', 'auth' => 'guardian', 'tenant' => false,
+        'body' => ['name' => 'منى عبد الله', 'email' => 'mona@example.com'],
+        'description' => 'تعديل الاسم والبريد (كلاهما اختياري). رقم الهاتف هو هوية الحساب ولا يُغيَّر إلا من الحضانة. تغيير البريد يلغي توثيقه.'
+            .$errors('`422` | `validation_failed` | بريد غير صحيح أو مستخدم من قبل'),
     ],
     'logout' => [
         'expect' => [204],
-        'folder' => '9. إنهاء الجلسة — Logout',
+        'folder' => '10. إنهاء الجلسة — Logout',
         'name' => 'Logout (revoke current token)',
         'method' => 'DELETE', 'path' => 'v1/auth/tokens/current', 'auth' => 'owner', 'tenant' => false,
         'description' => 'يلغي التوكن المستخدم في هذا الطلب فقط (تسجيل خروج من هذا الجهاز). لا يعيد body (`204`).'
@@ -84,7 +112,7 @@ return [
         'name' => 'List children',
         'method' => 'GET', 'path' => 'v1/children', 'auth' => 'teacher',
         'query' => ['classroom_id' => '{{classroom_id}}', 'per_page' => '20'],
-        'script' => "const first = pm.response.json().data?.[0];\nif (first) pm.collectionVariables.set('child_id', first.id);",
+        'script' => "const [first, second] = pm.response.json().data ?? [];\nif (first) pm.collectionVariables.set('child_id', first.id);\nif (second) pm.collectionVariables.set('second_child_id', second.id);",
         'description' => "قائمة الأطفال (مقسّمة صفحات) مع الفصل والأوصياء وحضور اليوم (`today_attendance`).\n\n| المعامل | الوصف |\n|---|---|\n| `q` | بحث في الاسم الأول/العائلة |\n| `classroom_id` | فصل محدد |\n| `status` | `active` (افتراضي) / `graduated` / `withdrawn` |\n| `per_page` | 1–100 (افتراضي 20) |\n| `page` | رقم الصفحة |\n\n**الصلاحية:** موظفو الحضانة. الاستجابة تحوي `links` و`meta` للتنقل بين الصفحات."
             .$errors('`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | فصل غير موجود في هذه الحضانة'),
     ],
@@ -95,9 +123,11 @@ return [
         'method' => 'GET', 'path' => 'v1/children/{{child_id}}', 'auth' => 'teacher',
         'script' => implode("\n", [
             'const guardians = pm.response.json().data?.guardians || [];',
-            "const collector = guardians.find(g => g.can_pickup && g.custody_flag !== 'blocked');",
+            "const mayCollect = g => g.can_pickup && g.custody_flag !== 'blocked';",
+            '// Prefer the primary guardian: "Detach guardian" later removes guardian_id.',
+            "const collector = guardians.find(g => g.role === 'primary' && mayCollect(g)) || guardians.find(mayCollect);",
             "if (collector) pm.collectionVariables.set('collector_id', collector.id);",
-            "const other = guardians.find(g => g.role !== 'primary');",
+            "const other = guardians.find(g => g.role !== 'primary' && g.id !== collector?.id);",
             "if (other) pm.collectionVariables.set('guardian_id', other.id);",
         ]),
         'description' => "عرض الموظفين للطفل: كل الأوصياء بصلاحياتهم (`can_pickup`, `custody_flag`)، الملاحظات الطبية، وحضور اليوم.\n\n> ⚠️ قبل تسليم الطفل تحقّق من `custody_flag`: القيمة `blocked` تعني **ممنوع الاستلام بحكم حضانة**.\n\nأولياء الأمور يستخدمون `GET /v1/me/wards/{id}` (عرض أضيق لا يكشف باقي الأوصياء)."
@@ -153,7 +183,7 @@ return [
         'name' => 'Daily attendance sheet',
         'method' => 'GET', 'path' => 'v1/attendance', 'auth' => 'teacher',
         'query' => ['date' => '2026-10-04', 'classroom_id' => '{{classroom_id}}'],
-        'description' => "**الشاشة الرئيسية للمعلمة**: كل الأطفال النشطين بحالتهم في يوم واحد:\n\n| `status` | المعنى |\n|---|---|\n| `absent` | لم يُسجَّل حضوره |\n| `present` | حاضر |\n| `picked_up` | انصرف |\n\n- `date` اختياري (اليوم افتراضياً، ولا يقبل المستقبل)، `classroom_id` اختياري.\n- `summary` يعطي العدادات جاهزة للعرض."
+        'description' => "**الشاشة الرئيسية للمعلمة**: كل الأطفال النشطين بحالتهم في يوم واحد:\n\n| `status` | المعنى |\n|---|---|\n| `absent` | لم يُسجَّل حضوره |\n| `present` | حاضر |\n| `picked_up` | انصرف |\n\n- `date` اختياري (اليوم افتراضياً، ولا يقبل المستقبل)، `classroom_id` اختياري.\n- `summary` يعطي العدادات جاهزة للعرض.\n- `pickup_deadline`: آخر موعد للانصراف (توقيت القاهرة) إن حدّدته الحضانة؛ بعده يصبح `late_pickup: true` لكل طفل ما زال حاضراً (`summary.late_pickup`)، ويُرسَل SMS لأولياء الأمر بعد 15 دقيقة وللإدارة بعد 45 دقيقة."
             .$errors('`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | تاريخ مستقبلي أو صيغة غير صحيحة (YYYY-MM-DD)'),
     ],
     'check_in' => [
@@ -165,20 +195,77 @@ return [
         'description' => 'تسجيل حضور الطفل اليوم (`method`: `qr` / `nfc` / `manual`). التكرار في نفس اليوم يحدّث السجل ولا ينشئ سجلاً جديداً — الاستجابة دائماً `200`.'
             .$errors('`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | الطفل غير موجود في هذه الحضانة'),
     ],
+    'check_in_bulk' => [
+        'expect' => [200],
+        'folder' => '3. الموظفون: الحضور والانصراف — Attendance',
+        'name' => 'Bulk check-in (offline sync)',
+        'method' => 'POST', 'path' => 'v1/attendance/check-in/bulk', 'auth' => 'teacher',
+        'body' => ['method' => 'qr', 'children' => [['child_id' => '{{child_id}}', 'checked_in_at' => '{{bulk_checked_in_at}}'], ['child_id' => '{{second_child_id}}']]],
+        'prerequest' => "// checked_in_at must be today and not in the future\npm.collectionVariables.set('bulk_checked_in_at', new Date(Date.now() - 5 * 60 * 1000).toISOString());",
+        'description' => "تسجيل حضور عدة أطفال دفعة واحدة (حتى 300) — لصباح مزدحم أو لمزامنة ما سُجِّل **بدون إنترنت**.\n\n- `checked_in_at` اختياري: وقت المسح الفعلي على الجهاز (اليوم فقط، وليس في المستقبل). بدونه يُستخدم وقت الخادم.\n- كل الطلب يُنفَّذ أو يُرفض كاملاً، ويعيد سجلات الحضور.\n- لا يتكرر الطفل في نفس الطلب."
+            .$errors('`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | طفل مكرر، من حضانة أخرى، أو وقت في المستقبل/يوم سابق'),
+    ],
     'check_out' => [
         'expect' => [200],
         'folder' => '3. الموظفون: الحضور والانصراف — Attendance',
         'name' => 'Check out (verified pickup)',
         'method' => 'POST', 'path' => 'v1/attendance/check-out', 'auth' => 'teacher',
         'body' => ['child_id' => '{{child_id}}', 'collector_id' => '{{collector_id}}'],
-        'description' => "تسليم الطفل **بعد التحقق** أن `collector_id` مخوَّل بالاستلام (`can_pickup`) وغير محظور بحكم حضانة.\n\n- كل محاولة — ناجحة أو مرفوضة — تُسجَّل في سجل التدقيق.\n- عند الرفض: **لا تسلّمي الطفل** واعرضي الرسالة للمعلمة."
-            .$errors('`403` | `forbidden` | المستلم غير مخوَّل أو محظور (الرسالة: «هذا الشخص غير مخوَّل باستلام الطفل.»)', '`422` | `validation_failed` | بيانات ناقصة'),
+        'description' => "تسليم الطفل **بعد التحقق من المستلم**. أرسل `child_id` + **طريقة واحدة فقط** لتحديد المستلم:\n\n| الحقل | `pickup_method` | متى |\n|---|---|---|\n| `collector_id` | `staff_confirmed` | المعلمة اختارت الوصيّ من القائمة |\n| `pickup_token` | `dynamic_qr` | مسح QR وليّ الأمر (Safe Pickup) |\n| `pass_code` | `pass_code` | كود تصريح من 6 أرقام (Safe Pickup) — يُستهلك مرة واحدة |\n| `override_reason` + `collector_name` | `manual_override` | **للمالك/المدير فقط** في الطوارئ؛ لا يُعلَّم كـ «متحقَّق منه» ويُسجَّل في التدقيق |\n\n- يُرفض المستلم غير المخوَّل (`can_pickup`) أو المحظور بحكم حضانة — حتى مع QR صالح.\n- كل محاولة — ناجحة أو مرفوضة — تُسجَّل في سجل التدقيق.\n- عند الرفض: **لا تسلّمي الطفل** واعرضي الرسالة للمعلمة."
+            .$errors('`403` | `forbidden` | المستلم غير مخوَّل أو محظور، تصريح لطفل آخر، أو معلمة تحاول التجاوز اليدوي', '`422` | `validation_failed` | لا توجد طريقة تحديد أو أكثر من واحدة، QR منتهي/مزوّر، كود تصريح غير صالح'),
+    ],
+
+    /* --------------------------------------------------- Safe Pickup */
+    'pickup_code' => [
+        'expect' => [200],
+        'folder' => '4. الاستلام الآمن — Safe Pickup 2.0',
+        'name' => 'Guardian — my pickup QR code',
+        'method' => 'GET', 'path' => 'v1/me/pickup-code', 'auth' => 'guardian',
+        'script' => "pm.collectionVariables.set('pickup_token', pm.response.json().data?.token);",
+        'description' => "رمز موقَّع يعرضه تطبيق وليّ الأمر كـ **QR** عند باب الحضانة.\n\n- صالح **60 ثانية** فقط؛ اطلب رمزاً جديداً كل `refresh_after` ثانية (30) طالما الشاشة مفتوحة — لقطة الشاشة لا تنفع بعد دقيقة.\n- مرتبط بالحضانة الحالية (`X-Tenant-Id`) ولا يعمل في غيرها.\n- لا يُعطى إلا لمن له حق استلام طفل واحد على الأقل."
+            .$errors('`403` | `forbidden` | ليس لك حق استلام أي طفل (أو محظور بحكم حضانة)', '`404` | `not_found` | الاستلام الآمن غير مفعّل للحضانة', '`402` | `plan_upgrade_required` | الخطة لا تشمل الاستلام الآمن'),
+    ],
+    'pickup_verify' => [
+        'expect' => [200],
+        'folder' => '4. الاستلام الآمن — Safe Pickup 2.0',
+        'name' => 'Teacher — verify who is at the door',
+        'method' => 'POST', 'path' => 'v1/attendance/pickup/verify', 'auth' => 'teacher',
+        'body' => ['pickup_token' => '{{pickup_token}}'],
+        'description' => "**شاشة الباب**: بعد مسح QR (`pickup_token`) أو كتابة كود تصريح (`pass_code`) — واحد فقط.\n\nتعيد المستلم (الاسم، الصورة، صلة القرابة، `method`) وكل طفل يمكن أن يخصّه مع:\n- `allowed: true` → أخضر، اضغطي «انصراف» بنفس `pickup_token`/`pass_code`.\n- `allowed: false` + `reason`: `custody_blocked` (**أحمر — لا تسلّمي، أبلغي الإدارة**) أو `not_authorized`.\n- `attendance_status`: هل الطفل حاضر الآن.\n\nلا يغيّر أي شيء — مجرد تحقق، ولا يستهلك التصريح.\n\nحد الطلبات: 30/دقيقة لكل مستخدم (ضد تخمين الأكواد)."
+            .$errors('`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | QR منتهي/مزوّر/من حضانة أخرى، أو كود تصريح مستخدم/ملغى/منتهي', '`429` | `too_many_requests` | محاولات كثيرة'),
+    ],
+    'pickup_passes_store' => [
+        'expect' => [201],
+        'folder' => '4. الاستلام الآمن — Safe Pickup 2.0',
+        'name' => 'Guardian — issue a one-time pickup pass',
+        'method' => 'POST', 'path' => 'v1/me/wards/{{child_id}}/pickup-passes', 'auth' => 'guardian',
+        'body' => ['name' => 'عم سيد السائق', 'phone' => '01055554444', 'valid_until' => '{{pass_valid_until}}', 'note' => 'سيارة بيضاء'],
+        'prerequest' => "// valid_until: within 24 hours from now\npm.collectionVariables.set('pass_valid_until', new Date(Date.now() + 4 * 3600 * 1000).toISOString());",
+        'script' => "if (pm.response.code === 201) {\n    pm.collectionVariables.set('pass_code', pm.response.json().code);\n    pm.collectionVariables.set('pass_id', pm.response.json().data.id);\n}",
+        'description' => "تفويض شخص **ليس لديه التطبيق** (سائق، قريب) باستلام الطفل **مرة واحدة**.\n\n- يُرسَل للمفوَّض SMS فيه كود من 6 أرقام واسم الطفل والصلاحية، والكود يظهر في الاستجابة (`code`) **مرة واحدة فقط**.\n- `valid_until` خلال 24 ساعة كحد أقصى؛ `valid_from` اختياري.\n- يتطلب أن يكون لوليّ الأمر نفسه حق الاستلام."
+            .$errors('`403` | `forbidden` | ليس لك حق استلام هذا الطفل', '`404` | `not_found` | ليس من أطفالك', '`422` | `validation_failed` | رقم موبايل غير مصري، أو مدة أكثر من 24 ساعة'),
+    ],
+    'pickup_passes_index' => [
+        'expect' => [200],
+        'folder' => '4. الاستلام الآمن — Safe Pickup 2.0',
+        'name' => 'Guardian — pickup passes for my child',
+        'method' => 'GET', 'path' => 'v1/me/wards/{{child_id}}/pickup-passes', 'auth' => 'guardian',
+        'description' => 'التصاريح التي أُصدرت لهذا الطفل (الأحدث أولاً) مع `status`: `active` / `scheduled` / `used` / `revoked` / `expired`. الكود نفسه لا يُعاد أبداً.'
+            .$errors('`404` | `not_found` | ليس من أطفالك'),
+    ],
+    'pickup_passes_destroy' => [
+        'expect' => [200],
+        'folder' => '4. الاستلام الآمن — Safe Pickup 2.0',
+        'name' => 'Guardian — revoke a pickup pass',
+        'method' => 'DELETE', 'path' => 'v1/me/pickup-passes/{{pass_id}}', 'auth' => 'guardian',
+        'description' => 'إلغاء تصريح قبل استخدامه — يتوقف الكود فوراً. يعيد التصريح بحالة `revoked`.'
+            .$errors('`403` | `forbidden` | ليس لك حق استلام هذا الطفل', '`404` | `not_found` | تصريح غير موجود أو لطفل ليس من أطفالك'),
     ],
 
     /* ------------------------------------------------------- Guardian */
     'wards_index' => [
         'expect' => [200],
-        'folder' => '4. وليّ الأمر: أطفالي — Guardian',
+        'folder' => '5. وليّ الأمر: أطفالي — Guardian',
         'name' => 'My children',
         'method' => 'GET', 'path' => 'v1/me/wards', 'auth' => 'guardian',
         'script' => "const first = pm.response.json().data?.[0];\nif (first) pm.collectionVariables.set('child_id', first.id);",
@@ -187,7 +274,7 @@ return [
     ],
     'wards_show' => [
         'expect' => [200],
-        'folder' => '4. وليّ الأمر: أطفالي — Guardian',
+        'folder' => '5. وليّ الأمر: أطفالي — Guardian',
         'name' => 'My child',
         'method' => 'GET', 'path' => 'v1/me/wards/{{child_id}}', 'auth' => 'guardian',
         'description' => 'تفاصيل طفل واحد من أطفال وليّ الأمر مع حالة اليوم.'
@@ -195,7 +282,7 @@ return [
     ],
     'wards_attendance' => [
         'expect' => [200],
-        'folder' => '4. وليّ الأمر: أطفالي — Guardian',
+        'folder' => '5. وليّ الأمر: أطفالي — Guardian',
         'name' => 'My child — attendance history',
         'method' => 'GET', 'path' => 'v1/me/wards/{{child_id}}/attendance', 'auth' => 'guardian',
         'query' => ['from' => '2026-10-01', 'to' => '2026-10-31'],
@@ -204,7 +291,7 @@ return [
     ],
     'wards_notifications' => [
         'expect' => [200],
-        'folder' => '4. وليّ الأمر: أطفالي — Guardian',
+        'folder' => '5. وليّ الأمر: أطفالي — Guardian',
         'name' => 'My child — notification settings',
         'method' => 'PATCH', 'path' => 'v1/me/wards/{{child_id}}/notifications', 'auth' => 'guardian',
         'body' => ['sms' => false],
@@ -215,7 +302,7 @@ return [
     /* -------------------------------------------------------- Bahga Pay */
     'payment_methods' => [
         'expect' => [200],
-        'folder' => '5. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '6. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'Payment methods',
         'method' => 'GET', 'path' => 'v1/me/payment-methods', 'auth' => 'guardian',
         'description' => "طرق الدفع الإلكتروني المتاحة في هذه الحضانة.\n\n| `kind` | سلوك التطبيق |\n|---|---|\n| `redirect` | افتح `checkout_url` في متصفح/WebView (Paymob) |\n| `payment_code` | اعرض `payment_code` ليدفعه في أي منفذ فوري |\n\nإذا كان `online_payments_enabled: false` اعرض «الدفع لدى الحضانة»."
@@ -223,7 +310,7 @@ return [
     ],
     'invoices_index' => [
         'expect' => [200],
-        'folder' => '5. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '6. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'My invoices',
         'method' => 'GET', 'path' => 'v1/me/invoices', 'auth' => 'guardian',
         'script' => "const first = pm.response.json().data?.[0];\nif (first) pm.collectionVariables.set('invoice_id', first.id);",
@@ -232,7 +319,7 @@ return [
     ],
     'invoices_show' => [
         'expect' => [200],
-        'folder' => '5. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '6. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'My invoice',
         'method' => 'GET', 'path' => 'v1/me/invoices/{{invoice_id}}', 'auth' => 'guardian',
         'description' => 'الفاتورة ببنودها (`items`: رسوم موجبة وخصومات سالبة) والإيصالات المدفوعة (`receipts`).'
@@ -240,7 +327,7 @@ return [
     ],
     'checkout' => [
         'expect' => [200, 201, 422],
-        'folder' => '5. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '6. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'Pay invoice online (checkout)',
         'method' => 'POST', 'path' => 'v1/me/invoices/{{invoice_id}}/checkout', 'auth' => 'guardian',
         'body' => ['gateway' => 'paymob'],
@@ -252,7 +339,7 @@ return [
     /* -------------------------------------------------------- Owner */
     'subscription' => [
         'expect' => [200],
-        'folder' => '6. الإدارة: الاشتراك — Owner',
+        'folder' => '7. الإدارة: الاشتراك — Owner',
         'name' => 'Subscription & usage',
         'method' => 'GET', 'path' => 'v1/subscription', 'auth' => 'owner',
         'description' => "اشتراك الحضانة في بهجة مع `entitlements` الفعلية (الخطة + الإضافات + الاستثناءات): المزايا المتاحة، والحدود مع الاستهلاك الحالي (`limit: null` = غير محدود).\n\n**الصلاحية:** المالك / المدير."
@@ -260,7 +347,7 @@ return [
     ],
     'plans' => [
         'expect' => [200],
-        'folder' => '6. الإدارة: الاشتراك — Owner',
+        'folder' => '7. الإدارة: الاشتراك — Owner',
         'name' => 'Plans',
         'method' => 'GET', 'path' => 'v1/subscription/plans', 'auth' => 'owner',
         'script' => "const plans = pm.response.json().data || [];\nif (plans.length) pm.collectionVariables.set('plan_id', plans[plans.length - 1].id);",
@@ -269,7 +356,7 @@ return [
     ],
     'change_plan' => [
         'expect' => [200],
-        'folder' => '6. الإدارة: الاشتراك — Owner',
+        'folder' => '7. الإدارة: الاشتراك — Owner',
         'name' => 'Change plan',
         'method' => 'POST', 'path' => 'v1/subscription/change-plan', 'auth' => 'owner',
         'body' => ['subscription_plan_id' => '{{plan_id}}'],
@@ -280,7 +367,7 @@ return [
     /* ------------------------------------------------------- Webhooks */
     'webhook_paymob' => [
         'expect' => [200, 401],
-        'folder' => '7. Webhooks (للبوابات فقط — Server to server)',
+        'folder' => '8. Webhooks (للبوابات فقط — Server to server)',
         'name' => 'Paymob — transaction processed callback',
         'method' => 'POST', 'path' => 'webhooks/payments/paymob', 'auth' => null, 'tenant' => false,
         'query' => ['hmac' => '<HMAC-SHA512>'],
@@ -290,7 +377,7 @@ return [
     ],
     'webhook_fawry' => [
         'expect' => [200, 401],
-        'folder' => '7. Webhooks (للبوابات فقط — Server to server)',
+        'folder' => '8. Webhooks (للبوابات فقط — Server to server)',
         'name' => 'Fawry — server notification V2',
         'method' => 'POST', 'path' => 'webhooks/payments/fawry', 'auth' => null, 'tenant' => false,
         'body' => ['fawryRefNumber' => '966512345', 'merchantRefNumber' => 'BHG1-…', 'orderStatus' => 'PAID', 'orderAmount' => '1850.00', 'messageSignature' => '<SHA-256>'],
@@ -301,14 +388,14 @@ return [
     /* --------------------------------------------------------- Errors */
     'error_route' => [
         'expect' => [404],
-        'folder' => '8. مرجع الأخطاء — Error reference',
+        'folder' => '9. مرجع الأخطاء — Error reference',
         'name' => 'Unknown endpoint',
         'method' => 'GET', 'path' => 'v1/does-not-exist', 'auth' => null, 'tenant' => false,
         'description' => 'مثال على شكل الخطأ الموحّد لمسار غير موجود.',
     ],
     'error_language' => [
         'expect' => [422],
-        'folder' => '8. مرجع الأخطاء — Error reference',
+        'folder' => '9. مرجع الأخطاء — Error reference',
         'name' => 'Same error in English (Accept-Language: en)',
         'method' => 'PATCH', 'path' => 'v1/me/wards/{{child_id}}/notifications', 'auth' => 'guardian',
         'body' => [],

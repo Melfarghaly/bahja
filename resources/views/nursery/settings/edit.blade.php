@@ -31,6 +31,14 @@
             </div>
         @endentitled
         @endrolledout
+        @rolledout('safe-pickup-v2')
+            <div class="pt-4 border-t border-gray-50">
+                <label for="pickup_deadline" class="block text-sm font-medium mb-1">آخر موعد للانصراف</label>
+                <input id="pickup_deadline" type="time" name="pickup_deadline" value="{{ old('pickup_deadline', $tenant->settings['pickup_deadline'] ?? '') }}" class="rounded-lg border-gray-200 text-sm">
+                <p class="text-xs text-gray-500 mt-1">بعد 15 دقيقة تصل رسالة لأولياء الأمور المخوَّلين، وبعد 45 دقيقة للإدارة. اتركه فارغاً لإيقاف التنبيهات.</p>
+                @error('pickup_deadline')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+            </div>
+        @endrolledout
         <div class="pt-4 border-t border-gray-50">
             <button class="brand-bg text-white px-6 py-2 rounded-lg text-sm font-medium">حفظ الإعدادات</button>
         </div>

@@ -29,6 +29,7 @@ use App\Models\User;
 use App\Services\AttendanceService;
 use App\Services\EntitlementService;
 use App\Services\GuardianService;
+use App\Services\Messaging\SmsGateway;
 use App\Services\Tuition\TuitionBillingService;
 use App\Support\TenantContext;
 use Carbon\CarbonImmutable;
@@ -36,6 +37,7 @@ use Database\Seeders\SubscriptionPlanSeeder;
 use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Tests\Postman\PostmanCollection;
+use Tests\Support\FakeSmsGateway;
 
 it('generates the Postman collection from real API responses', function () {
     $this->travelTo(CarbonImmutable::parse('2026-10-04 09:30:00'));
@@ -47,7 +49,7 @@ it('generates the Postman collection from real API responses', function () {
 
     /* ------------------------------------------------------------ data */
     (new SubscriptionPlanSeeder)->run();
-    $tenant = Tenant::factory()->create(['name' => 'حضانة البراعم', 'slug' => 'baraem', 'phone' => '0223456789']);
+    $tenant = Tenant::factory()->create(['name' => 'حضانة البراعم', 'slug' => 'baraem', 'phone' => '0223456789', 'settings' => ['pickup_deadline' => '16:00']]);
     Subscription::factory()->create(['tenant_id' => $tenant->id, 'subscription_plan_id' => SubscriptionPlan::where('slug', 'pro')->value('id'), 'status' => 'active']);
     app(TenantContext::class)->set($tenant);
 
@@ -71,6 +73,7 @@ it('generates the Postman collection from real API responses', function () {
     $guardians->attach($yousef, $father, ['relationship' => 'father', 'role' => 'viewer', 'custody_flag' => 'blocked']);
 
     Feature::for($tenant)->activate('bahga-pay');
+    Feature::for($tenant)->activate('safe-pickup-v2');
     FeeDiscount::create(['name' => 'خصم الإخوة', 'type' => 'sibling', 'value_type' => 'percent', 'value' => 1_000, 'is_active' => true]);
     $monthly = FeePlan::create(['name' => 'المصروفات الشهرية', 'amount_piasters' => 185_000, 'frequency' => 'monthly', 'is_active' => true]);
     foreach ([$yousef, $layla] as $child) {
@@ -95,6 +98,8 @@ it('generates the Postman collection from real API responses', function () {
         'tenant_id' => $tenant->id, 'child_id' => $yousef->id, 'classroom_id' => $classroom->id,
         'guardian_id' => $driver->id, 'collector_id' => $mother->id, 'invoice_id' => $invoice->id,
         'plan_id' => SubscriptionPlan::where('slug', 'advanced')->value('id'),
+        'second_child_id' => $layla->id, 'bulk_checked_in_at' => now()->subMinutes(5)->toIso8601String(),
+        'pickup_token' => '', 'pass_code' => '', 'pass_id' => '', 'pass_valid_until' => now()->addHours(4)->toIso8601String(),
     ];
 
     /* ------------------------------------------------------ collection */
@@ -115,6 +120,12 @@ it('generates the Postman collection from real API responses', function () {
         ['key' => 'collector_id', 'value' => '', 'description' => 'Set by "Get child" (an authorized guardian)'],
         ['key' => 'invoice_id', 'value' => '1', 'description' => 'Set by "My invoices"'],
         ['key' => 'plan_id', 'value' => '4', 'description' => 'A plan id from "Plans"'],
+        ['key' => 'second_child_id', 'value' => '2', 'description' => 'Set by "List children" (used by bulk check-in)'],
+        ['key' => 'bulk_checked_in_at', 'value' => '', 'description' => 'Set before "Bulk check-in" (5 minutes ago)'],
+        ['key' => 'pickup_token', 'value' => '', 'description' => 'Set by "Guardian — my pickup QR code" (valid 60 s)'],
+        ['key' => 'pass_valid_until', 'value' => '', 'description' => 'Set before "Issue a one-time pickup pass" (now + 4h)'],
+        ['key' => 'pass_code', 'value' => '', 'description' => 'Set by "Issue a one-time pickup pass"'],
+        ['key' => 'pass_id', 'value' => '', 'description' => 'Set by "Issue a one-time pickup pass"'],
     ]);
 
     $run = function (string $key, string $name, int $status, array $o = []) use ($c, &$specs, $tokens, &$vars) {
@@ -190,10 +201,23 @@ it('generates the Postman collection from real API responses', function () {
     $run('login_guardian', 'محاولة سادسة خلال دقيقة (مسموح)', 422, ['body' => ['login' => '01000000002', 'password' => 'x', 'device_name' => 'mona-android']]);
     $run('login_guardian', 'محاولات كثيرة', 429, ['body' => ['login' => '01000000002', 'password' => 'x', 'device_name' => 'mona-android']]);
 
+    $sms = new FakeSmsGateway;
+    $this->app->instance(SmsGateway::class, $sms);
+    $run('otp_request', 'إرسال رمز الدخول', 202, ['body' => ['phone' => '+201000000002']]);
+    $run('otp_request', 'طلب رمز جديد قبل 60 ثانية', 422, ['body' => ['phone' => '01000000002']]);
+    $run('otp_request', 'رقم غير صحيح', 422, ['body' => ['phone' => '12345']]);
+    preg_match('/\d{6}/', $sms->sent[0]['message'], $m);
+    $run('otp_verify', 'رمز خاطئ', 422, ['body' => ['phone' => '01000000002', 'code' => '000000', 'device_name' => 'mona-android']]);
+    $run('otp_verify', 'رمز صحيح → توكن', 201, ['body' => ['phone' => '01000000002', 'code' => $m[0], 'device_name' => 'mona-android']]);
+    $run('otp_verify', 'نفس الرمز مرة ثانية', 422, ['body' => ['phone' => '01000000002', 'code' => $m[0], 'device_name' => 'mona-android']]);
+
     $run('me', 'المالكة', 200, ['as' => 'owner']);
     $run('me', 'المعلمة', 200, ['as' => 'teacher']);
     $run('me', 'وليّ الأمر', 200, ['as' => 'guardian']);
     $run('me', 'بدون توكن', 401, ['as' => null]);
+
+    $run('me_update', 'تعديل الاسم والبريد', 200);
+    $run('me_update', 'بريد مستخدم من قبل', 422, ['body' => ['email' => 'owner@bahga.test']]);
 
     $throwaway = $owner->createToken('to-revoke')->plainTextToken;
     $run('logout', 'تسجيل الخروج من هذا الجهاز', 204, ['token' => $throwaway]);
@@ -242,6 +266,46 @@ it('generates the Postman collection from real API responses', function () {
     $run('check_out', 'مستلم غير مخوَّل', 403, ['body' => ['child_id' => '{{child_id}}', 'collector_id' => $stranger->id]]);
     $run('check_out', 'وصيّ محظور بحكم حضانة', 403, ['body' => ['child_id' => '{{child_id}}', 'collector_id' => $father->id]]);
     $run('check_out', 'بيانات ناقصة', 422, ['body' => ['child_id' => '{{child_id}}']]);
+    $run('check_in_bulk', 'حضور جماعي مع وقت المسح بدون إنترنت', 200);
+    $run('check_in_bulk', 'طفل مكرر ووقت في المستقبل', 422, ['body' => ['children' => [['child_id' => '{{child_id}}', 'checked_in_at' => now()->addHour()->toIso8601String()], ['child_id' => '{{child_id}}']]]]);
+
+    /* ----------------------------------------------------- Safe Pickup */
+    $sms = new FakeSmsGateway;
+    $this->app->instance(SmsGateway::class, $sms);
+    $vars['pickup_token'] = $run('pickup_code', 'كود الاستلام (QR) لوليّ الأمر', 200)->json('data.token');
+    $run('pickup_code', 'وصيّ محظور أو بلا حق استلام', 403, ['as' => 'blocked_guardian']);
+    Feature::for($tenant)->deactivate('safe-pickup-v2');
+    $run('pickup_code', 'الاستلام الآمن غير مفعّل للحضانة', 404);
+    Feature::for($tenant)->activate('safe-pickup-v2');
+
+    $run('pickup_verify', 'مسح QR: المستلم وأطفاله', 200);
+    $run('pickup_verify', 'QR مزوّر', 422, ['body' => ['pickup_token' => 'BHG1.eyJnIjoxfQ.forged']]);
+    $this->travel(61)->seconds();
+    $run('pickup_verify', 'QR منتهي (أكثر من 60 ثانية)', 422);
+    $this->travelTo(CarbonImmutable::parse('2026-10-04 09:30:00'));
+    $run('pickup_verify', 'QR وكود معاً', 422, ['body' => ['pickup_token' => '{{pickup_token}}', 'pass_code' => '123456']]);
+    $run('pickup_verify', 'وليّ أمر يحاول الوصول', 403, ['as' => 'guardian']);
+
+    $pass = $run('pickup_passes_store', 'تصريح لمرة واحدة (SMS للمفوَّض)', 201, ['vars' => ['child_id' => $layla->id]]);
+    $vars['pass_code'] = $pass->json('code');
+    $run('pickup_passes_store', 'رقم غير مصري ومدة أكثر من 24 ساعة', 422, ['body' => ['name' => 'عم سيد', 'phone' => '0223456789', 'valid_until' => now()->addDays(2)->toIso8601String()]]);
+    $run('pickup_passes_store', 'ليس من أطفالي', 404, ['vars' => ['child_id' => $saleem->id]]);
+    $run('pickup_verify', 'كود تصريح', 200, ['body' => ['pass_code' => '{{pass_code}}']]);
+    $run('pickup_verify', 'كود غير صحيح', 422, ['body' => ['pass_code' => '000000']]);
+
+    $run('check_out', 'Safe Pickup: بمسح QR وليّ الأمر', 200, ['body' => ['child_id' => '{{child_id}}', 'pickup_token' => '{{pickup_token}}']]);
+    $run('check_out', 'Safe Pickup: كود تصريح لطفل آخر', 403, ['body' => ['child_id' => '{{child_id}}', 'pass_code' => '{{pass_code}}']]);
+    $run('check_out', 'Safe Pickup: بكود التصريح', 200, ['body' => ['child_id' => $layla->id, 'pass_code' => '{{pass_code}}']]);
+    $run('pickup_verify', 'كود تصريح مستخدم', 422, ['body' => ['pass_code' => '{{pass_code}}']]);
+    $override = ['child_id' => '{{child_id}}', 'collector_name' => 'خالة الطفل', 'override_reason' => 'الأم في المستشفى واتصلت بالإدارة'];
+    $run('check_out', 'تجاوز يدوي من المديرة (طوارئ)', 200, ['as' => 'owner', 'body' => $override]);
+    $run('check_out', 'المعلمة لا تملك التجاوز اليدوي', 403, ['body' => $override]);
+    $run('check_out', 'أكثر من طريقة تحديد', 422, ['body' => ['child_id' => '{{child_id}}', 'collector_id' => '{{collector_id}}', 'pass_code' => '123456']]);
+
+    $vars['pass_id'] = $run('pickup_passes_store', 'تصريح ثانٍ (سيُلغى)', 201)->json('data.id');
+    $run('pickup_passes_index', 'تصاريح طفلي', 200, ['vars' => ['child_id' => $layla->id]]);
+    $run('pickup_passes_destroy', 'إلغاء تصريح', 200);
+    $run('pickup_passes_destroy', 'تصريح غير موجود', 404, ['vars' => ['pass_id' => 999999]]);
 
     /* ------------------------------------------------- 5. Guardian: wards */
     $run('wards_index', 'أطفالي', 200);

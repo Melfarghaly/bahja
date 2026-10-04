@@ -5,7 +5,10 @@ use App\Http\Controllers\Api\V1\AuthTokenController;
 use App\Http\Controllers\Api\V1\ChildController;
 use App\Http\Controllers\Api\V1\ClassroomController;
 use App\Http\Controllers\Api\V1\GuardianController;
+use App\Http\Controllers\Api\V1\GuardianPickupController;
 use App\Http\Controllers\Api\V1\MyInvoiceController;
+use App\Http\Controllers\Api\V1\OtpController;
+use App\Http\Controllers\Api\V1\PickupController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\Api\V1\WardController;
@@ -29,13 +32,18 @@ Route::post('webhooks/payments/{provider}', PaymentWebhookController::class)
     ->name('webhooks.payments');
 
 Route::prefix('v1/auth')->group(function () {
-    Route::post('tokens', [AuthTokenController::class, 'store'])->middleware('throttle:6,1');
+    Route::post('tokens', [AuthTokenController::class, 'store'])->middleware('throttle:login');
+
+    // Passwordless sign-in by SMS code (parents).
+    Route::post('otp', [OtpController::class, 'store'])->middleware('throttle:otp-send');
+    Route::post('otp/verify', [OtpController::class, 'verify'])->middleware('throttle:otp-verify');
     Route::delete('tokens/current', [AuthTokenController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
 // Who am I, and in which nurseries (no X-Tenant-Id needed).
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::get('me', [ProfileController::class, 'show']);
+    Route::patch('me', [ProfileController::class, 'update']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
@@ -45,13 +53,22 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::get('me/wards/{child}/attendance', [WardController::class, 'attendance']);
     Route::patch('me/wards/{child}/notifications', [WardController::class, 'updateNotifications']);
 
+    // Safe Pickup 2.0 (released per nursery; QR and passes need the Basic plan or above).
+    Route::middleware(['rollout:safe-pickup-v2', 'entitled:pickup_passes'])->group(function () {
+        Route::get('me/pickup-code', [GuardianPickupController::class, 'code']);
+        Route::get('me/wards/{child}/pickup-passes', [GuardianPickupController::class, 'index']);
+        Route::post('me/wards/{child}/pickup-passes', [GuardianPickupController::class, 'store']);
+        Route::delete('me/pickup-passes/{pass}', [GuardianPickupController::class, 'destroy']);
+        Route::post('attendance/pickup/verify', [PickupController::class, 'verify'])->middleware('throttle:pickup-verify');
+    });
+
     // Bahga Pay: the guardian's own family invoices (payer only).
     Route::middleware('rollout:bahga-pay')->group(function () {
         Route::get('me/payment-methods', [MyInvoiceController::class, 'paymentMethods']);
         Route::get('me/invoices', [MyInvoiceController::class, 'index']);
         Route::get('me/invoices/{invoice}', [MyInvoiceController::class, 'show']);
         Route::post('me/invoices/{invoice}/checkout', [MyInvoiceController::class, 'checkout'])
-            ->middleware(['entitled:auto_collection', 'throttle:10,1']);
+            ->middleware(['entitled:auto_collection', 'throttle:checkout']);
     });
 
     // Staff: classrooms and children.
@@ -68,6 +85,7 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
 
     // Attendance + pickup verification.
     Route::get('attendance', [AttendanceController::class, 'index']);
+    Route::post('attendance/check-in/bulk', [AttendanceController::class, 'bulkCheckIn']);
     Route::post('attendance/check-in', [AttendanceController::class, 'checkIn']);
     Route::post('attendance/check-out', [AttendanceController::class, 'checkOut']);
 

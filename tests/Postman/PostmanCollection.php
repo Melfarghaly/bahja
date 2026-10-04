@@ -33,11 +33,11 @@ class PostmanCollection
     }
 
     /**
-     * @param  array{folder: string, name: string, method: string, path: string, auth: ?string, tenant?: bool, query?: array<string, string>, body?: ?array<string, mixed>, description: string, script?: string}  $spec
+     * @param  array{folder: string, name: string, method: string, path: string, auth: ?string, tenant?: bool, query?: array<string, string>, body?: ?array<string, mixed>, description: string, script?: string, prerequest?: string}  $spec
      */
     public function request(string $key, array $spec): void
     {
-        $this->requests[$key] = $spec + ['examples' => [], 'tenant' => true, 'query' => [], 'body' => null, 'script' => null, 'expect' => null];
+        $this->requests[$key] = $spec + ['examples' => [], 'tenant' => true, 'query' => [], 'body' => null, 'script' => null, 'prerequest' => null, 'expect' => null];
         $this->folders[$spec['folder']]['requests'][] = $key;
     }
 
@@ -134,11 +134,17 @@ class PostmanCollection
         if ($spec['script']) {
             array_push($script, ...explode("\n", $spec['script']));
         }
+        if ($spec['prerequest']) {
+            $item['event'][] = [
+                'listen' => 'prerequest',
+                'script' => ['type' => 'text/javascript', 'exec' => explode("\n", $spec['prerequest'])],
+            ];
+        }
         if ($script !== []) {
-            $item['event'] = [[
+            $item['event'][] = [
                 'listen' => 'test',
                 'script' => ['type' => 'text/javascript', 'exec' => $script],
-            ]];
+            ];
         }
 
         return $item;

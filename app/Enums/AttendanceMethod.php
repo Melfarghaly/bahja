@@ -6,4 +6,5 @@ enum AttendanceMethod: string
 {
     case Qr = 'qr';
     case Manual = 'manual';
+    case Nfc = 'nfc';
 }

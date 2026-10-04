@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Support\PhoneNumber;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
@@ -18,9 +19,9 @@ class ApiTokenService
      */
     public function issue(string $login, string $password, string $deviceName): string
     {
-        $user = User::query()
-            ->where(str_contains($login, '@') ? 'email' : 'phone', $login)
-            ->first();
+        $user = str_contains($login, '@')
+            ? User::where('email', $login)->first()
+            : User::where('phone', PhoneNumber::normalize($login))->first();
 
         if ($user === null || ! Hash::check($password, $user->password)) {
             throw ValidationException::withMessages([
@@ -28,6 +29,14 @@ class ApiTokenService
             ]);
         }
 
+        return $this->issueFor($user, $deviceName);
+    }
+
+    /**
+     * One token per device: re-issuing for the same device replaces it.
+     */
+    public function issueFor(User $user, string $deviceName): string
+    {
         $user->tokens()->where('name', $deviceName)->delete();
 
         return $user->createToken($deviceName)->plainTextToken;

@@ -48,7 +48,7 @@ it('gives a teacher the daily attendance sheet with a summary', function () {
 
     $this->actingAs($this->teacher)->getJson('/api/v1/attendance')
         ->assertOk()
-        ->assertJsonPath('summary', ['total' => 2, 'present' => 1, 'picked_up' => 0, 'absent' => 1])
+        ->assertJsonPath('summary', ['total' => 2, 'present' => 1, 'picked_up' => 0, 'absent' => 1, 'late_pickup' => 0])
         ->assertJsonPath('date', today()->toDateString())
         ->assertJsonFragment(['status' => 'present']);
 
