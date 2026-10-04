@@ -5,6 +5,7 @@ namespace App\Http\Requests\Nursery;
 use App\Enums\Gender;
 use App\Enums\GuardianRelationship;
 use App\Enums\GuardianRole;
+use App\Support\TenantRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -25,7 +26,7 @@ class StoreChildRequest extends FormRequest
             'last_name' => ['required', 'string', 'max:100'],
             'birth_date' => ['required', 'date', 'before:today'],
             'gender' => ['required', new Enum(Gender::class)],
-            'classroom_id' => ['nullable', 'integer', 'exists:classrooms,id'],
+            'classroom_id' => ['nullable', 'integer', TenantRules::exists('classrooms')],
 
             'guardians' => ['required', 'array', 'min:1'],
             'guardians.*.name' => ['required', 'string', 'max:120'],

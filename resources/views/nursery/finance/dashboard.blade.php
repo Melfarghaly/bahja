@@ -84,6 +84,42 @@
         </section>
     </div>
 
+    @if ($followUps['escalated']->isNotEmpty() || $followUps['needsReview']->isNotEmpty())
+        <section class="bg-white rounded-2xl border border-amber-200 p-6 shadow-sm space-y-4" aria-labelledby="followups-title">
+            <h2 id="followups-title" class="font-bold">⚠ يحتاج متابعة منك</h2>
+
+            @if ($followUps['needsReview']->isNotEmpty())
+                <div>
+                    <h3 class="text-sm font-medium mb-2">دفعات إلكترونية وصلت ولم تُطبَّق تلقائياً</h3>
+                    <ul class="text-sm divide-y divide-gray-50">
+                        @foreach ($followUps['needsReview'] as $intent)
+                            <li class="py-2 flex flex-wrap justify-between gap-2">
+                                <a class="brand-text hover:underline font-mono" href="{{ route('nursery.finance.invoices.show', $intent->tuition_invoice_id) }}">{{ $intent->invoice?->number }}</a>
+                                <span>{{ $intent->amount()->format() }} · {{ $intent->gateway->label() }}</span>
+                                <span class="text-gray-500 text-xs">{{ $intent->failure_reason }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            @if ($followUps['escalated']->isNotEmpty())
+                <div>
+                    <h3 class="text-sm font-medium mb-2">فواتير متأخرة أكثر من 14 يوماً بعد كل التذكيرات</h3>
+                    <ul class="text-sm divide-y divide-gray-50">
+                        @foreach ($followUps['escalated'] as $invoice)
+                            <li class="py-2 flex flex-wrap justify-between gap-2">
+                                <a class="brand-text hover:underline font-mono" href="{{ route('nursery.finance.invoices.show', $invoice) }}">{{ $invoice->number }}</a>
+                                <span>{{ $invoice->payer->name }} <span class="text-gray-400" dir="ltr">{{ $invoice->payer->phone }}</span></span>
+                                <span class="font-medium tabular-nums">{{ $invoice->balance()->format() }}</span>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+        </section>
+    @endif
+
     <section class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm overflow-x-auto" aria-labelledby="late-title">
         <h2 id="late-title" class="font-bold mb-3">أعلى الأسر تأخراً</h2>
         <table class="w-full text-sm min-w-[560px]">

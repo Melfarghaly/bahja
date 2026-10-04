@@ -25,4 +25,6 @@ enum AuditAction: string
     case TuitionInvoiceVoided = 'tuition.invoice_voided';
     case TuitionPaymentRecorded = 'tuition.payment_recorded';
     case TuitionPaymentVoided = 'tuition.payment_voided';
+    case OnlinePaymentNeedsReview = 'tuition.online_payment_needs_review';
+    case TuitionInvoiceEscalated = 'tuition.invoice_escalated';
 }

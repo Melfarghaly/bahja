@@ -28,6 +28,9 @@ class GuardianResource extends JsonResource
             'can_view_wall' => $this->whenPivotLoaded('child_guardian', fn () => (bool) $this->pivot->can_view_wall),
             'can_pickup' => $this->whenPivotLoaded('child_guardian', fn () => (bool) $this->pivot->can_pickup),
             'is_payer' => $this->whenPivotLoaded('child_guardian', fn () => (bool) $this->pivot->is_payer),
+            // Staff must see a custody block to refuse a pickup.
+            'custody_flag' => $this->whenPivotLoaded('child_guardian', fn () => $this->pivot->custody_flag),
+            'billing_share_bp' => $this->whenPivotLoaded('child_guardian', fn () => $this->pivot->billing_share_bp === null ? null : (int) $this->pivot->billing_share_bp),
         ];
     }
 }

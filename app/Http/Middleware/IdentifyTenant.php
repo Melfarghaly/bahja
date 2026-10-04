@@ -21,7 +21,7 @@ class IdentifyTenant
     {
         $user = $request->user();
 
-        abort_if($user === null, 401, 'Unauthenticated.');
+        abort_if($user === null, 401, __('api.errors.unauthenticated'));
 
         $tenantId = $request->route('tenant') ?? $request->header('X-Tenant-Id');
 
@@ -29,7 +29,7 @@ class IdentifyTenant
             ? $user->tenants()->where('tenants.id', $tenantId)->first()
             : $user->tenants()->first();
 
-        abort_if(! $tenant instanceof Tenant, 403, 'No accessible tenant context.');
+        abort_if(! $tenant instanceof Tenant, 403, __('api.errors.no_tenant'));
 
         app(TenantContext::class)->set($tenant);
 

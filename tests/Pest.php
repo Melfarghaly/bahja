@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
-    ->in('Feature');
+    ->in('Feature', 'Postman');
 
 expect()->extend('toBeOne', function () {
     return $this->toBe(1);
@@ -59,3 +59,5 @@ function enableBahgaPay(Tenant $tenant): void
 {
     Feature::for($tenant)->activate(RolloutFlag::BahgaPay->value);
 }
+
+require_once __DIR__.'/Support/payments.php';

@@ -11,12 +11,14 @@ final class BillingRunResult
 {
     /**
      * @param  array<int, string>  $unbillableChildren  children with fees due but no payer guardian
+     * @param  array<int, string>  $shareWarnings  children whose payers' shares don't add up to 100% (split equally)
      */
     public function __construct(
         public readonly int $created,
         public readonly int $alreadyInvoiced,
         public readonly array $unbillableChildren,
         public readonly int $totalBilledPiasters,
+        public readonly array $shareWarnings = [],
     ) {}
 
     public function totalBilled(): Money

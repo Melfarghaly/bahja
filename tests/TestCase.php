@@ -20,6 +20,10 @@ abstract class TestCase extends BaseTestCase
 
         $this->app->make(RowLevelSecurity::class)->enableBypass();
 
+        // Symfony's test client sends "Accept-Language: en-us" by default; the
+        // apps send their UI language, which is Arabic unless chosen otherwise.
+        $this->withHeader('Accept-Language', 'ar');
+
         return $uses;
     }
 

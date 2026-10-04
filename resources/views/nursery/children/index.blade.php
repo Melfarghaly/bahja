@@ -23,8 +23,10 @@
             <button class="brand-bg text-white px-4 py-2 rounded-lg text-sm">تصفية</button>
         </form>
         <div class="flex gap-2">
+            @can('create', \App\Models\Child::class)
             <a href="{{ route('nursery.children.import.form') }}" class="border border-gray-200 text-gray-700 px-5 py-2 rounded-lg text-sm font-medium hover:bg-gray-50">⬆ استيراد من Excel</a>
             <a href="{{ route('nursery.children.create') }}" class="brand-bg text-white px-5 py-2 rounded-lg text-sm font-medium">+ تسجيل طفل</a>
+            @endcan
         </div>
     </div>
 

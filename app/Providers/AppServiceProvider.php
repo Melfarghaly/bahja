@@ -5,14 +5,19 @@ namespace App\Providers;
 use App\Enums\Feature;
 use App\Enums\RolloutFlag;
 use App\Services\EntitlementService;
+use App\Services\Messaging\LogSmsGateway;
+use App\Services\Messaging\SmsGateway;
 use App\Services\Payments\PaymentGateway;
 use App\Services\Payments\PaymobGateway;
 use App\Services\RolloutService;
 use App\Support\RowLevelSecurity;
 use App\Support\TenantContext;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pennant\Feature as Pennant;
 
@@ -31,6 +36,11 @@ class AppServiceProvider extends ServiceProvider
 
         // Swap the gateway implementation here (Paymob / Fawry) without touching callers.
         $this->app->bind(PaymentGateway::class, PaymobGateway::class);
+
+        // Outgoing SMS. Add a provider driver here when one is contracted.
+        $this->app->bind(SmsGateway::class, fn () => match (config('services.sms.driver')) {
+            default => new LogSmsGateway,
+        });
     }
 
     /**
@@ -63,6 +73,9 @@ class AppServiceProvider extends ServiceProvider
             return $tenant !== null
                 && $this->app->make(RolloutService::class)->active($tenant, RolloutFlag::from($flag));
         });
+
+        // API: 120 requests/minute per signed-in user (or per IP for guests).
+        RateLimiter::for('api', fn (Request $request) => Limit::perMinute(120)->by($request->user()?->id ?: $request->ip()));
 
         // Queue workers reuse one process and DB session across jobs: start each
         // job with no tenant and no RLS bypass so nothing carries over.

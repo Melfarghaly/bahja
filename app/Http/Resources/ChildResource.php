@@ -26,6 +26,10 @@ class ChildResource extends JsonResource
             'medical_notes' => $this->medical_notes,
             'classroom' => new ClassroomResource($this->whenLoaded('classroom')),
             'guardians' => GuardianResource::collection($this->whenLoaded('guardians')),
+            // Present in lists: today's attendance record, or null when not checked in.
+            'today_attendance' => $this->whenLoaded('attendances', fn () => $this->attendances->first()
+                ? new AttendanceResource($this->attendances->first())
+                : null),
         ];
     }
 }

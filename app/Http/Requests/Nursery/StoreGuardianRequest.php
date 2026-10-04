@@ -4,6 +4,7 @@ namespace App\Http\Requests\Nursery;
 
 use App\Enums\GuardianRelationship;
 use App\Enums\GuardianRole;
+use App\Rules\PoundAmount;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -27,6 +28,8 @@ class StoreGuardianRequest extends FormRequest
             'can_view_wall' => ['boolean'],
             'can_pickup' => ['boolean'],
             'is_payer' => ['boolean'],
+            // Share of the child's fees this payer covers, in percent (e.g. 60 or 33.33).
+            'billing_share_percent' => ['nullable', new PoundAmount(maxPounds: 100)],
         ];
     }
 }

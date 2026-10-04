@@ -20,6 +20,7 @@ class ClassroomResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'capacity' => $this->capacity,
+            'children_count' => $this->whenCounted('children'),
         ];
     }
 }

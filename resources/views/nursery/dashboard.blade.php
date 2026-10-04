@@ -75,7 +75,9 @@
             <div class="pt-4 border-t border-gray-50">
                 <div class="flex items-center justify-between mb-3">
                     <h3 class="font-bold text-sm">أحدث الأطفال</h3>
-                    <a href="{{ route('nursery.children.create') }}" class="brand-bg px-3 py-1.5 rounded-lg text-xs font-medium">+ تسجيل</a>
+                    @can('create', \App\Models\Child::class)
+                        <a href="{{ route('nursery.children.create') }}" class="brand-bg px-3 py-1.5 rounded-lg text-xs font-medium">+ تسجيل</a>
+                    @endcan
                 </div>
                 <ul class="space-y-2">
                     @forelse ($recentChildren as $child)

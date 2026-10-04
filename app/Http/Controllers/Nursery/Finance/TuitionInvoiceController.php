@@ -53,6 +53,8 @@ class TuitionInvoiceController extends Controller
             'payer:id,name,phone,email',
             'items.child:id,first_name,last_name',
             'payments' => fn ($q) => $q->with('receivedBy:id,name')->latest('paid_at'),
+            'dunningNotices' => fn ($q) => $q->oldest('id'),
+            'paymentIntents' => fn ($q) => $q->latest('id'),
         ]);
 
         return view('nursery.finance.invoices.show', [
@@ -77,8 +79,14 @@ class TuitionInvoiceController extends Controller
         $redirect = redirect()->route('nursery.finance.invoices.index', ['period' => $request->validated('period')])
             ->with('status', $message.'.');
 
-        return $result->unbillableChildren === []
-            ? $redirect
-            : $redirect->with('error', 'أطفال لديهم رسوم مستحقة بدون وليّ أمر دافع: '.implode('، ', $result->unbillableChildren).'. حدّد وليّ الأمر الدافع من صفحة الطفل.');
+        $problems = [];
+        if ($result->unbillableChildren !== []) {
+            $problems[] = 'أطفال لديهم رسوم مستحقة بدون وليّ أمر دافع: '.implode('، ', $result->unbillableChildren).'. حدّد وليّ الأمر الدافع من صفحة الطفل.';
+        }
+        if ($result->shareWarnings !== []) {
+            $problems[] = 'نِسب الدفع لا تساوي 100% فقُسِّمت المصروفات بالتساوي لـ: '.implode('، ', $result->shareWarnings).'.';
+        }
+
+        return $problems === [] ? $redirect : $redirect->with('error', implode(' ', $problems));
     }
 }

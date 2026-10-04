@@ -2,6 +2,7 @@
 
 namespace App\Services\Exceptions;
 
+use App\Enums\Limit;
 use RuntimeException;
 
 /**
@@ -11,6 +12,9 @@ class PlanLimitException extends RuntimeException
 {
     public function __construct(public string $resource, public int $limit)
     {
-        parent::__construct("Plan limit reached for [{$resource}]: max {$limit}.");
+        parent::__construct(__('api.errors.plan_limit', [
+            'limit' => $limit,
+            'resource' => Limit::tryFrom($resource)?->label() ?? $resource,
+        ]));
     }
 }
