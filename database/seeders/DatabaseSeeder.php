@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
             PlatformSettingsSeeder::class,
             SuperAdminSeeder::class,
             SubscriptionPlanSeeder::class,
+            FoundersCouponSeeder::class,
             DemoNurserySeeder::class,
         ]);
     }

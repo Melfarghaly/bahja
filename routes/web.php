@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NurseryController as AdminNurseryController;
 use App\Http\Controllers\Admin\NurseryEntitlementController;
@@ -80,6 +81,7 @@ Route::middleware(['auth', 'tenant', 'nursery.staff'])
 
             Route::get('subscription', [SubscriptionController::class, 'show'])->name('subscription.show');
             Route::post('subscription/change-plan', [SubscriptionController::class, 'changePlan'])->name('subscription.change-plan');
+            Route::post('subscription/coupon', [SubscriptionController::class, 'redeemCoupon'])->name('subscription.coupon');
 
             Route::get('settings', [SettingsController::class, 'edit'])->name('settings.edit');
             Route::put('settings', [SettingsController::class, 'update'])->name('settings.update');
@@ -114,6 +116,11 @@ Route::middleware(['auth', 'super-admin'])
         Route::get('rollouts', [RolloutController::class, 'index'])->name('rollouts.index');
         Route::patch('rollouts/{flag}', [RolloutController::class, 'updateEveryone'])->name('rollouts.everyone');
         Route::patch('nurseries/{tenant}/rollouts/{flag}', [RolloutController::class, 'updateTenant'])->name('nurseries.rollouts.update');
+
+        Route::get('coupons', [CouponController::class, 'index'])->name('coupons.index');
+        Route::get('coupons/create', [CouponController::class, 'create'])->name('coupons.create');
+        Route::post('coupons', [CouponController::class, 'store'])->name('coupons.store');
+        Route::patch('coupons/{coupon}/status', [CouponController::class, 'updateStatus'])->name('coupons.status');
 
         Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
         Route::get('plans/create', [PlanController::class, 'create'])->name('plans.create');

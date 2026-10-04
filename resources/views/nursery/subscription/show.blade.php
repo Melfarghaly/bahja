@@ -7,7 +7,28 @@
             <h2 class="font-bold mb-3">الخطة الحالية</h2>
             @if ($plan)
                 <div class="text-3xl font-extrabold brand-text">{{ $plan->name }}</div>
-                <div class="text-sm text-gray-500 mt-1">{{ number_format($plan->price_egp) }} ج / {{ $plan->billing_cycle->value === 'yearly' ? 'سنة' : 'شهر' }}</div>
+                <div class="text-sm text-gray-500 mt-1">
+                    @if ($discount)
+                        <span class="line-through text-gray-400">{{ number_format($plan->price_egp) }}</span>
+                        <span class="font-bold text-emerald-600">{{ number_format($effectivePrice) }}</span>
+                    @else
+                        {{ number_format($plan->price_egp) }}
+                    @endif
+                    ج / {{ $plan->billing_cycle->value === 'yearly' ? 'سنة' : 'شهر' }}
+                </div>
+                @if ($discount)
+                    <div class="mt-2 text-xs px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700 inline-block">
+                        خصم {{ $discount->percent_off }}% — {{ $discount->coupon->name }}
+                        ({{ $discount->discount_ends_at ? 'حتى '.$discount->discount_ends_at->toDateString() : 'مدى الحياة' }})
+                    </div>
+                @else
+                    <form method="POST" action="{{ route('nursery.subscription.coupon') }}" class="mt-3 flex gap-2">
+                        @csrf
+                        <input name="code" placeholder="لديك كود خصم؟" class="flex-1 rounded-lg border-gray-200 text-sm font-mono uppercase">
+                        <button class="brand-bg text-white px-3 py-1.5 rounded-lg text-xs font-medium">تفعيل</button>
+                    </form>
+                    @error('code')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
+                @endif
             @else
                 <div class="text-3xl font-extrabold brand-text">{{ $entitlements->planName }}</div>
                 <p class="text-sm text-gray-400 mt-1">لا يوجد اشتراك نشط — تعمل الحضانة على الباقة المجانية.</p>

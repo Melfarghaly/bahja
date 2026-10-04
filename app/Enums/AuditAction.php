@@ -14,4 +14,7 @@ enum AuditAction: string
     case AddonAdded = 'addon.added';
     case AddonRemoved = 'addon.removed';
     case RolloutChanged = 'rollout.changed';
+    case CouponCreated = 'coupon.created';
+    case CouponStatusChanged = 'coupon.status_changed';
+    case CouponRedeemed = 'coupon.redeemed';
 }

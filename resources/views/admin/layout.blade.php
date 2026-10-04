@@ -50,6 +50,7 @@
             <a href="{{ route('admin.dashboard') }}" class="nav-link {{ $is('admin.dashboard') }}"><span class="nav-ic"></span><span>لوحة المؤشرات</span></a>
             <a href="{{ route('admin.nurseries.index') }}" class="nav-link {{ $is('admin.nurseries.*') }}"><span class="nav-ic"></span><span>الحضانات</span></a>
             <a href="{{ route('admin.plans.index') }}" class="nav-link {{ $is('admin.plans.*') }}"><span class="nav-ic"></span><span>الخطط والاشتراكات</span></a>
+            <a href="{{ route('admin.coupons.index') }}" class="nav-link {{ $is('admin.coupons.*') }}"><span class="nav-ic"></span><span>أكواد الخصم</span></a>
             <a href="{{ route('admin.rollouts.index') }}" class="nav-link {{ $is('admin.rollouts.*') }}"><span class="nav-ic"></span><span>الإطلاق التدريجي</span></a>
             <a href="{{ route('admin.users.index') }}" class="nav-link {{ $is('admin.users.*') }}"><span class="nav-ic"></span><span>المستخدمون</span></a>
             <a href="{{ route('admin.settings.edit') }}" class="nav-link {{ $is('admin.settings.*') }}"><span class="nav-ic"></span><span>الهوية البصرية</span></a>
