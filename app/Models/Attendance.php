@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AttendanceMethod;
+use App\Enums\PickupMethod;
 use App\Models\Concerns\BelongsToTenant;
 use Database\Factories\AttendanceFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -24,6 +25,10 @@ class Attendance extends Model
         'picked_up_by',
         'pickup_verified',
         'check_in_method',
+        'checked_out_by',
+        'pickup_method',
+        'pickup_pass_id',
+        'override_reason',
     ];
 
     /**
@@ -37,6 +42,7 @@ class Attendance extends Model
             'checked_out_at' => 'datetime',
             'pickup_verified' => 'boolean',
             'check_in_method' => AttendanceMethod::class,
+            'pickup_method' => PickupMethod::class,
         ];
     }
 
@@ -53,5 +59,10 @@ class Attendance extends Model
     public function pickedUpBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'picked_up_by');
+    }
+
+    public function pickupPass(): BelongsTo
+    {
+        return $this->belongsTo(PickupPass::class);
     }
 }

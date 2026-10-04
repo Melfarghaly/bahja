@@ -5,8 +5,10 @@ use App\Http\Controllers\Api\V1\AuthTokenController;
 use App\Http\Controllers\Api\V1\ChildController;
 use App\Http\Controllers\Api\V1\ClassroomController;
 use App\Http\Controllers\Api\V1\GuardianController;
+use App\Http\Controllers\Api\V1\GuardianPickupController;
 use App\Http\Controllers\Api\V1\MyInvoiceController;
 use App\Http\Controllers\Api\V1\OtpController;
+use App\Http\Controllers\Api\V1\PickupController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\Api\V1\WardController;
@@ -51,6 +53,15 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
     Route::get('me/wards/{child}/attendance', [WardController::class, 'attendance']);
     Route::patch('me/wards/{child}/notifications', [WardController::class, 'updateNotifications']);
 
+    // Safe Pickup 2.0 (released per nursery; QR and passes need the Basic plan or above).
+    Route::middleware(['rollout:safe-pickup-v2', 'entitled:pickup_passes'])->group(function () {
+        Route::get('me/pickup-code', [GuardianPickupController::class, 'code']);
+        Route::get('me/wards/{child}/pickup-passes', [GuardianPickupController::class, 'index']);
+        Route::post('me/wards/{child}/pickup-passes', [GuardianPickupController::class, 'store']);
+        Route::delete('me/pickup-passes/{pass}', [GuardianPickupController::class, 'destroy']);
+        Route::post('attendance/pickup/verify', [PickupController::class, 'verify'])->middleware('throttle:pickup-verify');
+    });
+
     // Bahga Pay: the guardian's own family invoices (payer only).
     Route::middleware('rollout:bahga-pay')->group(function () {
         Route::get('me/payment-methods', [MyInvoiceController::class, 'paymentMethods']);
@@ -74,6 +85,7 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
 
     // Attendance + pickup verification.
     Route::get('attendance', [AttendanceController::class, 'index']);
+    Route::post('attendance/check-in/bulk', [AttendanceController::class, 'bulkCheckIn']);
     Route::post('attendance/check-in', [AttendanceController::class, 'checkIn']);
     Route::post('attendance/check-out', [AttendanceController::class, 'checkOut']);
 

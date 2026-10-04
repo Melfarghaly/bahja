@@ -82,6 +82,8 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for('login', fn (Request $request) => Limit::perMinute(6)->by('login|'.$request->ip()));
         RateLimiter::for('otp-send', fn (Request $request) => Limit::perMinute(6)->by('otp-send|'.$request->ip()));
         RateLimiter::for('otp-verify', fn (Request $request) => Limit::perMinute(10)->by('otp-verify|'.$request->ip()));
+        // Pass codes are 6 digits: limit guessing by any one staff account.
+        RateLimiter::for('pickup-verify', fn (Request $request) => Limit::perMinute(30)->by('pickup-verify|'.($request->user()?->id ?: $request->ip())));
         RateLimiter::for('checkout', fn (Request $request) => Limit::perMinute(10)->by('checkout|'.($request->user()?->id ?: $request->ip())));
 
         // Queue workers reuse one process and DB session across jobs: start each

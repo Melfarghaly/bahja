@@ -6,6 +6,10 @@ enum AuditAction: string
 {
     case PickupVerified = 'pickup.verified';
     case PickupDenied = 'pickup.denied';
+    case PickupOverridden = 'pickup.overridden';
+    case PickupPassIssued = 'pickup.pass_issued';
+    case PickupPassRevoked = 'pickup.pass_revoked';
+    case LatePickupAlerted = 'pickup.late_alerted';
     case GuardianAttached = 'guardian.attached';
     case GuardianUpdated = 'guardian.updated';
     case GuardianDetached = 'guardian.detached';

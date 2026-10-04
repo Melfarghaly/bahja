@@ -98,4 +98,9 @@ class Child extends Model
     {
         return $this->hasMany(ChildFeePlan::class);
     }
+
+    public function pickupPasses(): HasMany
+    {
+        return $this->hasMany(PickupPass::class);
+    }
 }
