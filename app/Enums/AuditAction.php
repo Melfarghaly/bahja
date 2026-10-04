@@ -13,4 +13,5 @@ enum AuditAction: string
     case EntitlementOverrideRevoked = 'entitlement.override_revoked';
     case AddonAdded = 'addon.added';
     case AddonRemoved = 'addon.removed';
+    case RolloutChanged = 'rollout.changed';
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\NurseryController as AdminNurseryController;
 use App\Http\Controllers\Admin\NurseryEntitlementController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\RolloutController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Nursery\AttendanceController;
@@ -108,6 +109,11 @@ Route::middleware(['auth', 'super-admin'])
             Route::post('nurseries/{tenant}/addons', [NurseryEntitlementController::class, 'storeAddon'])->name('nurseries.addons.store');
             Route::delete('nurseries/{tenant}/addons/{addon}', [NurseryEntitlementController::class, 'destroyAddon'])->name('nurseries.addons.destroy');
         });
+
+        // Gradual release of V2 modules (Pennant).
+        Route::get('rollouts', [RolloutController::class, 'index'])->name('rollouts.index');
+        Route::patch('rollouts/{flag}', [RolloutController::class, 'updateEveryone'])->name('rollouts.everyone');
+        Route::patch('nurseries/{tenant}/rollouts/{flag}', [RolloutController::class, 'updateTenant'])->name('nurseries.rollouts.update');
 
         Route::get('plans', [PlanController::class, 'index'])->name('plans.index');
         Route::get('plans/create', [PlanController::class, 'create'])->name('plans.create');

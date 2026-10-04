@@ -4,6 +4,7 @@ use App\Http\Middleware\EnforcePlanQuota;
 use App\Http\Middleware\EnsureEntitled;
 use App\Http\Middleware\EnsureNurseryAdmin;
 use App\Http\Middleware\EnsureNurseryStaff;
+use App\Http\Middleware\EnsureRolledOut;
 use App\Http\Middleware\EnsureSuperAdmin;
 use App\Http\Middleware\IdentifyTenant;
 use Illuminate\Foundation\Application;
@@ -23,6 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'tenant' => IdentifyTenant::class,
             'plan.quota' => EnforcePlanQuota::class,
             'entitled' => EnsureEntitled::class,
+            'rollout' => EnsureRolledOut::class,
             'super-admin' => EnsureSuperAdmin::class,
             'nursery.staff' => EnsureNurseryStaff::class,
             'nursery.admin' => EnsureNurseryAdmin::class,

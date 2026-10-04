@@ -49,6 +49,7 @@
     </div>
 
     @include('admin.nurseries.partials.entitlements')
+    @include('admin.nurseries.partials.rollouts')
 
     <div class="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
         <h3 class="font-bold mb-4">الأعضاء ({{ $tenant->members->count() }})</h3>
