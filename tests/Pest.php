@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
-    ->in('Feature');
+    ->in('Feature', 'Postman');
 
 expect()->extend('toBeOne', function () {
     return $this->toBe(1);

@@ -43,7 +43,7 @@ class PaymentWebhookController extends Controller
                 'error' => $e->getMessage(),
             ]);
 
-            return response()->json(['status' => 'invalid signature'], 401);
+            return response()->json(['message' => 'Invalid signature.', 'code' => 'invalid_signature'], 401);
         }
 
         // ON CONFLICT DO NOTHING: detects a retried event without raising an
