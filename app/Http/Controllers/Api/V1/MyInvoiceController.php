@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use App\Enums\Feature;
 use App\Enums\PaymentGatewayName;
 use App\Enums\TuitionInvoiceStatus;
 use App\Http\Controllers\Controller;
@@ -9,7 +10,11 @@ use App\Http\Requests\Api\StartCheckoutRequest;
 use App\Http\Resources\PaymentIntentResource;
 use App\Http\Resources\TuitionInvoiceResource;
 use App\Models\TuitionInvoice;
+use App\Services\EntitlementService;
+use App\Services\Payments\Checkout\CheckoutGatewayRegistry;
 use App\Services\Tuition\OnlinePaymentService;
+use App\Support\TenantContext;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -45,5 +50,27 @@ class MyInvoiceController extends Controller
         $intent = $online->startCheckout($invoice, $request->user(), PaymentGatewayName::from($request->validated('gateway')));
 
         return new PaymentIntentResource($intent);
+    }
+
+    /**
+     * Online payment options in the current nursery (empty when unavailable).
+     */
+    public function paymentMethods(
+        TenantContext $tenantContext,
+        EntitlementService $entitlements,
+        CheckoutGatewayRegistry $gateways,
+    ): JsonResponse {
+        $tenant = $tenantContext->get();
+        $enabled = $entitlements->for($tenant)->allows(Feature::AutoCollection);
+        $methods = $enabled ? $gateways->available($tenant) : [];
+
+        return response()->json([
+            'data' => array_map(fn (PaymentGatewayName $g) => [
+                'gateway' => $g->value,
+                'label' => $g->label(),
+                'kind' => $g === PaymentGatewayName::Fawry ? 'payment_code' : 'redirect',
+            ], $methods),
+            'online_payments_enabled' => $methods !== [],
+        ]);
     }
 }

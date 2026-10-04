@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use App\Enums\Limit;
-use App\Services\Exceptions\PlanLimitException;
 use App\Services\SubscriptionService;
 use App\Support\TenantContext;
 use Closure;
@@ -25,12 +24,9 @@ class EnforcePlanQuota
     {
         $tenant = $this->tenantContext->get();
 
-        try {
-            if ($tenant !== null) {
-                $this->subscriptions->assertCanAdd($tenant, Limit::from($resource));
-            }
-        } catch (PlanLimitException $e) {
-            abort(Response::HTTP_PAYMENT_REQUIRED, $e->getMessage());
+        // Throws PlanLimitException, rendered by the API as 402 plan_limit_reached.
+        if ($tenant !== null) {
+            $this->subscriptions->assertCanAdd($tenant, Limit::from($resource));
         }
 
         return $next($request);

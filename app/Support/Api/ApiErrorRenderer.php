@@ -2,6 +2,8 @@
 
 namespace App\Support\Api;
 
+use App\Services\Exceptions\FeatureNotEntitledException;
+use App\Services\Exceptions\PlanLimitException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -51,6 +53,8 @@ class ApiErrorRenderer
     private static function describe(Throwable $e): array
     {
         return match (true) {
+            $e instanceof PlanLimitException => [402, 'plan_limit_reached', $e->getMessage(), ['resource' => $e->resource, 'limit' => $e->limit], []],
+            $e instanceof FeatureNotEntitledException => [402, 'plan_upgrade_required', __('api.errors.plan_upgrade_required'), ['feature' => $e->feature->value], []],
             $e instanceof ValidationException => [422, 'validation_failed', __('api.errors.validation_failed'), $e->errors(), []],
             $e instanceof AuthenticationException => [401, 'unauthenticated', __('api.errors.unauthenticated'), null, []],
             $e instanceof AuthorizationException => [403, 'forbidden', self::custom($e->getMessage(), 'forbidden', self::FRAMEWORK_MESSAGES), null, []],
