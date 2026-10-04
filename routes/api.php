@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\V1\AttendanceController;
 use App\Http\Controllers\Api\V1\AuthTokenController;
 use App\Http\Controllers\Api\V1\ChildController;
 use App\Http\Controllers\Api\V1\GuardianController;
+use App\Http\Controllers\Api\V1\MyInvoiceController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\Api\V1\WardController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,12 @@ Route::prefix('v1/auth')->group(function () {
 Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
     // Guardian self-service: unified siblings view.
     Route::get('me/wards', [WardController::class, 'index']);
+
+    // Bahga Pay: the guardian's own family invoices (payer only).
+    Route::middleware('rollout:bahga-pay')->group(function () {
+        Route::get('me/invoices', [MyInvoiceController::class, 'index']);
+        Route::get('me/invoices/{invoice}', [MyInvoiceController::class, 'show']);
+    });
 
     // Children.
     Route::get('children', [ChildController::class, 'index']);

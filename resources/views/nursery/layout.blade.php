@@ -54,6 +54,7 @@
                 <a href="{{ route('nursery.teachers.index') }}" class="nav-link {{ $is('nursery.teachers.*') }}"><span class="nav-ic"></span><span>المعلّمات</span></a>
                 <a href="{{ route('nursery.classrooms.index') }}" class="nav-link {{ $is('nursery.classrooms.*') }}"><span class="nav-ic"></span><span>الفصول</span></a>
                 @rolledout('bahga-pay')
+                    <a href="{{ route('nursery.finance.dashboard') }}" class="nav-link {{ $is('nursery.finance.dashboard') }}"><span class="nav-ic"></span><span>بهجة باي: التحصيل</span></a>
                     <a href="{{ route('nursery.finance.invoices.index') }}" class="nav-link {{ $is('nursery.finance.invoices.*') }}"><span class="nav-ic"></span><span>فواتير المصروفات</span></a>
                     <a href="{{ route('nursery.finance.setup') }}" class="nav-link {{ $is('nursery.finance.setup') }}"><span class="nav-ic"></span><span>إعداد الرسوم</span></a>
                 @endrolledout

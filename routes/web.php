@@ -14,6 +14,7 @@ use App\Http\Controllers\Nursery\ChildImportController;
 use App\Http\Controllers\Nursery\ClassroomController;
 use App\Http\Controllers\Nursery\DashboardController;
 use App\Http\Controllers\Nursery\Finance\ChildFeeController;
+use App\Http\Controllers\Nursery\Finance\CollectionsDashboardController;
 use App\Http\Controllers\Nursery\Finance\FeeSetupController;
 use App\Http\Controllers\Nursery\Finance\TuitionInvoiceController;
 use App\Http\Controllers\Nursery\Finance\TuitionPaymentController;
@@ -92,6 +93,7 @@ Route::middleware(['auth', 'tenant', 'nursery.staff'])
                 ->prefix('finance')
                 ->name('finance.')
                 ->group(function () {
+                    Route::get('/', CollectionsDashboardController::class)->name('dashboard');
                     Route::get('setup', [FeeSetupController::class, 'index'])->name('setup');
                     Route::post('fee-plans', [FeeSetupController::class, 'storePlan'])->name('fee-plans.store');
                     Route::put('fee-plans/{feePlan}', [FeeSetupController::class, 'updatePlan'])->name('fee-plans.update');

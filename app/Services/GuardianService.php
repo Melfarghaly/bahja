@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Enums\AuditAction;
+use App\Enums\MemberType;
 use App\Models\Child;
+use App\Models\Tenant;
 use App\Models\User;
 use BackedEnum;
 
@@ -53,6 +55,8 @@ class GuardianService
             $guardian->id => ['tenant_id' => $child->tenant_id] + $permissions,
         ]);
 
+        $this->ensureMembership($child, $guardian);
+
         $this->audit->record(
             $before === null ? AuditAction::GuardianAttached : AuditAction::GuardianUpdated,
             $child,
@@ -72,6 +76,23 @@ class GuardianService
             $this->audit->record(AuditAction::GuardianDetached, $child, [
                 'guardian_id' => $guardian->id,
                 'before' => $before,
+            ]);
+        }
+    }
+
+    /**
+     * A guardian must be a member of the nursery to sign in to it (the tenant
+     * middleware resolves context from memberships). Existing memberships —
+     * e.g. a teacher who is also a parent — are left untouched.
+     */
+    private function ensureMembership(Child $child, User $guardian): void
+    {
+        $tenant = Tenant::findOrFail($child->tenant_id);
+
+        if (! $tenant->members()->whereKey($guardian->id)->exists()) {
+            $tenant->members()->attach($guardian->id, [
+                'member_type' => MemberType::Guardian->value,
+                'status' => 'active',
             ]);
         }
     }
