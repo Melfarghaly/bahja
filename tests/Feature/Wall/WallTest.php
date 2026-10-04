@@ -267,6 +267,8 @@ it('posts a short video with its poster and streams it with HTTP ranges', functi
 
     auth()->forgetGuards();
     $this->get($video['poster_url'])->assertOk()->assertHeader('Content-Type', 'image/jpeg');
+    // The web app fetches media cross-origin.
+    $this->get($video['poster_url'], ['Origin' => 'https://app.example.com'])->assertHeader('Access-Control-Allow-Origin', '*');
 
     $partial = $this->get($video['url'], ['Range' => 'bytes=0-99']);
     $partial->assertStatus(206)->assertHeader('Content-Range', 'bytes 0-99/'.(12 * 4096))->assertHeader('Accept-Ranges', 'bytes');
