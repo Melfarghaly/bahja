@@ -33,7 +33,7 @@ class PostmanCollection
     }
 
     /**
-     * @param  array{folder: string, name: string, method: string, path: string, auth: ?string, tenant?: bool, query?: array<string, string>, body?: ?array<string, mixed>, description: string, script?: string, prerequest?: string}  $spec
+     * @param  array{folder: string, name: string, method: string, path: string, auth: ?string, tenant?: bool, query?: array<string, string>, body?: ?array<string, mixed>, description: string, script?: string, prerequest?: string, multipart?: bool}  $spec
      */
     public function request(string $key, array $spec): void
     {
@@ -167,7 +167,9 @@ class PostmanCollection
             $headers[] = ['key' => 'X-Tenant-Id', 'value' => '{{tenant_id}}', 'description' => 'The nursery to act in (from GET /v1/me)'];
         }
 
-        if ($body !== null) {
+        $multipart = (bool) ($spec['multipart'] ?? false);
+
+        if ($body !== null && ! $multipart) {
             $headers[] = ['key' => 'Content-Type', 'value' => 'application/json'];
         }
 
@@ -192,7 +194,9 @@ class PostmanCollection
             unset($block['url']['query']);
         }
 
-        if ($body !== null) {
+        if ($body !== null && $multipart) {
+            $block['body'] = ['mode' => 'formdata', 'formdata' => self::formData($body)];
+        } elseif ($body !== null) {
             $block['body'] = [
                 'mode' => 'raw',
                 'raw' => json_encode($body, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES),
@@ -201,6 +205,32 @@ class PostmanCollection
         }
 
         return $block;
+    }
+
+    /**
+     * Flattens a body into Postman form fields: lists become `key[]`, nested
+     * arrays `key[sub]`, and "@file:<path>" values file fields.
+     *
+     * @param  array<string, mixed>  $body
+     * @return array<int, array<string, string>>
+     */
+    public static function formData(array $body, string $prefix = ''): array
+    {
+        $fields = [];
+
+        foreach ($body as $key => $value) {
+            $name = $prefix === '' ? (string) $key : (array_is_list($body) ? "{$prefix}[]" : "{$prefix}[{$key}]");
+
+            if (is_array($value)) {
+                array_push($fields, ...self::formData($value, $name));
+            } elseif (is_string($value) && str_starts_with($value, '@file:')) {
+                $fields[] = ['key' => $name, 'type' => 'file', 'src' => substr($value, 6)];
+            } else {
+                $fields[] = ['key' => $name, 'value' => is_bool($value) ? ($value ? '1' : '0') : (string) $value, 'type' => 'text'];
+            }
+        }
+
+        return $fields;
     }
 
     private function reason(int $status): string

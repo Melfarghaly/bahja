@@ -21,6 +21,7 @@ class ChildController extends Controller
             ->with([
                 'classroom:id,name,capacity',
                 'guardians:id,name,phone',
+                'mediaConsents' => fn ($query) => $query->active(),
                 'attendances' => fn ($query) => $query->whereDate('date', today())->with('pickedUpBy:id,name'),
             ])
             ->where('status', $request->validated('status') ?? 'active')
@@ -49,6 +50,7 @@ class ChildController extends Controller
         return new ChildResource($child->load([
             'classroom',
             'guardians',
+            'mediaConsents' => fn ($q) => $q->active(),
             'attendances' => fn ($q) => $q->whereDate('date', today())->with('pickedUpBy:id,name'),
         ]));
     }

@@ -22,4 +22,12 @@ return [
         'title' => 'تأخر استلام :child',
         'body' => ':nursery: :child ما زال بالحضانة بعد موعد الانصراف :deadline بأكثر من 45 دقيقة.',
     ],
+    'moment_posted' => [
+        'title' => 'تحديث جديد عن :child',
+        'body' => ':teacher: :summary',
+    ],
+    'incident_reported' => [
+        'title' => 'تنبيه بخصوص :child',
+        'body' => 'سُجّلت حادثة بسيطة لـ :child بواسطة :teacher. افتح التطبيق للتفاصيل والإقرار.',
+    ],
 ];

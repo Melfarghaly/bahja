@@ -62,6 +62,7 @@ function enableBahgaPay(Tenant $tenant): void
 }
 
 require_once __DIR__.'/Support/payments.php';
+require_once __DIR__.'/Support/wall.php';
 
 /**
  * Release Safe Pickup 2.0 to a nursery and grant the plan feature it needs.
@@ -78,4 +79,12 @@ function enableSafePickup(Tenant $tenant): void
 function enableMessagingHub(Tenant $tenant): void
 {
     Feature::for($tenant)->activate(RolloutFlag::MessagingHub->value);
+}
+
+/**
+ * Release the Daily Wall to a nursery (the Free plan already includes it).
+ */
+function enableDailyWall(Tenant $tenant): void
+{
+    Feature::for($tenant)->activate(RolloutFlag::DailyWall->value);
 }

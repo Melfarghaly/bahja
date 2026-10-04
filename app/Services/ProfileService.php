@@ -94,6 +94,9 @@ class ProfileService
                 // Rotating pickup QR, pickup passes and the door-verification screen.
                 'safe_pickup' => $this->rollouts->active($tenant, RolloutFlag::SafePickupV2)
                     && $this->entitlements->for($tenant)->allows(Feature::PickupPasses),
+                // The Daily Wall: moments, photos, incidents.
+                'daily_wall' => $this->rollouts->active($tenant, RolloutFlag::DailyWall)
+                    && $this->entitlements->for($tenant)->allows(Feature::Wall),
             ],
         ];
     }

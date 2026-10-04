@@ -94,6 +94,14 @@ class Child extends Model
         return $this->hasMany(Attendance::class);
     }
 
+    /**
+     * Photo permissions (active and revoked).
+     */
+    public function mediaConsents(): HasMany
+    {
+        return $this->hasMany(MediaConsent::class);
+    }
+
     public function feePlans(): HasMany
     {
         return $this->hasMany(ChildFeePlan::class);

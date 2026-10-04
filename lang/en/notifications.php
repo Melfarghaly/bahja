@@ -17,4 +17,12 @@ return [
         'title' => ':child: late pickup',
         'body' => ':nursery: :child is still here more than 45 minutes after the :deadline pickup time.',
     ],
+    'moment_posted' => [
+        'title' => 'New update about :child',
+        'body' => ':teacher: :summary',
+    ],
+    'incident_reported' => [
+        'title' => 'About :child',
+        'body' => ':teacher recorded a minor incident for :child. Open the app for details and to acknowledge.',
+    ],
 ];

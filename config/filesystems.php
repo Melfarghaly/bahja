@@ -16,6 +16,12 @@ return [
     'default' => env('FILESYSTEM_DISK', 'local'),
 
     /*
+    | Daily Wall photos: always a PRIVATE disk (never "public"). Served only
+    | through short-lived signed URLs. Use a private S3/R2 bucket in production.
+    */
+    'wall_disk' => env('WALL_DISK', 'local'),
+
+    /*
     |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------

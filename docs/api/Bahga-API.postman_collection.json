@@ -146,6 +146,16 @@
             "key": "notification_id",
             "value": "",
             "description": "Set by \"My notifications\""
+        },
+        {
+            "key": "moment_id",
+            "value": "",
+            "description": "Set by \"Teacher — post photos\""
+        },
+        {
+            "key": "incident_id",
+            "value": "",
+            "description": "Set by \"Teacher — report a minor incident\""
         }
     ],
     "item": [
@@ -255,7 +265,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"5|mf011ejkzoIOWVn6xHNGjwvucz3ISYY9qcDRVBTWd91df631\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"5|cPTzRwLK2lTvOpZfNMlIUtVzQnbdFsR63BqItsDbb3e0b6b2\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — بيانات دخول خاطئة",
@@ -494,7 +504,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"6|mQa2SRVT3ptclUOj4xWODmP6F8zRH8ayCoOChcsVa5f2b5ae\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"6|TqhGNENdNmenxx6fkGMNnG82DzNoo8YM73HAOu2Gcdbb429e\",\n    \"token_type\": \"Bearer\"\n}"
                         }
                     ],
                     "event": [
@@ -615,7 +625,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"7|oq5q2TTMSKIr3bCeqFhWnE5NkFsX6vvLd5BfvliXc701082b\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"7|5zTKkVqJNtWDcGiWujexFHuR1ipnM8XqZTGekhxjcbee925c\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — محاولة سادسة خلال دقيقة (مسموح)",
@@ -1133,7 +1143,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"309648\",\n    \"device_name\": \"mona-android\"\n}",
+                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"158584\",\n    \"device_name\": \"mona-android\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -1155,7 +1165,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"token\": \"8|dLuw7imGoXRAEB847KJzUHtF5Rh9FBQog6pD3Bbuad795a86\",\n    \"token_type\": \"Bearer\"\n}"
+                            "body": "{\n    \"token\": \"8|Rq1m0w3CLRh6CjYyiKyxir3H0EJiAmW0iIWMAvvN1bdb3a06\",\n    \"token_type\": \"Bearer\"\n}"
                         },
                         {
                             "name": "422 — نفس الرمز مرة ثانية",
@@ -1193,7 +1203,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"309648\",\n    \"device_name\": \"mona-android\"\n}",
+                                    "raw": "{\n    \"phone\": \"01000000002\",\n    \"code\": \"158584\",\n    \"device_name\": \"mona-android\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -1268,7 +1278,7 @@
                                 }
                             ]
                         },
-                        "description": "**أول طلب يرسله التطبيق بعد الدخول.** لا يحتاج `X-Tenant-Id`.\n\nيعيد بيانات المستخدم وكل حضانة ينتمي إليها مع:\n- `roles`: owner / admin / teacher / guardian (قد تجتمع أدوار، مثلاً معلمة وهي أيضاً وليّة أمر).\n- `capabilities`: ما يقرره التطبيق لعرض الشاشات:\n  - `take_attendance`, `view_children` → شاشات المعلمة\n  - `manage_children`, `manage_nursery` → شاشات الإدارة\n  - `guardian` → شاشات وليّ الأمر\n  - `bahga_pay` → الفواتير، `online_payments` → زر الدفع الإلكتروني\n  - `safe_pickup` → كود الاستلام (QR) والتصاريح لوليّ الأمر، وشاشة المسح عند الباب للمعلمة\n\nأرسل `id` الحضانة المختارة في الهيدر **`X-Tenant-Id`** في كل الطلبات التالية.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`401` | `unauthenticated` | توكن ناقص أو منتهٍ"
+                        "description": "**أول طلب يرسله التطبيق بعد الدخول.** لا يحتاج `X-Tenant-Id`.\n\nيعيد بيانات المستخدم وكل حضانة ينتمي إليها مع:\n- `roles`: owner / admin / teacher / guardian (قد تجتمع أدوار، مثلاً معلمة وهي أيضاً وليّة أمر).\n- `capabilities`: ما يقرره التطبيق لعرض الشاشات:\n  - `take_attendance`, `view_children` → شاشات المعلمة\n  - `manage_children`, `manage_nursery` → شاشات الإدارة\n  - `guardian` → شاشات وليّ الأمر\n  - `bahga_pay` → الفواتير، `online_payments` → زر الدفع الإلكتروني\n  - `safe_pickup` → كود الاستلام (QR) والتصاريح لوليّ الأمر، وشاشة المسح عند الباب للمعلمة\n  - `daily_wall` → الحائط اليومي (نشر المعلمة، ويوميات الطفل للأسرة)\n\nأرسل `id` الحضانة المختارة في الهيدر **`X-Tenant-Id`** في كل الطلبات التالية.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`401` | `unauthenticated` | توكن ناقص أو منتهٍ"
                     },
                     "response": [
                         {
@@ -1321,7 +1331,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"سامية المديرة\",\n        \"phone\": \"01000000001\",\n        \"email\": \"owner@bahga.test\",\n        \"locale\": \"ar\",\n        \"nurseries\": [\n            {\n                \"id\": 1,\n                \"name\": \"حضانة البراعم\",\n                \"phone\": \"0223456789\",\n                \"logo_url\": null,\n                \"roles\": [\n                    \"owner\"\n                ],\n                \"capabilities\": {\n                    \"manage_nursery\": true,\n                    \"take_attendance\": true,\n                    \"view_children\": true,\n                    \"manage_children\": true,\n                    \"guardian\": false,\n                    \"bahga_pay\": true,\n                    \"online_payments\": true,\n                    \"safe_pickup\": true\n                }\n            }\n        ]\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"سامية المديرة\",\n        \"phone\": \"01000000001\",\n        \"email\": \"owner@bahga.test\",\n        \"locale\": \"ar\",\n        \"nurseries\": [\n            {\n                \"id\": 1,\n                \"name\": \"حضانة البراعم\",\n                \"phone\": \"0223456789\",\n                \"logo_url\": null,\n                \"roles\": [\n                    \"owner\"\n                ],\n                \"capabilities\": {\n                    \"manage_nursery\": true,\n                    \"take_attendance\": true,\n                    \"view_children\": true,\n                    \"manage_children\": true,\n                    \"guardian\": false,\n                    \"bahga_pay\": true,\n                    \"online_payments\": true,\n                    \"safe_pickup\": true,\n                    \"daily_wall\": true\n                }\n            }\n        ]\n    }\n}"
                         },
                         {
                             "name": "200 — المعلمة",
@@ -1373,7 +1383,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"مس هالة\",\n        \"phone\": \"01000000004\",\n        \"email\": \"teacher@bahga.test\",\n        \"locale\": \"ar\",\n        \"nurseries\": [\n            {\n                \"id\": 1,\n                \"name\": \"حضانة البراعم\",\n                \"phone\": \"0223456789\",\n                \"logo_url\": null,\n                \"roles\": [\n                    \"teacher\"\n                ],\n                \"capabilities\": {\n                    \"manage_nursery\": false,\n                    \"take_attendance\": true,\n                    \"view_children\": true,\n                    \"manage_children\": false,\n                    \"guardian\": false,\n                    \"bahga_pay\": true,\n                    \"online_payments\": true,\n                    \"safe_pickup\": true\n                }\n            }\n        ]\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"مس هالة\",\n        \"phone\": \"01000000004\",\n        \"email\": \"teacher@bahga.test\",\n        \"locale\": \"ar\",\n        \"nurseries\": [\n            {\n                \"id\": 1,\n                \"name\": \"حضانة البراعم\",\n                \"phone\": \"0223456789\",\n                \"logo_url\": null,\n                \"roles\": [\n                    \"teacher\"\n                ],\n                \"capabilities\": {\n                    \"manage_nursery\": false,\n                    \"take_attendance\": true,\n                    \"view_children\": true,\n                    \"manage_children\": false,\n                    \"guardian\": false,\n                    \"bahga_pay\": true,\n                    \"online_payments\": true,\n                    \"safe_pickup\": true,\n                    \"daily_wall\": true\n                }\n            }\n        ]\n    }\n}"
                         },
                         {
                             "name": "200 — وليّ الأمر",
@@ -1425,7 +1435,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"name\": \"منى عبد الله\",\n        \"phone\": \"01000000002\",\n        \"email\": \"mother@bahga.test\",\n        \"locale\": \"ar\",\n        \"nurseries\": [\n            {\n                \"id\": 1,\n                \"name\": \"حضانة البراعم\",\n                \"phone\": \"0223456789\",\n                \"logo_url\": null,\n                \"roles\": [\n                    \"guardian\"\n                ],\n                \"capabilities\": {\n                    \"manage_nursery\": false,\n                    \"take_attendance\": false,\n                    \"view_children\": false,\n                    \"manage_children\": false,\n                    \"guardian\": true,\n                    \"bahga_pay\": true,\n                    \"online_payments\": true,\n                    \"safe_pickup\": true\n                }\n            }\n        ]\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"name\": \"منى عبد الله\",\n        \"phone\": \"01000000002\",\n        \"email\": \"mother@bahga.test\",\n        \"locale\": \"ar\",\n        \"nurseries\": [\n            {\n                \"id\": 1,\n                \"name\": \"حضانة البراعم\",\n                \"phone\": \"0223456789\",\n                \"logo_url\": null,\n                \"roles\": [\n                    \"guardian\"\n                ],\n                \"capabilities\": {\n                    \"manage_nursery\": false,\n                    \"take_attendance\": false,\n                    \"view_children\": false,\n                    \"manage_children\": false,\n                    \"guardian\": true,\n                    \"bahga_pay\": true,\n                    \"online_payments\": true,\n                    \"safe_pickup\": true,\n                    \"daily_wall\": true\n                }\n            }\n        ]\n    }\n}"
                         },
                         {
                             "name": "401 — بدون توكن",
@@ -1604,7 +1614,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"name\": \"منى عبد الله\",\n        \"phone\": \"01000000002\",\n        \"email\": \"mona@example.com\",\n        \"locale\": \"ar\",\n        \"nurseries\": [\n            {\n                \"id\": 1,\n                \"name\": \"حضانة البراعم\",\n                \"phone\": \"0223456789\",\n                \"logo_url\": null,\n                \"roles\": [\n                    \"guardian\"\n                ],\n                \"capabilities\": {\n                    \"manage_nursery\": false,\n                    \"take_attendance\": false,\n                    \"view_children\": false,\n                    \"manage_children\": false,\n                    \"guardian\": true,\n                    \"bahga_pay\": true,\n                    \"online_payments\": true,\n                    \"safe_pickup\": true\n                }\n            }\n        ]\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"name\": \"منى عبد الله\",\n        \"phone\": \"01000000002\",\n        \"email\": \"mona@example.com\",\n        \"locale\": \"ar\",\n        \"nurseries\": [\n            {\n                \"id\": 1,\n                \"name\": \"حضانة البراعم\",\n                \"phone\": \"0223456789\",\n                \"logo_url\": null,\n                \"roles\": [\n                    \"guardian\"\n                ],\n                \"capabilities\": {\n                    \"manage_nursery\": false,\n                    \"take_attendance\": false,\n                    \"view_children\": false,\n                    \"manage_children\": false,\n                    \"guardian\": true,\n                    \"bahga_pay\": true,\n                    \"online_payments\": true,\n                    \"safe_pickup\": true,\n                    \"daily_wall\": true\n                }\n            }\n        ]\n    }\n}"
                         },
                         {
                             "name": "422 — بريد مستخدم من قبل",
@@ -1978,7 +1988,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": [\n        {\n            \"id\": 2,\n            \"first_name\": \"ليلى\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2023-06-02\",\n            \"gender\": \"female\",\n            \"status\": \"active\",\n            \"medical_notes\": null,\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\",\n                \"capacity\": 20\n            },\n            \"guardians\": [\n                {\n                    \"id\": 3,\n                    \"name\": \"منى عبد الله\",\n                    \"phone\": \"01000000002\",\n                    \"relationship\": \"mother\",\n                    \"role\": \"primary\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": true,\n                    \"is_payer\": true,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 4,\n                    \"name\": \"عم سيد السائق\",\n                    \"phone\": \"01000000003\",\n                    \"relationship\": \"driver\",\n                    \"role\": \"pickup_authorized\",\n                    \"can_view_wall\": false,\n                    \"can_pickup\": true,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                }\n            ],\n            \"today_attendance\": {\n                \"id\": 1,\n                \"child_id\": 2,\n                \"date\": \"2026-10-04\",\n                \"checked_in_at\": \"2026-10-04T09:30:00+00:00\",\n                \"check_in_method\": \"qr\",\n                \"checked_out_at\": null,\n                \"picked_up_by\": null,\n                \"picked_up_by_name\": null,\n                \"pickup_verified\": false,\n                \"pickup_method\": null,\n                \"pickup_pass_id\": null,\n                \"override_reason\": null\n            }\n        },\n        {\n            \"id\": 1,\n            \"first_name\": \"يوسف\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2022-03-14\",\n            \"gender\": \"male\",\n            \"status\": \"active\",\n            \"medical_notes\": {\n                \"allergies\": [\n                    \"فول سوداني\"\n                ]\n            },\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\",\n                \"capacity\": 20\n            },\n            \"guardians\": [\n                {\n                    \"id\": 3,\n                    \"name\": \"منى عبد الله\",\n                    \"phone\": \"01000000002\",\n                    \"relationship\": \"mother\",\n                    \"role\": \"primary\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": true,\n                    \"is_payer\": true,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 4,\n                    \"name\": \"عم سيد السائق\",\n                    \"phone\": \"01000000003\",\n                    \"relationship\": \"driver\",\n                    \"role\": \"pickup_authorized\",\n                    \"can_view_wall\": false,\n                    \"can_pickup\": true,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 5,\n                    \"name\": \"أحمد محمود\",\n                    \"phone\": \"01000000005\",\n                    \"relationship\": \"father\",\n                    \"role\": \"viewer\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": false,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"blocked\",\n                    \"billing_share_bp\": null\n                }\n            ],\n            \"today_attendance\": null\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/children?classroom_id=1&per_page=20&page=1\",\n        \"last\": \"http://localhost/api/v1/children?classroom_id=1&per_page=20&page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/children?classroom_id=1&per_page=20&page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/children\",\n        \"per_page\": 20,\n        \"to\": 2,\n        \"total\": 2\n    }\n}"
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 2,\n            \"first_name\": \"ليلى\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2023-06-02\",\n            \"gender\": \"female\",\n            \"status\": \"active\",\n            \"medical_notes\": null,\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\",\n                \"capacity\": 20\n            },\n            \"guardians\": [\n                {\n                    \"id\": 3,\n                    \"name\": \"منى عبد الله\",\n                    \"phone\": \"01000000002\",\n                    \"relationship\": \"mother\",\n                    \"role\": \"primary\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": true,\n                    \"is_payer\": true,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 4,\n                    \"name\": \"عم سيد السائق\",\n                    \"phone\": \"01000000003\",\n                    \"relationship\": \"driver\",\n                    \"role\": \"pickup_authorized\",\n                    \"can_view_wall\": false,\n                    \"can_pickup\": true,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                }\n            ],\n            \"photo_consent\": {\n                \"wall\": false,\n                \"group_photos\": false\n            },\n            \"today_attendance\": {\n                \"id\": 1,\n                \"child_id\": 2,\n                \"date\": \"2026-10-04\",\n                \"checked_in_at\": \"2026-10-04T09:30:00+00:00\",\n                \"check_in_method\": \"qr\",\n                \"checked_out_at\": null,\n                \"picked_up_by\": null,\n                \"picked_up_by_name\": null,\n                \"pickup_verified\": false,\n                \"pickup_method\": null,\n                \"pickup_pass_id\": null,\n                \"override_reason\": null\n            }\n        },\n        {\n            \"id\": 1,\n            \"first_name\": \"يوسف\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2022-03-14\",\n            \"gender\": \"male\",\n            \"status\": \"active\",\n            \"medical_notes\": {\n                \"allergies\": [\n                    \"فول سوداني\"\n                ]\n            },\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\",\n                \"capacity\": 20\n            },\n            \"guardians\": [\n                {\n                    \"id\": 3,\n                    \"name\": \"منى عبد الله\",\n                    \"phone\": \"01000000002\",\n                    \"relationship\": \"mother\",\n                    \"role\": \"primary\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": true,\n                    \"is_payer\": true,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 4,\n                    \"name\": \"عم سيد السائق\",\n                    \"phone\": \"01000000003\",\n                    \"relationship\": \"driver\",\n                    \"role\": \"pickup_authorized\",\n                    \"can_view_wall\": false,\n                    \"can_pickup\": true,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 5,\n                    \"name\": \"أحمد محمود\",\n                    \"phone\": \"01000000005\",\n                    \"relationship\": \"father\",\n                    \"role\": \"viewer\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": false,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"blocked\",\n                    \"billing_share_bp\": null\n                }\n            ],\n            \"photo_consent\": {\n                \"wall\": false,\n                \"group_photos\": false\n            },\n            \"today_attendance\": null\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/children?classroom_id=1&per_page=20&page=1\",\n        \"last\": \"http://localhost/api/v1/children?classroom_id=1&per_page=20&page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/children?classroom_id=1&per_page=20&page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/children\",\n        \"per_page\": 20,\n        \"to\": 2,\n        \"total\": 2\n    }\n}"
                         },
                         {
                             "name": "200 — بحث بالاسم",
@@ -2041,7 +2051,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"first_name\": \"يوسف\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2022-03-14\",\n            \"gender\": \"male\",\n            \"status\": \"active\",\n            \"medical_notes\": {\n                \"allergies\": [\n                    \"فول سوداني\"\n                ]\n            },\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\",\n                \"capacity\": 20\n            },\n            \"guardians\": [\n                {\n                    \"id\": 3,\n                    \"name\": \"منى عبد الله\",\n                    \"phone\": \"01000000002\",\n                    \"relationship\": \"mother\",\n                    \"role\": \"primary\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": true,\n                    \"is_payer\": true,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 4,\n                    \"name\": \"عم سيد السائق\",\n                    \"phone\": \"01000000003\",\n                    \"relationship\": \"driver\",\n                    \"role\": \"pickup_authorized\",\n                    \"can_view_wall\": false,\n                    \"can_pickup\": true,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 5,\n                    \"name\": \"أحمد محمود\",\n                    \"phone\": \"01000000005\",\n                    \"relationship\": \"father\",\n                    \"role\": \"viewer\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": false,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"blocked\",\n                    \"billing_share_bp\": null\n                }\n            ],\n            \"today_attendance\": null\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/children?q=%D9%8A%D9%88%D8%B3%D9%81&page=1\",\n        \"last\": \"http://localhost/api/v1/children?q=%D9%8A%D9%88%D8%B3%D9%81&page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/children?q=%D9%8A%D9%88%D8%B3%D9%81&page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/children\",\n        \"per_page\": 20,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 1,\n            \"first_name\": \"يوسف\",\n            \"last_name\": \"محمود\",\n            \"birth_date\": \"2022-03-14\",\n            \"gender\": \"male\",\n            \"status\": \"active\",\n            \"medical_notes\": {\n                \"allergies\": [\n                    \"فول سوداني\"\n                ]\n            },\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\",\n                \"capacity\": 20\n            },\n            \"guardians\": [\n                {\n                    \"id\": 3,\n                    \"name\": \"منى عبد الله\",\n                    \"phone\": \"01000000002\",\n                    \"relationship\": \"mother\",\n                    \"role\": \"primary\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": true,\n                    \"is_payer\": true,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 4,\n                    \"name\": \"عم سيد السائق\",\n                    \"phone\": \"01000000003\",\n                    \"relationship\": \"driver\",\n                    \"role\": \"pickup_authorized\",\n                    \"can_view_wall\": false,\n                    \"can_pickup\": true,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"none\",\n                    \"billing_share_bp\": null\n                },\n                {\n                    \"id\": 5,\n                    \"name\": \"أحمد محمود\",\n                    \"phone\": \"01000000005\",\n                    \"relationship\": \"father\",\n                    \"role\": \"viewer\",\n                    \"can_view_wall\": true,\n                    \"can_pickup\": false,\n                    \"is_payer\": false,\n                    \"custody_flag\": \"blocked\",\n                    \"billing_share_bp\": null\n                }\n            ],\n            \"photo_consent\": {\n                \"wall\": false,\n                \"group_photos\": false\n            },\n            \"today_attendance\": null\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/children?q=%D9%8A%D9%88%D8%B3%D9%81&page=1\",\n        \"last\": \"http://localhost/api/v1/children?q=%D9%8A%D9%88%D8%B3%D9%81&page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/children?q=%D9%8A%D9%88%D8%B3%D9%81&page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/children\",\n        \"per_page\": 20,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
                         },
                         {
                             "name": "422 — فصل من حضانة أخرى",
@@ -2279,7 +2289,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"first_name\": \"يوسف\",\n        \"last_name\": \"محمود\",\n        \"birth_date\": \"2022-03-14\",\n        \"gender\": \"male\",\n        \"status\": \"active\",\n        \"medical_notes\": {\n            \"allergies\": [\n                \"فول سوداني\"\n            ]\n        },\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\",\n            \"capacity\": 20\n        },\n        \"guardians\": [\n            {\n                \"id\": 3,\n                \"name\": \"منى عبد الله\",\n                \"phone\": \"01000000002\",\n                \"relationship\": \"mother\",\n                \"role\": \"primary\",\n                \"can_view_wall\": true,\n                \"can_pickup\": true,\n                \"is_payer\": true,\n                \"custody_flag\": \"none\",\n                \"billing_share_bp\": null\n            },\n            {\n                \"id\": 4,\n                \"name\": \"عم سيد السائق\",\n                \"phone\": \"01000000003\",\n                \"relationship\": \"driver\",\n                \"role\": \"pickup_authorized\",\n                \"can_view_wall\": false,\n                \"can_pickup\": true,\n                \"is_payer\": false,\n                \"custody_flag\": \"none\",\n                \"billing_share_bp\": null\n            },\n            {\n                \"id\": 5,\n                \"name\": \"أحمد محمود\",\n                \"phone\": \"01000000005\",\n                \"relationship\": \"father\",\n                \"role\": \"viewer\",\n                \"can_view_wall\": true,\n                \"can_pickup\": false,\n                \"is_payer\": false,\n                \"custody_flag\": \"blocked\",\n                \"billing_share_bp\": null\n            }\n        ],\n        \"today_attendance\": null\n    }\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"first_name\": \"يوسف\",\n        \"last_name\": \"محمود\",\n        \"birth_date\": \"2022-03-14\",\n        \"gender\": \"male\",\n        \"status\": \"active\",\n        \"medical_notes\": {\n            \"allergies\": [\n                \"فول سوداني\"\n            ]\n        },\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\",\n            \"capacity\": 20\n        },\n        \"guardians\": [\n            {\n                \"id\": 3,\n                \"name\": \"منى عبد الله\",\n                \"phone\": \"01000000002\",\n                \"relationship\": \"mother\",\n                \"role\": \"primary\",\n                \"can_view_wall\": true,\n                \"can_pickup\": true,\n                \"is_payer\": true,\n                \"custody_flag\": \"none\",\n                \"billing_share_bp\": null\n            },\n            {\n                \"id\": 4,\n                \"name\": \"عم سيد السائق\",\n                \"phone\": \"01000000003\",\n                \"relationship\": \"driver\",\n                \"role\": \"pickup_authorized\",\n                \"can_view_wall\": false,\n                \"can_pickup\": true,\n                \"is_payer\": false,\n                \"custody_flag\": \"none\",\n                \"billing_share_bp\": null\n            },\n            {\n                \"id\": 5,\n                \"name\": \"أحمد محمود\",\n                \"phone\": \"01000000005\",\n                \"relationship\": \"father\",\n                \"role\": \"viewer\",\n                \"can_view_wall\": true,\n                \"can_pickup\": false,\n                \"is_payer\": false,\n                \"custody_flag\": \"blocked\",\n                \"billing_share_bp\": null\n            }\n        ],\n        \"photo_consent\": {\n            \"wall\": false,\n            \"group_photos\": false\n        },\n        \"today_attendance\": null\n    }\n}"
                         },
                         {
                             "name": "404 — طفل غير موجود أو من حضانة أخرى",
@@ -6077,7 +6087,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"child_id\": 2,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"666164\"\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"child_id\": 2,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"602420\"\n}"
                         },
                         {
                             "name": "422 — رقم غير مصري ومدة أكثر من 24 ساعة",
@@ -6296,7 +6306,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"child_id\": 1,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"626342\"\n}"
+                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"child_id\": 1,\n        \"name\": \"عم سيد السائق\",\n        \"phone\": \"01055554444\",\n        \"note\": \"سيارة بيضاء\",\n        \"status\": \"active\",\n        \"valid_from\": \"2026-10-04T09:30:00+00:00\",\n        \"valid_until\": \"2026-10-04T13:30:00+00:00\",\n        \"used_at\": null,\n        \"revoked_at\": null\n    },\n    \"code\": \"671451\"\n}"
                         }
                     ],
                     "event": [
@@ -7449,7 +7459,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"sms\": [\n            \"حقل الرسائل النصية مطلوب عند غياب push.\"\n        ],\n        \"push\": [\n            \"حقل push مطلوب عند غياب الرسائل النصية.\"\n        ]\n    }\n}"
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"sms\": [\n            \"حقل الرسائل النصية مطلوب عند غياب إشعارات التطبيق.\"\n        ],\n        \"push\": [\n            \"حقل إشعارات التطبيق مطلوب عند غياب الرسائل النصية.\"\n        ]\n    }\n}"
                         }
                     ],
                     "event": [
@@ -7718,7 +7728,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"token\": [\n            \"يجب ألا يقل طول token عن 20 حرفاً.\"\n        ],\n        \"platform\": [\n            \"القيمة المختارة لـ platform غير صحيحة.\"\n        ]\n    }\n}"
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"token\": [\n            \"يجب ألا يقل طول توكن الجهاز عن 20 حرفاً.\"\n        ],\n        \"platform\": [\n            \"القيمة المختارة لـ المنصة غير صحيحة.\"\n        ]\n    }\n}"
                         },
                         {
                             "name": "401 — بدون توكن دخول",
@@ -8447,7 +8457,7 @@
                                 }
                             ],
                             "cookie": [],
-                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"token\": [\n            \"حقل token مطلوب.\"\n        ]\n    }\n}"
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"token\": [\n            \"حقل توكن الجهاز مطلوب.\"\n        ]\n    }\n}"
                         }
                     ],
                     "event": [
@@ -8465,7 +8475,2158 @@
             ]
         },
         {
-            "name": "7. وليّ الأمر: الفواتير والدفع — Bahga Pay",
+            "name": "7. الحائط اليومي — Daily Wall",
+            "description": "يوميات الطفل: المعلمة تنشر (صور، وجبة، نوم، مزاج، نشاط، حادثة...) لطفل أو لفصل كامل، والأسرة ترى ما يخص طفلها فقط. متاح عندما تكون `capabilities.daily_wall` مفعّلة (وإلا `404`).\n\n**قواعد الخصوصية (مُطبَّقة على الخادم):**\n- لا صورة لطفل بدون **إذن تصوير** من وليّ الأمر الأساسي، والصورة الجماعية تحتاج **إذن الصور الجماعية** لكل طفل فيها.\n- سحب إذن الصور الجماعية يُخفي فوراً الصور الجماعية القديمة عن باقي الأسر.\n- الأسرة لا ترى أسماء الأطفال الآخرين أبداً.\n- الصور تُعاد معالجتها (حذف بيانات EXIF والموقع GPS) وتُخزَّن خاصة، وتُعرض فقط عبر روابط موقّعة صالحة 30 دقيقة (`photos[].url` و`thumb_url`) — استخدمها مباشرة في `<img>` بدون توكن، واطلب الصفحة من جديد بعد `expires_at`.",
+            "item": [
+                {
+                    "name": "Guardian — photo consent for my child",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/wards/{{child_id}}/photo-consent",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "wards",
+                                "{{child_id}}",
+                                "photo-consent"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "description": "إذن التصوير الحالي:\n\n| الحقل | المعنى |\n|---|---|\n| `wall` | يُسمح بتصوير الطفل لحائط أسرته |\n| `group_photos` | يُسمح بظهوره في صور جماعية تراها أسر أخرى (يتطلب `wall`) |\n| `can_change` | هل أنت وليّ الأمر الأساسي (وحده يغيّر الإذن) |\n\nالافتراضي **بدون إذن**: لا يمكن نشر صور للطفل حتى توافق الأسرة.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`404` | `not_found` | ليس من أطفالك"
+                    },
+                    "response": [
+                        {
+                            "name": "200 — لا يوجد إذن بعد",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/wards/{{child_id}}/photo-consent",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "wards",
+                                        "{{child_id}}",
+                                        "photo-consent"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"wall\": false,\n        \"group_photos\": false,\n        \"can_change\": true\n    }\n}"
+                        },
+                        {
+                            "name": "200 — الإذن الحالي",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/wards/{{child_id}}/photo-consent",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "wards",
+                                        "{{child_id}}",
+                                        "photo-consent"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"wall\": true,\n        \"group_photos\": true,\n        \"can_change\": true\n    }\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [200]', () => pm.expect(pm.response.code).to.be.oneOf([200]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Guardian — give / withdraw photo consent",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/wards/{{child_id}}/photo-consent",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "wards",
+                                "{{child_id}}",
+                                "photo-consent"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"wall\": true,\n    \"group_photos\": true\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "أرسل `wall` و/أو `group_photos`. كل تغيير يُسجَّل في سجل التدقيق.\n\nسحب `group_photos` يُخفي فوراً الصور الجماعية القديمة التي فيها طفلك عن باقي الأسر (وتبقى ظاهرة لك).\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`403` | `forbidden` | لست وليّ الأمر الأساسي\n`404` | `not_found` | ليس من أطفالك\n`422` | `validation_failed` | لا `wall` ولا `group_photos`"
+                    },
+                    "response": [
+                        {
+                            "name": "200 — السماح بالتصوير والصور الجماعية",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/wards/{{child_id}}/photo-consent",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "wards",
+                                        "{{child_id}}",
+                                        "photo-consent"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"wall\": true,\n    \"group_photos\": true\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"wall\": true,\n        \"group_photos\": true,\n        \"can_change\": true\n    }\n}"
+                        },
+                        {
+                            "name": "404 — وصيّ محظور",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/wards/{{child_id}}/photo-consent",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "wards",
+                                        "{{child_id}}",
+                                        "photo-consent"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{blocked_guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"wall\": true,\n    \"group_photos\": true\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"العنصر المطلوب غير موجود.\",\n    \"code\": \"not_found\"\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [200]', () => pm.expect(pm.response.code).to.be.oneOf([200]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Teacher — post photos (multipart)",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/moments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "moments"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{teacher_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "type",
+                                    "value": "photo",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "child_ids[]",
+                                    "value": "{{child_id}}",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "body",
+                                    "value": "يوم الرسم بالألوان المائية",
+                                    "type": "text"
+                                },
+                                {
+                                    "key": "photos[]",
+                                    "type": "file",
+                                    "src": "samples/photo.jpg"
+                                }
+                            ]
+                        },
+                        "description": "**`multipart/form-data`**: `photos[]` حتى 10 صور (JPEG/PNG/WebP، حتى 10MB لكل صورة — يُفضَّل ضغطها على الجهاز قبل الرفع).\n\n- الخادم يحذف بيانات EXIF/GPS، ويعدّل اتجاه الصورة، ويحفظ نسخة حتى 2048px ومصغّرة 480px.\n- طفل واحد ⇐ يحتاج `wall`؛ أكثر من طفل (صورة جماعية) ⇐ كل طفل يحتاج `wall` + `group_photos`. الرسالة تذكر أسماء من ينقصه الإذن.\n- الخطة المجانية: 3 صور يومياً لكل طفل، وتُحذف الصور بعد 30 يوماً.\n- حد الطلبات: 30 نشراً/دقيقة لكل معلمة.\n\n> في Postman: افتح تبويب Body واختر ملف الصورة، أو شغّل newman مع `--working-dir docs/api`.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`402` | `plan_limit_reached` | تجاوز حد الصور اليومي للطفل في الخطة\n`403` | `forbidden` | ليس من موظفي الحضانة\n`422` | `validation_failed` | لا يوجد إذن تصوير/صور جماعية، أو ملف ليس صورة"
+                    },
+                    "response": [
+                        {
+                            "name": "422 — صورة لطفل بدون إذن تصوير",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "type",
+                                            "value": "photo",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "child_ids[]",
+                                            "value": "{{child_id}}",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "body",
+                                            "value": "يوم الرسم بالألوان المائية",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "photos[]",
+                                            "type": "file",
+                                            "src": "samples/photo.jpg"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Unprocessable Content",
+                            "code": 422,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"child_ids\": [\n            \"لا يوجد إذن تصوير لـ: يوسف\"\n        ]\n    }\n}"
+                        },
+                        {
+                            "name": "201 — نشر صورة",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "type",
+                                            "value": "photo",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "child_ids[]",
+                                            "value": "{{child_id}}",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "body",
+                                            "value": "يوم الرسم بالألوان المائية",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "photos[]",
+                                            "type": "file",
+                                            "src": "samples/photo.jpg"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 1,\n        \"type\": \"photo\",\n        \"summary\": \"صور جديدة\",\n        \"body\": \"يوم الرسم بالألوان المائية\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [\n            {\n                \"id\": 1,\n                \"width\": 512,\n                \"height\": 512,\n                \"url\": \"http://localhost/media/1/1/full?expires=1791108000&signature=61fc81317b86e7a1bee8f093c3fdd462138f629fd52a92510dee8c12637b8cef\",\n                \"thumb_url\": \"http://localhost/media/1/1/thumb?expires=1791108000&signature=95aa78606cfb0043954a508444759211fe9cc20a09ca19d83649249b66b1158d\",\n                \"expires_at\": \"2026-10-04T10:00:00+00:00\"\n            }\n        ],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "422 — صورة جماعية مع طفل بدون إذن",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "type",
+                                            "value": "photo",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "child_ids[]",
+                                            "value": "{{child_id}}",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "child_ids[]",
+                                            "value": "3",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "photos[]",
+                                            "type": "file",
+                                            "src": "samples/photo.jpg"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Unprocessable Content",
+                            "code": 422,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"child_ids\": [\n            \"لا يوجد إذن بالظهور في الصور الجماعية لـ: سليم\"\n        ]\n    }\n}"
+                        },
+                        {
+                            "name": "402 — تجاوز حد الصور اليومي",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "formdata",
+                                    "formdata": [
+                                        {
+                                            "key": "type",
+                                            "value": "photo",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "child_ids[]",
+                                            "value": "{{child_id}}",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "body",
+                                            "value": "يوم الرسم بالألوان المائية",
+                                            "type": "text"
+                                        },
+                                        {
+                                            "key": "photos[]",
+                                            "type": "file",
+                                            "src": "samples/photo.jpg"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Payment Required",
+                            "code": 402,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"تم بلوغ الحد الأقصى (1) لـ«صور يومية لكل طفل» في خطتك الحالية. يرجى الترقية.\",\n    \"code\": \"plan_limit_reached\",\n    \"errors\": {\n        \"resource\": \"daily_photos_per_child\",\n        \"limit\": 1\n    }\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [201]', () => pm.expect(pm.response.code).to.be.oneOf([201]));",
+                                    "if (pm.response.code === 201) pm.collectionVariables.set('moment_id', pm.response.json().data.id);"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Teacher — post an update for a whole class",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/moments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "moments"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{teacher_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    }\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "تحديث واحد لعدة أطفال: `child_ids` (حتى 100) **أو** `classroom_id` مع `except_child_ids` (\"الغداء لكل الفصل ما عدا عمر\").\n\n| `type` | الحقول | مثال `summary` |\n|---|---|---|\n| `meal` | `payload.meal` (breakfast/lunch/snack/dinner)، `payload.amount` (all/most/half/little/none) | وجبة الغداء: أكل نصفه |\n| `nap` | `payload.from`, `payload.to` (HH:MM) | نام من 12:30 إلى 14:00 |\n| `diaper` | `payload.kind` (wet/dirty/dry) | تغيير حفاض (مبلل) |\n| `mood` | `payload.mood` (happy/calm/tired/sad/upset) | المزاج: سعيد |\n| `activity` | `payload.title` | نشاط: الرسم |\n| `note`, `health`, `incident` | `body` مطلوب | — |\n| `photo` | `photos[]` (multipart) | صور جديدة |\n\nكل أسرة يصلها **إشعار واحد** حتى لو لها أكثر من طفل في التحديث. `summary` يُعرض بلغة الطلب.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`403` | `forbidden` | ليس من موظفي الحضانة\n`422` | `validation_failed` | حقول النوع ناقصة، أو `child_ids` مع `classroom_id` معاً"
+                    },
+                    "response": [
+                        {
+                            "name": "201 — الغداء لكل الفصل ما عدا طفل",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 2,\n        \"type\": \"meal\",\n        \"summary\": \"وجبة الغداء: أكل نصفه\",\n        \"body\": null,\n        \"payload\": {\n            \"meal\": \"lunch\",\n            \"amount\": \"half\"\n        },\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": {\n            \"id\": 1,\n            \"name\": \"عباد الشمس\"\n        },\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            },\n            {\n                \"id\": 5,\n                \"first_name\": \"آدم\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "201 — نوم لطفل واحد",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"type\": \"nap\",\n    \"child_ids\": [\n        \"{{child_id}}\"\n    ],\n    \"payload\": {\n        \"from\": \"12:30\",\n        \"to\": \"14:00\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 3,\n        \"type\": \"nap\",\n        \"summary\": \"نام من 12:30 إلى 14:00\",\n        \"body\": null,\n        \"payload\": {\n            \"from\": \"12:30\",\n            \"to\": \"14:00\"\n        },\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"requires_ack\": false,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "422 — وجبة بدون الكمية",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"type\": \"meal\",\n    \"child_ids\": [\n        \"{{child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Unprocessable Content",
+                            "code": 422,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"payload.amount\": [\n            \"حقل الكمية مطلوب.\"\n        ]\n    }\n}"
+                        },
+                        {
+                            "name": "403 — وليّ أمر يحاول النشر",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"type\": \"meal\",\n    \"classroom_id\": \"{{classroom_id}}\",\n    \"except_child_ids\": [\n        \"{{second_child_id}}\"\n    ],\n    \"payload\": {\n        \"meal\": \"lunch\",\n        \"amount\": \"half\"\n    }\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Forbidden",
+                            "code": 403,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"غير مصرح لك بتنفيذ هذا الإجراء.\",\n    \"code\": \"forbidden\"\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [201]', () => pm.expect(pm.response.code).to.be.oneOf([201]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Teacher — report a minor incident",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            },
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/moments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "moments"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{teacher_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"type\": \"incident\",\n    \"child_ids\": [\n        \"{{child_id}}\"\n    ],\n    \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "description": "نفس `POST /v1/moments` بـ `type: incident`. يصل للأسرة **فوراً حتى في ساعات الهدوء** (أولوية عالية، وSMS إن لم يصل الإشعار)، والتفاصيل لا تظهر على شاشة القفل.\n\n`requires_ack: true` — تنتظر الإدارة إقرار وليّ الأمر (`children[].acknowledged_at`).\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`422` | `validation_failed` | `body` مطلوب"
+                    },
+                    "response": [
+                        {
+                            "name": "201 — تقرير حادثة بسيطة",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"type\": \"incident\",\n    \"child_ids\": [\n        \"{{child_id}}\"\n    ],\n    \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\"\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 4,\n        \"type\": \"incident\",\n        \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n        \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"classroom\": null,\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": null\n            }\n        ],\n        \"photos\": [],\n        \"requires_ack\": true,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "422 — بدون وصف",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    },
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "application/json"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                },
+                                "body": {
+                                    "mode": "raw",
+                                    "raw": "{\n    \"type\": \"incident\",\n    \"child_ids\": [\n        \"{{child_id}}\"\n    ]\n}",
+                                    "options": {
+                                        "raw": {
+                                            "language": "json"
+                                        }
+                                    }
+                                }
+                            },
+                            "status": "Unprocessable Content",
+                            "code": 422,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"body\": [\n            \"حقل النص مطلوب.\"\n        ]\n    }\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [201]', () => pm.expect(pm.response.code).to.be.oneOf([201]));",
+                                    "if (pm.response.code === 201) pm.collectionVariables.set('incident_id', pm.response.json().data.id);"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Staff — the wall",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/moments?classroom_id={{classroom_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "moments"
+                            ],
+                            "query": [
+                                {
+                                    "key": "classroom_id",
+                                    "value": "{{classroom_id}}"
+                                }
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{teacher_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "description": "حائط الحضانة للموظفين، الأحدث أولاً (20 في الصفحة). فلاتر اختيارية: `child_id`، `classroom_id`، `date` (YYYY-MM-DD بتوقيت القاهرة).\n\nالموظفون يرون كل الأطفال الموسومين وحالة إقرار الحوادث.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`403` | `forbidden` | ليس من موظفي الحضانة\n`422` | `validation_failed` | طفل/فصل من حضانة أخرى"
+                    },
+                    "response": [
+                        {
+                            "name": "200 — حائط الفصل",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments?classroom_id={{classroom_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "classroom_id",
+                                            "value": "{{classroom_id}}"
+                                        }
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 2,\n            \"type\": \"meal\",\n            \"summary\": \"وجبة الغداء: أكل نصفه\",\n            \"body\": null,\n            \"payload\": {\n                \"meal\": \"lunch\",\n                \"amount\": \"half\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"classroom\": {\n                \"id\": 1,\n                \"name\": \"عباد الشمس\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                },\n                {\n                    \"id\": 5,\n                    \"first_name\": \"آدم\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/moments?page=1\",\n        \"last\": \"http://localhost/api/v1/moments?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/moments?page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/moments\",\n        \"per_page\": 20,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
+                        },
+                        {
+                            "name": "403 — وليّ أمر يحاول الوصول",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments?classroom_id={{classroom_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments"
+                                    ],
+                                    "query": [
+                                        {
+                                            "key": "classroom_id",
+                                            "value": "{{classroom_id}}"
+                                        }
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Forbidden",
+                            "code": 403,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"غير مصرح لك بتنفيذ هذا الإجراء.\",\n    \"code\": \"forbidden\"\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [200]', () => pm.expect(pm.response.code).to.be.oneOf([200]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Guardian — my child's wall",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/wards/{{child_id}}/moments",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "wards",
+                                "{{child_id}}",
+                                "moments"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "description": "يوميات طفلي، الأحدث أولاً. `children` يحوي طفلي فقط (لا أسماء أطفال آخرين). روابط الصور صالحة 30 دقيقة.\n\nيتطلب `my_link.can_view_wall`.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`403` | `forbidden` | ليست لديك صلاحية عرض الحائط\n`404` | `not_found` | ليس من أطفالك أو محظور بحكم حضانة"
+                    },
+                    "response": [
+                        {
+                            "name": "200 — يوميات طفلي",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/wards/{{child_id}}/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "wards",
+                                        "{{child_id}}",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": [\n        {\n            \"id\": 4,\n            \"type\": \"incident\",\n            \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n            \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n            \"payload\": {},\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"requires_ack\": true,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 3,\n            \"type\": \"nap\",\n            \"summary\": \"نام من 12:30 إلى 14:00\",\n            \"body\": null,\n            \"payload\": {\n                \"from\": \"12:30\",\n                \"to\": \"14:00\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 2,\n            \"type\": \"meal\",\n            \"summary\": \"وجبة الغداء: أكل نصفه\",\n            \"body\": null,\n            \"payload\": {\n                \"meal\": \"lunch\",\n                \"amount\": \"half\"\n            },\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        },\n        {\n            \"id\": 1,\n            \"type\": \"photo\",\n            \"summary\": \"صور جديدة\",\n            \"body\": \"يوم الرسم بالألوان المائية\",\n            \"payload\": {},\n            \"author\": {\n                \"id\": 2,\n                \"name\": \"مس هالة\"\n            },\n            \"children\": [\n                {\n                    \"id\": 1,\n                    \"first_name\": \"يوسف\",\n                    \"acknowledged_at\": null\n                }\n            ],\n            \"photos\": [\n                {\n                    \"id\": 1,\n                    \"width\": 512,\n                    \"height\": 512,\n                    \"url\": \"http://localhost/media/1/1/full?expires=1791108000&signature=61fc81317b86e7a1bee8f093c3fdd462138f629fd52a92510dee8c12637b8cef\",\n                    \"thumb_url\": \"http://localhost/media/1/1/thumb?expires=1791108000&signature=95aa78606cfb0043954a508444759211fe9cc20a09ca19d83649249b66b1158d\",\n                    \"expires_at\": \"2026-10-04T10:00:00+00:00\"\n                }\n            ],\n            \"requires_ack\": false,\n            \"published_at\": \"2026-10-04T09:30:00+00:00\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n        \"last\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; السابق\",\n                \"page\": null,\n                \"active\": false\n            },\n            {\n                \"url\": \"http://localhost/api/v1/me/wards/1/moments?page=1\",\n                \"label\": \"1\",\n                \"page\": 1,\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"التالي &raquo;\",\n                \"page\": null,\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://localhost/api/v1/me/wards/1/moments\",\n        \"per_page\": 20,\n        \"to\": 4,\n        \"total\": 4\n    }\n}"
+                        },
+                        {
+                            "name": "404 — وصيّ محظور",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/wards/{{child_id}}/moments",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "wards",
+                                        "{{child_id}}",
+                                        "moments"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{blocked_guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"العنصر المطلوب غير موجود.\",\n    \"code\": \"not_found\"\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [200]', () => pm.expect(pm.response.code).to.be.oneOf([200]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Guardian — acknowledge an incident",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/me/wards/{{child_id}}/moments/{{incident_id}}/acknowledge",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "me",
+                                "wards",
+                                "{{child_id}}",
+                                "moments",
+                                "{{incident_id}}",
+                                "acknowledge"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{guardian_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "description": "وليّ الأمر يؤكد أنه اطّلع على تقرير الحادثة. التكرار آمن.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`404` | `not_found` | ليس من أطفالك أو التحديث لا يخص طفلك\n`422` | `validation_failed` | التحديث ليس حادثة"
+                    },
+                    "response": [
+                        {
+                            "name": "200 — الإقرار بالحادثة",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/wards/{{child_id}}/moments/{{incident_id}}/acknowledge",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "wards",
+                                        "{{child_id}}",
+                                        "moments",
+                                        "{{incident_id}}",
+                                        "acknowledge"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"data\": {\n        \"id\": 4,\n        \"type\": \"incident\",\n        \"summary\": \"حادثة بسيطة تحتاج إقرارك\",\n        \"body\": \"تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.\",\n        \"payload\": {},\n        \"author\": {\n            \"id\": 2,\n            \"name\": \"مس هالة\"\n        },\n        \"children\": [\n            {\n                \"id\": 1,\n                \"first_name\": \"يوسف\",\n                \"acknowledged_at\": \"2026-10-04T09:30:00+00:00\"\n            }\n        ],\n        \"photos\": [],\n        \"requires_ack\": true,\n        \"published_at\": \"2026-10-04T09:30:00+00:00\"\n    }\n}"
+                        },
+                        {
+                            "name": "422 — تحديث ليس حادثة",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/me/wards/{{child_id}}/moments/{{incident_id}}/acknowledge",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "me",
+                                        "wards",
+                                        "{{child_id}}",
+                                        "moments",
+                                        "{{incident_id}}",
+                                        "acknowledge"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Unprocessable Content",
+                            "code": 422,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"البيانات المرسلة غير صحيحة.\",\n    \"code\": \"validation_failed\",\n    \"errors\": {\n        \"moment\": [\n            \"هذا التحديث لا يحتاج إلى إقرار.\"\n        ]\n    }\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [200]', () => pm.expect(pm.response.code).to.be.oneOf([200]));"
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "Delete an update",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Accept-Language",
+                                "value": "{{lang}}",
+                                "description": "ar (default) or en"
+                            },
+                            {
+                                "key": "X-Tenant-Id",
+                                "value": "{{tenant_id}}",
+                                "description": "The nursery to act in (from GET /v1/me)"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/v1/moments/{{moment_id}}",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "v1",
+                                "moments",
+                                "{{moment_id}}"
+                            ]
+                        },
+                        "auth": {
+                            "type": "bearer",
+                            "bearer": [
+                                {
+                                    "key": "token",
+                                    "value": "{{teacher_token}}",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "description": "المعلمة تحذف تحديثها خلال 24 ساعة، والإدارة تحذف أي تحديث في أي وقت. الصور تُمحى فوراً (روابطها تعيد `404`)، والحذف يُسجَّل في التدقيق.\n\n**الأخطاء المتوقعة**\n\n| الحالة | code | متى |\n|---|---|---|\n`403` | `forbidden` | بعد 24 ساعة (للمعلمة) أو ليس من الموظفين\n`404` | `not_found` | غير موجود أو محذوف"
+                    },
+                    "response": [
+                        {
+                            "name": "403 — وليّ أمر يحاول الحذف",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments/{{moment_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments",
+                                        "{{moment_id}}"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{guardian_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Forbidden",
+                            "code": 403,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"يمكن للمعلمة حذف تحديثها خلال 24 ساعة فقط؛ بعدها تحذفه الإدارة.\",\n    \"code\": \"forbidden\"\n}"
+                        },
+                        {
+                            "name": "204 — حذف تحديث (والصور معه)",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments/{{moment_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments",
+                                        "{{moment_id}}"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "No Content",
+                            "code": 204,
+                            "_postman_previewlanguage": "text",
+                            "header": [
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": ""
+                        },
+                        {
+                            "name": "404 — تحديث محذوف",
+                            "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                    {
+                                        "key": "Accept",
+                                        "value": "application/json"
+                                    },
+                                    {
+                                        "key": "Accept-Language",
+                                        "value": "{{lang}}",
+                                        "description": "ar (default) or en"
+                                    },
+                                    {
+                                        "key": "X-Tenant-Id",
+                                        "value": "{{tenant_id}}",
+                                        "description": "The nursery to act in (from GET /v1/me)"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{base_url}}/v1/moments/{{moment_id}}",
+                                    "host": [
+                                        "{{base_url}}"
+                                    ],
+                                    "path": [
+                                        "v1",
+                                        "moments",
+                                        "{{moment_id}}"
+                                    ]
+                                },
+                                "auth": {
+                                    "type": "bearer",
+                                    "bearer": [
+                                        {
+                                            "key": "token",
+                                            "value": "{{teacher_token}}",
+                                            "type": "string"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                },
+                                {
+                                    "key": "Content-Language",
+                                    "value": "ar"
+                                }
+                            ],
+                            "cookie": [],
+                            "body": "{\n    \"message\": \"العنصر المطلوب غير موجود.\",\n    \"code\": \"not_found\"\n}"
+                        }
+                    ],
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "type": "text/javascript",
+                                "exec": [
+                                    "pm.test('status is one of [204]', () => pm.expect(pm.response.code).to.be.oneOf([204]));"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "8. وليّ الأمر: الفواتير والدفع — Bahga Pay",
             "description": "متاحة فقط عندما تكون «بهجة باي» مفعّلة للحضانة (`capabilities.bahga_pay`)، والدفع الإلكتروني عندما تشمله الخطة (`capabilities.online_payments`).",
             "item": [
                 {
@@ -9450,7 +11611,7 @@
             ]
         },
         {
-            "name": "8. الإدارة: الاشتراك — Owner",
+            "name": "9. الإدارة: الاشتراك — Owner",
             "description": "اشتراك الحضانة في منصة بهجة: الاستهلاك، الخطط، والترقية.",
             "item": [
                 {
@@ -10026,7 +12187,7 @@
             ]
         },
         {
-            "name": "9. Webhooks (للبوابات فقط — Server to server)",
+            "name": "10. Webhooks (للبوابات فقط — Server to server)",
             "description": "إشعارات بوابات الدفع. **لا تستدعيها التطبيقات**؛ موجودة للتوثيق واختبار التكامل. لا تقبل إلا الطلبات الموقّعة.",
             "item": [
                 {
@@ -10121,7 +12282,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44AB7HDXAW588YDBDCTT109\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44CN03QGW8SDPM05Z313SJ7\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -10186,7 +12347,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44AB7HDXAW588YDBDCTT109\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44CN03QGW8SDPM05Z313SJ7\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -10251,7 +12412,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44AB7HDXAW588YDBDCTT109\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
+                                    "raw": "{\n    \"type\": \"TRANSACTION\",\n    \"obj\": {\n        \"id\": 192837465,\n        \"pending\": false,\n        \"amount_cents\": 351500,\n        \"success\": true,\n        \"is_auth\": false,\n        \"is_capture\": false,\n        \"is_standalone_payment\": true,\n        \"is_voided\": false,\n        \"is_refunded\": false,\n        \"is_3d_secure\": true,\n        \"integration_id\": 111,\n        \"has_parent_transaction\": false,\n        \"error_occured\": false,\n        \"currency\": \"EGP\",\n        \"owner\": 42,\n        \"created_at\": \"2026-10-04T12:00:00\",\n        \"order\": {\n            \"id\": 777,\n            \"merchant_order_id\": \"BHG1-01M44CN03QGW8SDPM05Z313SJ7\"\n        },\n        \"source_data\": {\n            \"pan\": \"2346\",\n            \"type\": \"card\",\n            \"sub_type\": \"MasterCard\"\n        }\n    }\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -10368,7 +12529,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"requestId\": \"req-1\",\n    \"fawryRefNumber\": \"966512345\",\n    \"merchantRefNumber\": \"BHG1-01M44AB7GYX5AZMAJTC0KTRQR2\",\n    \"paymentAmount\": 3520,\n    \"orderAmount\": \"3515.00\",\n    \"fawryFees\": 5,\n    \"orderStatus\": \"PAID\",\n    \"paymentMethod\": \"PAYATFAWRY\",\n    \"paymentRefrenceNumber\": \"24601\",\n    \"messageSignature\": \"ab3eb0ea87f995d0020d733bacdbf78cee24b97f970b94452c554033c1b54531\"\n}",
+                                    "raw": "{\n    \"requestId\": \"req-1\",\n    \"fawryRefNumber\": \"966512345\",\n    \"merchantRefNumber\": \"BHG1-01M44CN037YXG2XTCPMWW43RWT\",\n    \"paymentAmount\": 3520,\n    \"orderAmount\": \"3515.00\",\n    \"fawryFees\": 5,\n    \"orderStatus\": \"PAID\",\n    \"paymentMethod\": \"PAYATFAWRY\",\n    \"paymentRefrenceNumber\": \"24601\",\n    \"messageSignature\": \"807705061a749849098e7eee7086fcd3a23f4509aa5afb148a09c94f0adb0881\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -10427,7 +12588,7 @@
                                 },
                                 "body": {
                                     "mode": "raw",
-                                    "raw": "{\n    \"merchantRefNumber\": \"BHG1-01M44AB7GYX5AZMAJTC0KTRQR2\",\n    \"orderStatus\": \"PAID\",\n    \"paymentAmount\": \"1.00\",\n    \"orderAmount\": \"1.00\",\n    \"messageSignature\": \"forged\"\n}",
+                                    "raw": "{\n    \"merchantRefNumber\": \"BHG1-01M44CN037YXG2XTCPMWW43RWT\",\n    \"orderStatus\": \"PAID\",\n    \"paymentAmount\": \"1.00\",\n    \"orderAmount\": \"1.00\",\n    \"messageSignature\": \"forged\"\n}",
                                     "options": {
                                         "raw": {
                                             "language": "json"
@@ -10467,7 +12628,7 @@
             ]
         },
         {
-            "name": "10. مرجع الأخطاء — Error reference",
+            "name": "11. مرجع الأخطاء — Error reference",
             "description": "أمثلة على شكل الخطأ الموحّد. القائمة الكاملة للأكواد في وصف المجموعة.",
             "item": [
                 {
@@ -10703,7 +12864,7 @@
             ]
         },
         {
-            "name": "11. إنهاء الجلسة — Logout",
+            "name": "12. إنهاء الجلسة — Logout",
             "description": "في النهاية حتى لا يُلغى توكن المالك أثناء تشغيل المجموعة كاملة (Collection Runner).",
             "item": [
                 {

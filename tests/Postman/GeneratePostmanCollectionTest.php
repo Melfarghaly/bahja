@@ -36,7 +36,9 @@ use App\Services\Tuition\TuitionBillingService;
 use App\Support\TenantContext;
 use Carbon\CarbonImmutable;
 use Database\Seeders\SubscriptionPlanSeeder;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Pennant\Feature;
 use Tests\Postman\PostmanCollection;
 use Tests\Support\FakePushGateway;
@@ -78,6 +80,8 @@ it('generates the Postman collection from real API responses', function () {
     Feature::for($tenant)->activate('bahga-pay');
     Feature::for($tenant)->activate('safe-pickup-v2');
     Feature::for($tenant)->activate('messaging-hub');
+    Feature::for($tenant)->activate('daily-wall');
+    Storage::fake('local');
     $this->app->instance(PushGateway::class, new FakePushGateway);
     FeeDiscount::create(['name' => 'خصم الإخوة', 'type' => 'sibling', 'value_type' => 'percent', 'value' => 1_000, 'is_active' => true]);
     $monthly = FeePlan::create(['name' => 'المصروفات الشهرية', 'amount_piasters' => 185_000, 'frequency' => 'monthly', 'is_active' => true]);
@@ -106,6 +110,7 @@ it('generates the Postman collection from real API responses', function () {
         'second_child_id' => $layla->id, 'bulk_checked_in_at' => now()->subMinutes(5)->toIso8601String(),
         'pickup_token' => '', 'pass_code' => '', 'pass_id' => '', 'pass_valid_until' => now()->addHours(4)->toIso8601String(),
         'device_token' => 'dXk3bWZ1Y2h6U0K:APA91bHq2demo-fcm-registration-token-for-postman', 'notification_id' => '',
+        'moment_id' => '', 'incident_id' => '',
     ];
 
     /* ------------------------------------------------------ collection */
@@ -134,9 +139,28 @@ it('generates the Postman collection from real API responses', function () {
         ['key' => 'pass_id', 'value' => '', 'description' => 'Set by "Issue a one-time pickup pass"'],
         ['key' => 'device_token', 'value' => 'dXk3bWZ1Y2h6U0K:APA91bHq2demo-fcm-registration-token-for-postman', 'description' => "The app's FCM token (a demo value)"],
         ['key' => 'notification_id', 'value' => '', 'description' => 'Set by "My notifications"'],
+        ['key' => 'moment_id', 'value' => '', 'description' => 'Set by "Teacher — post photos"'],
+        ['key' => 'incident_id', 'value' => '', 'description' => 'Set by "Teacher — report a minor incident"'],
     ]);
 
-    $run = function (string $key, string $name, int $status, array $o = []) use ($c, &$specs, $tokens, &$vars) {
+    // "@file:samples/photo.jpg" → an uploaded copy of docs/api/samples/photo.jpg
+    $withFiles = function (array $data) use (&$withFiles) {
+        return array_map(function ($value) use ($withFiles) {
+            if (is_array($value)) {
+                return $withFiles($value);
+            }
+            if (is_string($value) && str_starts_with($value, '@file:')) {
+                $copy = tempnam(sys_get_temp_dir(), 'pm').'.jpg';
+                copy(base_path('docs/api/'.substr($value, 6)), $copy);
+
+                return new UploadedFile($copy, basename($value), 'image/jpeg', null, true);
+            }
+
+            return $value;
+        }, $data);
+    };
+
+    $run = function (string $key, string $name, int $status, array $o = []) use ($c, &$specs, $tokens, &$vars, $withFiles) {
         $spec = $specs[$key];
         $as = array_key_exists('as', $o) ? $o['as'] : $spec['auth'];
         $tenantHeader = $o['tenant'] ?? ($spec['tenant'] ?? true);
@@ -166,12 +190,15 @@ it('generates the Postman collection from real API responses', function () {
         app('auth')->forgetGuards();
         $this->flushHeaders();
         $uri = '/api/'.$fill($spec['path']).($query ? '?'.http_build_query($fill($query)) : '');
-        $response = $this->withHeaders($headers)->json($spec['method'], $uri, $bodyTemplate === null ? [] : $fill($bodyTemplate));
+        $payload = $bodyTemplate === null ? [] : $fill($bodyTemplate);
+        $response = ($spec['multipart'] ?? false)
+            ? $this->withHeaders($headers)->post($uri, $withFiles($payload))
+            : $this->withHeaders($headers)->json($spec['method'], $uri, $payload);
 
         expect($response->status())->toBe($status, "[{$key}] {$name}: ".$response->getContent());
 
         $content = $response->getContent();
-        $pretty = $content === '' ? '' : json_encode(json_decode($content, true), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $pretty = $content === '' ? '' : json_encode(json_decode($content), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         $responseHeaders = array_filter([
             'Content-Type' => $content === '' ? null : 'application/json',
             'Content-Language' => $response->headers->get('Content-Language'),
@@ -342,6 +369,37 @@ it('generates the Postman collection from real API responses', function () {
     $run('notifications_read_all', 'قراءة الكل', 200);
     $run('devices_destroy', 'إيقاف الإشعارات على هذا الجهاز', 204);
     $run('devices_destroy', 'بدون توكن الجهاز', 422, ['body' => []]);
+
+    /* ---------------------------------------------------- Daily Wall */
+    $run('photo_consent_show', 'لا يوجد إذن بعد', 200);
+    $run('moments_store_photo', 'صورة لطفل بدون إذن تصوير', 422);
+    $run('photo_consent_update', 'السماح بالتصوير والصور الجماعية', 200);
+    $run('photo_consent_show', 'الإذن الحالي', 200);
+    $run('photo_consent_update', 'وصيّ محظور', 404, ['as' => 'blocked_guardian']);
+    $vars['moment_id'] = $run('moments_store_photo', 'نشر صورة', 201)->json('data.id');
+    $run('moments_store_photo', 'صورة جماعية مع طفل بدون إذن', 422, ['body' => ['type' => 'photo', 'child_ids' => ['{{child_id}}', $saleem->id], 'photos' => ['@file:samples/photo.jpg']]]);
+    $photoLimit = TenantEntitlementOverride::factory()->create(['tenant_id' => $tenant->id, 'key' => 'daily_photos_per_child', 'value' => 1]);
+    app(EntitlementService::class)->forget($tenant);
+    $run('moments_store_photo', 'تجاوز حد الصور اليومي', 402);
+    $photoLimit->delete();
+    app(EntitlementService::class)->forget($tenant);
+
+    $run('moments_store', 'الغداء لكل الفصل ما عدا طفل', 201);
+    $run('moments_store', 'نوم لطفل واحد', 201, ['body' => ['type' => 'nap', 'child_ids' => ['{{child_id}}'], 'payload' => ['from' => '12:30', 'to' => '14:00']]]);
+    $run('moments_store', 'وجبة بدون الكمية', 422, ['body' => ['type' => 'meal', 'child_ids' => ['{{child_id}}'], 'payload' => ['meal' => 'lunch']]]);
+    $run('moments_store', 'وليّ أمر يحاول النشر', 403, ['as' => 'guardian']);
+    $vars['incident_id'] = $run('incident_store', 'تقرير حادثة بسيطة', 201)->json('data.id');
+    $run('incident_store', 'بدون وصف', 422, ['body' => ['type' => 'incident', 'child_ids' => ['{{child_id}}']]]);
+
+    $run('moments_index', 'حائط الفصل', 200);
+    $run('moments_index', 'وليّ أمر يحاول الوصول', 403, ['as' => 'guardian']);
+    $run('ward_moments', 'يوميات طفلي', 200);
+    $run('ward_moments', 'وصيّ محظور', 404, ['as' => 'blocked_guardian']);
+    $run('moment_acknowledge', 'الإقرار بالحادثة', 200);
+    $run('moment_acknowledge', 'تحديث ليس حادثة', 422, ['vars' => ['incident_id' => $vars['moment_id']]]);
+    $run('moments_destroy', 'وليّ أمر يحاول الحذف', 403, ['as' => 'guardian']);
+    $run('moments_destroy', 'حذف تحديث (والصور معه)', 204);
+    $run('moments_destroy', 'تحديث محذوف', 404);
 
     /* ------------------------------------------------ 6. Guardian: invoices */
     $run('payment_methods', 'طرق الدفع المتاحة', 200);

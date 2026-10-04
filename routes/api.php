@@ -7,13 +7,16 @@ use App\Http\Controllers\Api\V1\ClassroomController;
 use App\Http\Controllers\Api\V1\DeviceController;
 use App\Http\Controllers\Api\V1\GuardianController;
 use App\Http\Controllers\Api\V1\GuardianPickupController;
+use App\Http\Controllers\Api\V1\MomentController;
 use App\Http\Controllers\Api\V1\MyInvoiceController;
 use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\OtpController;
+use App\Http\Controllers\Api\V1\PhotoConsentController;
 use App\Http\Controllers\Api\V1\PickupController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\Api\V1\WardController;
+use App\Http\Controllers\Api\V1\WardMomentController;
 use App\Http\Controllers\Webhooks\PaymentWebhookController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,6 +74,18 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
         Route::post('me/wards/{child}/pickup-passes', [GuardianPickupController::class, 'store']);
         Route::delete('me/pickup-passes/{pass}', [GuardianPickupController::class, 'destroy']);
         Route::post('attendance/pickup/verify', [PickupController::class, 'verify'])->middleware('throttle:pickup-verify');
+    });
+
+    // Daily Wall (released per nursery).
+    Route::middleware(['rollout:daily-wall', 'entitled:wall'])->group(function () {
+        Route::get('moments', [MomentController::class, 'index']);
+        Route::post('moments', [MomentController::class, 'store'])->middleware('throttle:wall-post');
+        Route::delete('moments/{moment}', [MomentController::class, 'destroy']);
+
+        Route::get('me/wards/{child}/moments', [WardMomentController::class, 'index']);
+        Route::post('me/wards/{child}/moments/{moment}/acknowledge', [WardMomentController::class, 'acknowledge']);
+        Route::get('me/wards/{child}/photo-consent', [PhotoConsentController::class, 'show']);
+        Route::put('me/wards/{child}/photo-consent', [PhotoConsentController::class, 'update']);
     });
 
     // Bahga Pay: the guardian's own family invoices (payer only).

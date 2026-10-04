@@ -76,7 +76,7 @@ return [
             "    console.log('tenant_id =', nurseries[0].id);",
             '}',
         ]),
-        'description' => "**أول طلب يرسله التطبيق بعد الدخول.** لا يحتاج `X-Tenant-Id`.\n\nيعيد بيانات المستخدم وكل حضانة ينتمي إليها مع:\n- `roles`: owner / admin / teacher / guardian (قد تجتمع أدوار، مثلاً معلمة وهي أيضاً وليّة أمر).\n- `capabilities`: ما يقرره التطبيق لعرض الشاشات:\n  - `take_attendance`, `view_children` → شاشات المعلمة\n  - `manage_children`, `manage_nursery` → شاشات الإدارة\n  - `guardian` → شاشات وليّ الأمر\n  - `bahga_pay` → الفواتير، `online_payments` → زر الدفع الإلكتروني\n  - `safe_pickup` → كود الاستلام (QR) والتصاريح لوليّ الأمر، وشاشة المسح عند الباب للمعلمة\n\nأرسل `id` الحضانة المختارة في الهيدر **`X-Tenant-Id`** في كل الطلبات التالية."
+        'description' => "**أول طلب يرسله التطبيق بعد الدخول.** لا يحتاج `X-Tenant-Id`.\n\nيعيد بيانات المستخدم وكل حضانة ينتمي إليها مع:\n- `roles`: owner / admin / teacher / guardian (قد تجتمع أدوار، مثلاً معلمة وهي أيضاً وليّة أمر).\n- `capabilities`: ما يقرره التطبيق لعرض الشاشات:\n  - `take_attendance`, `view_children` → شاشات المعلمة\n  - `manage_children`, `manage_nursery` → شاشات الإدارة\n  - `guardian` → شاشات وليّ الأمر\n  - `bahga_pay` → الفواتير، `online_payments` → زر الدفع الإلكتروني\n  - `safe_pickup` → كود الاستلام (QR) والتصاريح لوليّ الأمر، وشاشة المسح عند الباب للمعلمة\n  - `daily_wall` → الحائط اليومي (نشر المعلمة، ويوميات الطفل للأسرة)\n\nأرسل `id` الحضانة المختارة في الهيدر **`X-Tenant-Id`** في كل الطلبات التالية."
             .$errors('`401` | `unauthenticated` | توكن ناقص أو منتهٍ'),
     ],
     'me_update' => [
@@ -90,7 +90,7 @@ return [
     ],
     'logout' => [
         'expect' => [204],
-        'folder' => '11. إنهاء الجلسة — Logout',
+        'folder' => '12. إنهاء الجلسة — Logout',
         'name' => 'Logout (revoke current token)',
         'method' => 'DELETE', 'path' => 'v1/auth/tokens/current', 'auth' => 'owner', 'tenant' => false,
         'description' => 'يلغي التوكن المستخدم في هذا الطلب فقط (تسجيل خروج من هذا الجهاز). لا يعيد body (`204`).'
@@ -344,10 +344,91 @@ return [
             .$errors('`422` | `validation_failed` | `token` مطلوب'),
     ],
 
+    /* -------------------------------------------------------- Daily Wall */
+    'photo_consent_show' => [
+        'expect' => [200],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Guardian — photo consent for my child',
+        'method' => 'GET', 'path' => 'v1/me/wards/{{child_id}}/photo-consent', 'auth' => 'guardian',
+        'description' => "إذن التصوير الحالي:\n\n| الحقل | المعنى |\n|---|---|\n| `wall` | يُسمح بتصوير الطفل لحائط أسرته |\n| `group_photos` | يُسمح بظهوره في صور جماعية تراها أسر أخرى (يتطلب `wall`) |\n| `can_change` | هل أنت وليّ الأمر الأساسي (وحده يغيّر الإذن) |\n\nالافتراضي **بدون إذن**: لا يمكن نشر صور للطفل حتى توافق الأسرة."
+            .$errors('`404` | `not_found` | ليس من أطفالك'),
+    ],
+    'photo_consent_update' => [
+        'expect' => [200],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Guardian — give / withdraw photo consent',
+        'method' => 'PUT', 'path' => 'v1/me/wards/{{child_id}}/photo-consent', 'auth' => 'guardian',
+        'body' => ['wall' => true, 'group_photos' => true],
+        'description' => "أرسل `wall` و/أو `group_photos`. كل تغيير يُسجَّل في سجل التدقيق.\n\nسحب `group_photos` يُخفي فوراً الصور الجماعية القديمة التي فيها طفلك عن باقي الأسر (وتبقى ظاهرة لك)."
+            .$errors('`403` | `forbidden` | لست وليّ الأمر الأساسي', '`404` | `not_found` | ليس من أطفالك', '`422` | `validation_failed` | لا `wall` ولا `group_photos`'),
+    ],
+    'moments_store_photo' => [
+        'expect' => [201],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Teacher — post photos (multipart)',
+        'method' => 'POST', 'path' => 'v1/moments', 'auth' => 'teacher', 'multipart' => true,
+        'body' => ['type' => 'photo', 'child_ids' => ['{{child_id}}'], 'body' => 'يوم الرسم بالألوان المائية', 'photos' => ['@file:samples/photo.jpg']],
+        'script' => "if (pm.response.code === 201) pm.collectionVariables.set('moment_id', pm.response.json().data.id);",
+        'description' => "**`multipart/form-data`**: `photos[]` حتى 10 صور (JPEG/PNG/WebP، حتى 10MB لكل صورة — يُفضَّل ضغطها على الجهاز قبل الرفع).\n\n- الخادم يحذف بيانات EXIF/GPS، ويعدّل اتجاه الصورة، ويحفظ نسخة حتى 2048px ومصغّرة 480px.\n- طفل واحد ⇐ يحتاج `wall`؛ أكثر من طفل (صورة جماعية) ⇐ كل طفل يحتاج `wall` + `group_photos`. الرسالة تذكر أسماء من ينقصه الإذن.\n- الخطة المجانية: 3 صور يومياً لكل طفل، وتُحذف الصور بعد 30 يوماً.\n- حد الطلبات: 30 نشراً/دقيقة لكل معلمة.\n\n> في Postman: افتح تبويب Body واختر ملف الصورة، أو شغّل newman مع `--working-dir docs/api`."
+            .$errors('`402` | `plan_limit_reached` | تجاوز حد الصور اليومي للطفل في الخطة', '`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | لا يوجد إذن تصوير/صور جماعية، أو ملف ليس صورة'),
+    ],
+    'moments_store' => [
+        'expect' => [201],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Teacher — post an update for a whole class',
+        'method' => 'POST', 'path' => 'v1/moments', 'auth' => 'teacher',
+        'body' => ['type' => 'meal', 'classroom_id' => '{{classroom_id}}', 'except_child_ids' => ['{{second_child_id}}'], 'payload' => ['meal' => 'lunch', 'amount' => 'half']],
+        'description' => "تحديث واحد لعدة أطفال: `child_ids` (حتى 100) **أو** `classroom_id` مع `except_child_ids` (\"الغداء لكل الفصل ما عدا عمر\").\n\n| `type` | الحقول | مثال `summary` |\n|---|---|---|\n| `meal` | `payload.meal` (breakfast/lunch/snack/dinner)، `payload.amount` (all/most/half/little/none) | وجبة الغداء: أكل نصفه |\n| `nap` | `payload.from`, `payload.to` (HH:MM) | نام من 12:30 إلى 14:00 |\n| `diaper` | `payload.kind` (wet/dirty/dry) | تغيير حفاض (مبلل) |\n| `mood` | `payload.mood` (happy/calm/tired/sad/upset) | المزاج: سعيد |\n| `activity` | `payload.title` | نشاط: الرسم |\n| `note`, `health`, `incident` | `body` مطلوب | — |\n| `photo` | `photos[]` (multipart) | صور جديدة |\n\nكل أسرة يصلها **إشعار واحد** حتى لو لها أكثر من طفل في التحديث. `summary` يُعرض بلغة الطلب."
+            .$errors('`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | حقول النوع ناقصة، أو `child_ids` مع `classroom_id` معاً'),
+    ],
+    'incident_store' => [
+        'expect' => [201],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Teacher — report a minor incident',
+        'method' => 'POST', 'path' => 'v1/moments', 'auth' => 'teacher',
+        'body' => ['type' => 'incident', 'child_ids' => ['{{child_id}}'], 'body' => 'تعثّر في الحديقة وخدش ركبته خدشاً بسيطاً، تم تطهيره ووضع لاصق.'],
+        'script' => "if (pm.response.code === 201) pm.collectionVariables.set('incident_id', pm.response.json().data.id);",
+        'description' => "نفس `POST /v1/moments` بـ `type: incident`. يصل للأسرة **فوراً حتى في ساعات الهدوء** (أولوية عالية، وSMS إن لم يصل الإشعار)، والتفاصيل لا تظهر على شاشة القفل.\n\n`requires_ack: true` — تنتظر الإدارة إقرار وليّ الأمر (`children[].acknowledged_at`)."
+            .$errors('`422` | `validation_failed` | `body` مطلوب'),
+    ],
+    'moments_index' => [
+        'expect' => [200],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Staff — the wall',
+        'method' => 'GET', 'path' => 'v1/moments', 'auth' => 'teacher',
+        'query' => ['classroom_id' => '{{classroom_id}}'],
+        'description' => "حائط الحضانة للموظفين، الأحدث أولاً (20 في الصفحة). فلاتر اختيارية: `child_id`، `classroom_id`، `date` (YYYY-MM-DD بتوقيت القاهرة).\n\nالموظفون يرون كل الأطفال الموسومين وحالة إقرار الحوادث."
+            .$errors('`403` | `forbidden` | ليس من موظفي الحضانة', '`422` | `validation_failed` | طفل/فصل من حضانة أخرى'),
+    ],
+    'ward_moments' => [
+        'expect' => [200],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => "Guardian — my child's wall",
+        'method' => 'GET', 'path' => 'v1/me/wards/{{child_id}}/moments', 'auth' => 'guardian',
+        'description' => "يوميات طفلي، الأحدث أولاً. `children` يحوي طفلي فقط (لا أسماء أطفال آخرين). روابط الصور صالحة 30 دقيقة.\n\nيتطلب `my_link.can_view_wall`."
+            .$errors('`403` | `forbidden` | ليست لديك صلاحية عرض الحائط', '`404` | `not_found` | ليس من أطفالك أو محظور بحكم حضانة'),
+    ],
+    'moment_acknowledge' => [
+        'expect' => [200],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Guardian — acknowledge an incident',
+        'method' => 'POST', 'path' => 'v1/me/wards/{{child_id}}/moments/{{incident_id}}/acknowledge', 'auth' => 'guardian',
+        'description' => 'وليّ الأمر يؤكد أنه اطّلع على تقرير الحادثة. التكرار آمن.'
+            .$errors('`404` | `not_found` | ليس من أطفالك أو التحديث لا يخص طفلك', '`422` | `validation_failed` | التحديث ليس حادثة'),
+    ],
+    'moments_destroy' => [
+        'expect' => [204],
+        'folder' => '7. الحائط اليومي — Daily Wall',
+        'name' => 'Delete an update',
+        'method' => 'DELETE', 'path' => 'v1/moments/{{moment_id}}', 'auth' => 'teacher',
+        'description' => 'المعلمة تحذف تحديثها خلال 24 ساعة، والإدارة تحذف أي تحديث في أي وقت. الصور تُمحى فوراً (روابطها تعيد `404`)، والحذف يُسجَّل في التدقيق.'
+            .$errors('`403` | `forbidden` | بعد 24 ساعة (للمعلمة) أو ليس من الموظفين', '`404` | `not_found` | غير موجود أو محذوف'),
+    ],
+
     /* -------------------------------------------------------- Bahga Pay */
     'payment_methods' => [
         'expect' => [200],
-        'folder' => '7. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '8. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'Payment methods',
         'method' => 'GET', 'path' => 'v1/me/payment-methods', 'auth' => 'guardian',
         'description' => "طرق الدفع الإلكتروني المتاحة في هذه الحضانة.\n\n| `kind` | سلوك التطبيق |\n|---|---|\n| `redirect` | افتح `checkout_url` في متصفح/WebView (Paymob) |\n| `payment_code` | اعرض `payment_code` ليدفعه في أي منفذ فوري |\n\nإذا كان `online_payments_enabled: false` اعرض «الدفع لدى الحضانة»."
@@ -355,7 +436,7 @@ return [
     ],
     'invoices_index' => [
         'expect' => [200],
-        'folder' => '7. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '8. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'My invoices',
         'method' => 'GET', 'path' => 'v1/me/invoices', 'auth' => 'guardian',
         'script' => "const first = pm.response.json().data?.[0];\nif (first) pm.collectionVariables.set('invoice_id', first.id);",
@@ -364,7 +445,7 @@ return [
     ],
     'invoices_show' => [
         'expect' => [200],
-        'folder' => '7. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '8. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'My invoice',
         'method' => 'GET', 'path' => 'v1/me/invoices/{{invoice_id}}', 'auth' => 'guardian',
         'description' => 'الفاتورة ببنودها (`items`: رسوم موجبة وخصومات سالبة) والإيصالات المدفوعة (`receipts`).'
@@ -372,7 +453,7 @@ return [
     ],
     'checkout' => [
         'expect' => [200, 201, 422],
-        'folder' => '7. وليّ الأمر: الفواتير والدفع — Bahga Pay',
+        'folder' => '8. وليّ الأمر: الفواتير والدفع — Bahga Pay',
         'name' => 'Pay invoice online (checkout)',
         'method' => 'POST', 'path' => 'v1/me/invoices/{{invoice_id}}/checkout', 'auth' => 'guardian',
         'body' => ['gateway' => 'paymob'],
@@ -384,7 +465,7 @@ return [
     /* -------------------------------------------------------- Owner */
     'subscription' => [
         'expect' => [200],
-        'folder' => '8. الإدارة: الاشتراك — Owner',
+        'folder' => '9. الإدارة: الاشتراك — Owner',
         'name' => 'Subscription & usage',
         'method' => 'GET', 'path' => 'v1/subscription', 'auth' => 'owner',
         'description' => "اشتراك الحضانة في بهجة مع `entitlements` الفعلية (الخطة + الإضافات + الاستثناءات): المزايا المتاحة، والحدود مع الاستهلاك الحالي (`limit: null` = غير محدود).\n\n**الصلاحية:** المالك / المدير."
@@ -392,7 +473,7 @@ return [
     ],
     'plans' => [
         'expect' => [200],
-        'folder' => '8. الإدارة: الاشتراك — Owner',
+        'folder' => '9. الإدارة: الاشتراك — Owner',
         'name' => 'Plans',
         'method' => 'GET', 'path' => 'v1/subscription/plans', 'auth' => 'owner',
         'script' => "const plans = pm.response.json().data || [];\nif (plans.length) pm.collectionVariables.set('plan_id', plans[plans.length - 1].id);",
@@ -401,7 +482,7 @@ return [
     ],
     'change_plan' => [
         'expect' => [200],
-        'folder' => '8. الإدارة: الاشتراك — Owner',
+        'folder' => '9. الإدارة: الاشتراك — Owner',
         'name' => 'Change plan',
         'method' => 'POST', 'path' => 'v1/subscription/change-plan', 'auth' => 'owner',
         'body' => ['subscription_plan_id' => '{{plan_id}}'],
@@ -412,7 +493,7 @@ return [
     /* ------------------------------------------------------- Webhooks */
     'webhook_paymob' => [
         'expect' => [200, 401],
-        'folder' => '9. Webhooks (للبوابات فقط — Server to server)',
+        'folder' => '10. Webhooks (للبوابات فقط — Server to server)',
         'name' => 'Paymob — transaction processed callback',
         'method' => 'POST', 'path' => 'webhooks/payments/paymob', 'auth' => null, 'tenant' => false,
         'query' => ['hmac' => '<HMAC-SHA512>'],
@@ -422,7 +503,7 @@ return [
     ],
     'webhook_fawry' => [
         'expect' => [200, 401],
-        'folder' => '9. Webhooks (للبوابات فقط — Server to server)',
+        'folder' => '10. Webhooks (للبوابات فقط — Server to server)',
         'name' => 'Fawry — server notification V2',
         'method' => 'POST', 'path' => 'webhooks/payments/fawry', 'auth' => null, 'tenant' => false,
         'body' => ['fawryRefNumber' => '966512345', 'merchantRefNumber' => 'BHG1-…', 'orderStatus' => 'PAID', 'orderAmount' => '1850.00', 'messageSignature' => '<SHA-256>'],
@@ -433,14 +514,14 @@ return [
     /* --------------------------------------------------------- Errors */
     'error_route' => [
         'expect' => [404],
-        'folder' => '10. مرجع الأخطاء — Error reference',
+        'folder' => '11. مرجع الأخطاء — Error reference',
         'name' => 'Unknown endpoint',
         'method' => 'GET', 'path' => 'v1/does-not-exist', 'auth' => null, 'tenant' => false,
         'description' => 'مثال على شكل الخطأ الموحّد لمسار غير موجود.',
     ],
     'error_language' => [
         'expect' => [422],
-        'folder' => '10. مرجع الأخطاء — Error reference',
+        'folder' => '11. مرجع الأخطاء — Error reference',
         'name' => 'Same error in English (Accept-Language: en)',
         'method' => 'PATCH', 'path' => 'v1/me/wards/{{child_id}}/notifications', 'auth' => 'guardian',
         'body' => [],
