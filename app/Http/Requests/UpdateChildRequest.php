@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Enums\ChildStatus;
 use App\Enums\Gender;
+use App\Support\TenantRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -24,7 +25,7 @@ class UpdateChildRequest extends FormRequest
             'last_name' => ['sometimes', 'string', 'max:100'],
             'birth_date' => ['sometimes', 'date', 'before:today'],
             'gender' => ['sometimes', new Enum(Gender::class)],
-            'classroom_id' => ['nullable', 'integer', 'exists:classrooms,id'],
+            'classroom_id' => ['nullable', 'integer', TenantRules::exists('classrooms')],
             'medical_notes' => ['nullable', 'array'],
             'status' => ['sometimes', new Enum(ChildStatus::class)],
         ];

@@ -55,18 +55,25 @@ Route::middleware(['auth', 'tenant', 'nursery.staff'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        // Children + guardians (staff)
+        // Children: every staff member can read them…
         Route::get('children', [ChildController::class, 'index'])->name('children.index');
-        Route::get('children/create', [ChildController::class, 'create'])->name('children.create');
-        Route::get('children/import', [ChildImportController::class, 'form'])->name('children.import.form');
-        Route::post('children/import', [ChildImportController::class, 'store'])->name('children.import.store');
-        Route::get('children/import/template', [ChildImportController::class, 'template'])->name('children.import.template');
-        Route::post('children', [ChildController::class, 'store'])->name('children.store');
+
+        // …but enrolling/editing children and managing guardians, pickup rights
+        // and custody flags is for owners/admins only. (Registered before
+        // children/{child} so "create"/"import" aren't taken for an id.)
+        Route::middleware('nursery.admin')->group(function () {
+            Route::get('children/create', [ChildController::class, 'create'])->name('children.create');
+            Route::get('children/import', [ChildImportController::class, 'form'])->name('children.import.form');
+            Route::post('children/import', [ChildImportController::class, 'store'])->name('children.import.store');
+            Route::get('children/import/template', [ChildImportController::class, 'template'])->name('children.import.template');
+            Route::post('children', [ChildController::class, 'store'])->name('children.store');
+            Route::get('children/{child}/edit', [ChildController::class, 'edit'])->name('children.edit');
+            Route::put('children/{child}', [ChildController::class, 'update'])->name('children.update');
+            Route::post('children/{child}/guardians', [GuardianController::class, 'store'])->name('children.guardians.store');
+            Route::delete('children/{child}/guardians/{guardian}', [GuardianController::class, 'destroy'])->name('children.guardians.destroy');
+        });
+
         Route::get('children/{child}', [ChildController::class, 'show'])->name('children.show');
-        Route::get('children/{child}/edit', [ChildController::class, 'edit'])->name('children.edit');
-        Route::put('children/{child}', [ChildController::class, 'update'])->name('children.update');
-        Route::post('children/{child}/guardians', [GuardianController::class, 'store'])->name('children.guardians.store');
-        Route::delete('children/{child}/guardians/{guardian}', [GuardianController::class, 'destroy'])->name('children.guardians.destroy');
 
         // Attendance (staff)
         Route::get('attendance', [AttendanceController::class, 'index'])->name('attendance.index');

@@ -25,12 +25,12 @@ class EnsureEntitled
     {
         $tenant = $this->tenantContext->get();
 
-        abort_if($tenant === null, 403, 'No tenant context.');
+        abort_if($tenant === null, 403, __('api.errors.no_tenant'));
 
         abort_unless(
             $this->entitlements->for($tenant)->allows(Feature::from($feature)),
             Response::HTTP_PAYMENT_REQUIRED,
-            'هذه الميزة غير متاحة في خطتك الحالية. يرجى الترقية.',
+            __('api.errors.plan_upgrade_required'),
         );
 
         return $next($request);

@@ -45,7 +45,7 @@ class AttendanceService
                 'collector_id' => $collector->id,
             ]);
 
-            throw new AuthorizationException('This person is not authorized to pick up this child.');
+            throw new AuthorizationException(__('api.errors.pickup_not_authorized'));
         }
 
         $attendance = Attendance::firstOrCreate(

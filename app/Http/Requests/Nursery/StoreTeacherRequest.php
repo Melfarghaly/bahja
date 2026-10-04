@@ -5,6 +5,7 @@ namespace App\Http\Requests\Nursery;
 use App\Enums\EmploymentType;
 use App\Enums\TeacherRole;
 use App\Enums\TeacherStatus;
+use App\Support\TenantRules;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -27,7 +28,7 @@ class StoreTeacherRequest extends FormRequest
             'role' => ['required', new Enum(TeacherRole::class)],
             'status' => ['nullable', new Enum(TeacherStatus::class)],
             'employment_type' => ['nullable', new Enum(EmploymentType::class)],
-            'classroom_id' => ['nullable', 'integer', 'exists:classrooms,id'],
+            'classroom_id' => ['nullable', 'integer', TenantRules::exists('classrooms')],
         ];
     }
 }

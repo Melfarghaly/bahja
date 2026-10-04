@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Attendance;
+use App\Support\TenantRules;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CheckOutRequest extends FormRequest
@@ -18,7 +19,7 @@ class CheckOutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'child_id' => ['required', 'integer', 'exists:children,id'],
+            'child_id' => ['required', 'integer', TenantRules::exists('children')],
             'collector_id' => ['required', 'integer', 'exists:users,id'],
         ];
     }

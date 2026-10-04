@@ -15,7 +15,9 @@
                 <div class="flex justify-between"><dt class="text-gray-400">النوع</dt><dd>{{ $child->gender->value === 'male' ? 'ذكر' : 'أنثى' }}</dd></div>
                 <div class="flex justify-between"><dt class="text-gray-400">الفصل</dt><dd>{{ $child->classroom?->name ?? '—' }}</dd></div>
             </dl>
-            <a href="{{ route('nursery.children.edit', $child) }}" class="inline-block mt-2 text-sm brand-text hover:underline">تعديل البيانات</a>
+            @can('update', $child)
+                <a href="{{ route('nursery.children.edit', $child) }}" class="inline-block mt-2 text-sm brand-text hover:underline">تعديل البيانات</a>
+            @endcan
         </div>
 
         {{-- Guardians (the M:N relationship surfaced) --}}
@@ -42,10 +44,12 @@
                                 @endif
                             </td>
                             <td class="py-2.5">
+                                @can('update', $child)
                                 <form method="POST" action="{{ route('nursery.children.guardians.destroy', [$child, $guardian]) }}" onsubmit="return confirm('فصل وليّ الأمر؟')">
                                     @csrf @method('DELETE')
                                     <button class="text-xs text-red-500 hover:underline">فصل</button>
                                 </form>
+                                @endcan
                             </td>
                         </tr>
                     @empty
@@ -54,6 +58,7 @@
                 </tbody>
             </table>
 
+            @can('update', $child)
             <details class="pt-3 border-t border-gray-100">
                 <summary class="cursor-pointer text-sm font-medium brand-text">+ إضافة وليّ أمر</summary>
                 <form method="POST" action="{{ route('nursery.children.guardians.store', $child) }}" class="mt-3 grid grid-cols-2 gap-3">
@@ -78,6 +83,7 @@
                     <div class="col-span-2"><button class="brand-bg text-white px-5 py-2 rounded-lg text-sm">إضافة</button></div>
                 </form>
             </details>
+            @endcan
         </div>
     </div>
 
