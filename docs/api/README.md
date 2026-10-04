@@ -5,7 +5,7 @@
 ## الملفات
 | الملف | الوصف |
 |---|---|
-| `Bahga-API.postman_collection.json` | المجموعة الكاملة: 39 طلباً في 10 مجلدات، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
+| `Bahga-API.postman_collection.json` | المجموعة الكاملة: 44 طلباً في 11 مجلداً، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
 | `Bahga-API-local.postman_environment.json` | بيئة محلية بحسابات البيانات التجريبية |
 
 ## التشغيل محلياً
@@ -75,7 +75,12 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 | GET | `/v1/me/wards` | وليّ أمر | أطفالي |
 | GET | `/v1/me/wards/{id}` | وليّ أمر | طفلي |
 | GET | `/v1/me/wards/{id}/attendance` | وليّ أمر | سجل حضور طفلي |
-| PATCH | `/v1/me/wards/{id}/notifications` | وليّ أمر | إعدادات الرسائل |
+| PATCH | `/v1/me/wards/{id}/notifications` | وليّ أمر | إشعارات التطبيق والـ SMS لهذا الطفل |
+| POST | `/v1/me/devices` | الجميع | تسجيل جهاز التطبيق للإشعارات (توكن FCM) |
+| DELETE | `/v1/me/devices` | الجميع | إيقاف الإشعارات على هذا الجهاز |
+| GET | `/v1/me/notifications` | الجميع | صندوق الإشعارات + عدد غير المقروء |
+| POST | `/v1/me/notifications/{id}/read` | الجميع | قراءة إشعار |
+| POST | `/v1/me/notifications/read-all` | الجميع | قراءة الكل |
 | GET | `/v1/me/payment-methods` | وليّ أمر | طرق الدفع المتاحة |
 | GET | `/v1/me/invoices` | وليّ أمر | فواتيري |
 | GET | `/v1/me/invoices/{id}` | وليّ أمر | الفاتورة والإيصالات |
@@ -84,6 +89,11 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 | GET | `/v1/subscription/plans` | إدارة | الخطط |
 | POST | `/v1/subscription/change-plan` | إدارة | تغيير الخطة |
 | POST | `/webhooks/payments/{paymob\|fawry}` | البوابات | إشعارات الدفع (موقّعة) |
+
+## الإشعارات الفورية (Push)
+- التطبيق يسجّل توكن FCM عبر `POST /v1/me/devices` بعد كل دخول وعند تجديد التوكن، ولا يحتاج إلغاءه عند الخروج.
+- على الخادم: `PUSH_DRIVER=fcm` و`FCM_CREDENTIALS` (ملف حساب الخدمة من Firebase). الافتراضي `log` يكتب الإشعارات في السجل فقط.
+- تحتاج عامل طابور: `php artisan queue:work --queue=notifications,payments,default`، والجدولة (`schedule:run`) لإرسال ما أُجِّل بسبب ساعات الهدوء.
 
 مسارات الاستلام الآمن متاحة فقط عندما تكون `capabilities.safe_pickup` مفعّلة للحضانة في `GET /v1/me`.
 

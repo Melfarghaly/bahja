@@ -7,7 +7,7 @@ return [
     ],
     'child_picked_up' => [
         'title' => ':child left',
-        'body' => ':collector picked :child up from :nursery at :time.',
+        'body' => ':child left :nursery with :collector at :time.',
     ],
     'late_pickup' => [
         'title' => ':child has not been picked up',

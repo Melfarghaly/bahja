@@ -12,7 +12,7 @@ return [
     ],
     'child_picked_up' => [
         'title' => 'انصرف :child',
-        'body' => 'استلم :collector :child من :nursery الساعة :time.',
+        'body' => 'انصرف :child مع :collector من :nursery الساعة :time.',
     ],
     'late_pickup' => [
         'title' => 'لم يُستلم :child بعد',

@@ -26,10 +26,12 @@ use App\Models\Tenant;
 use App\Models\TenantEntitlementOverride;
 use App\Models\TuitionInvoice;
 use App\Models\User;
+use App\Models\UserNotification;
 use App\Services\AttendanceService;
 use App\Services\EntitlementService;
 use App\Services\GuardianService;
 use App\Services\Messaging\SmsGateway;
+use App\Services\Notifications\Push\PushGateway;
 use App\Services\Tuition\TuitionBillingService;
 use App\Support\TenantContext;
 use Carbon\CarbonImmutable;
@@ -37,6 +39,7 @@ use Database\Seeders\SubscriptionPlanSeeder;
 use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Tests\Postman\PostmanCollection;
+use Tests\Support\FakePushGateway;
 use Tests\Support\FakeSmsGateway;
 
 it('generates the Postman collection from real API responses', function () {
@@ -74,6 +77,8 @@ it('generates the Postman collection from real API responses', function () {
 
     Feature::for($tenant)->activate('bahga-pay');
     Feature::for($tenant)->activate('safe-pickup-v2');
+    Feature::for($tenant)->activate('messaging-hub');
+    $this->app->instance(PushGateway::class, new FakePushGateway);
     FeeDiscount::create(['name' => 'خصم الإخوة', 'type' => 'sibling', 'value_type' => 'percent', 'value' => 1_000, 'is_active' => true]);
     $monthly = FeePlan::create(['name' => 'المصروفات الشهرية', 'amount_piasters' => 185_000, 'frequency' => 'monthly', 'is_active' => true]);
     foreach ([$yousef, $layla] as $child) {
@@ -100,6 +105,7 @@ it('generates the Postman collection from real API responses', function () {
         'plan_id' => SubscriptionPlan::where('slug', 'advanced')->value('id'),
         'second_child_id' => $layla->id, 'bulk_checked_in_at' => now()->subMinutes(5)->toIso8601String(),
         'pickup_token' => '', 'pass_code' => '', 'pass_id' => '', 'pass_valid_until' => now()->addHours(4)->toIso8601String(),
+        'device_token' => 'dXk3bWZ1Y2h6U0K:APA91bHq2demo-fcm-registration-token-for-postman', 'notification_id' => '',
     ];
 
     /* ------------------------------------------------------ collection */
@@ -126,6 +132,8 @@ it('generates the Postman collection from real API responses', function () {
         ['key' => 'pass_valid_until', 'value' => '', 'description' => 'Set before "Issue a one-time pickup pass" (now + 4h)'],
         ['key' => 'pass_code', 'value' => '', 'description' => 'Set by "Issue a one-time pickup pass"'],
         ['key' => 'pass_id', 'value' => '', 'description' => 'Set by "Issue a one-time pickup pass"'],
+        ['key' => 'device_token', 'value' => 'dXk3bWZ1Y2h6U0K:APA91bHq2demo-fcm-registration-token-for-postman', 'description' => "The app's FCM token (a demo value)"],
+        ['key' => 'notification_id', 'value' => '', 'description' => 'Set by "My notifications"'],
     ]);
 
     $run = function (string $key, string $name, int $status, array $o = []) use ($c, &$specs, $tokens, &$vars) {
@@ -315,8 +323,25 @@ it('generates the Postman collection from real API responses', function () {
     $run('wards_attendance', 'سجل الحضور', 200);
     $run('wards_attendance', 'نطاق تاريخ غير صحيح', 422, ['query' => ['from' => '2026-10-01', 'to' => '2026-09-01']]);
     $run('wards_attendance', 'وصيّ محظور', 404, ['as' => 'blocked_guardian', 'query' => []]);
-    $run('wards_notifications', 'إيقاف رسائل SMS', 200);
-    $run('wards_notifications', 'قيمة ناقصة', 422, ['body' => []]);
+    $run('wards_notifications', 'إيقاف SMS مع إبقاء إشعارات التطبيق', 200);
+    $run('wards_notifications', 'لا push ولا sms', 422, ['body' => []]);
+
+    /* ------------------------------------------------ Notifications */
+    $run('devices_store', 'تسجيل جهاز جديد', 201);
+    $run('devices_store', 'تحديث نفس الجهاز (توكن معروف)', 200, ['body' => ['token' => '{{device_token}}', 'platform' => 'android', 'locale' => 'en', 'app_version' => '2.1.1']]);
+    $run('devices_store', 'منصة غير معروفة وتوكن قصير', 422, ['body' => ['token' => 'abc', 'platform' => 'symbian']]);
+    $run('devices_store', 'بدون توكن دخول', 401, ['as' => null]);
+
+    $vars['notification_id'] = $run('notifications_index', 'صندوق الإشعارات', 200)->json('data.0.id');
+    $run('notifications_index', 'غير المقروءة فقط بالإنجليزية', 200, ['query' => ['unread' => '1'], 'lang' => 'en']);
+    $run('notifications_read', 'قراءة إشعار', 200);
+    app(TenantContext::class)->set($tenant);
+    $ownersNotification = UserNotification::factory()->create(['tenant_id' => $tenant->id, 'user_id' => $owner->id]);
+    app(TenantContext::class)->forget();
+    $run('notifications_read', 'إشعار شخص آخر', 404, ['vars' => ['notification_id' => $ownersNotification->id]]);
+    $run('notifications_read_all', 'قراءة الكل', 200);
+    $run('devices_destroy', 'إيقاف الإشعارات على هذا الجهاز', 204);
+    $run('devices_destroy', 'بدون توكن الجهاز', 422, ['body' => []]);
 
     /* ------------------------------------------------ 6. Guardian: invoices */
     $run('payment_methods', 'طرق الدفع المتاحة', 200);

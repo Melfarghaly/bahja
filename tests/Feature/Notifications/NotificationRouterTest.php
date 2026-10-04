@@ -91,7 +91,7 @@ it('tells the rest of the family who picked the child up, but not the collector'
     app(AttendanceService::class)->checkOut($this->yousef, $this->mother, $this->teacher);
 
     expect(pushedTokens($this->push))->toBe(['grandma-iphone-token-0001'])
-        ->and($this->push->sent[0]['message']->body)->toBe('منى picked يوسف up from حضانة البراعم at 15:30.');
+        ->and($this->push->sent[0]['message']->body)->toBe('يوسف left حضانة البراعم with منى at 15:30.');
 });
 
 it('reports a manager override to the whole family', function () {
