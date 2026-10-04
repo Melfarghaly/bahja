@@ -32,10 +32,12 @@ class AttendanceService
      */
     public function checkIn(Child $child, User $by, AttendanceMethod $method = AttendanceMethod::Qr, ?CarbonImmutable $at = null): Attendance
     {
-        $at ??= CarbonImmutable::now();
+        // Stored in the app timezone (a synced device may send another offset),
+        // keyed by the day as a Carbon so it matches the stored value on every driver.
+        $at = ($at ?? CarbonImmutable::now())->setTimezone(config('app.timezone'));
 
         return Attendance::updateOrCreate(
-            ['child_id' => $child->id, 'date' => $at->toDateString()],
+            ['child_id' => $child->id, 'date' => $at->startOfDay()],
             [
                 'tenant_id' => $child->tenant_id,
                 'checked_in_at' => $at,

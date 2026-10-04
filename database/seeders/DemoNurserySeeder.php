@@ -29,7 +29,7 @@ class DemoNurserySeeder extends Seeder
             'email' => 'owner@bahga.test',
         ]);
 
-        $tenant = Tenant::factory()->create(['name' => 'Bahga Demo Nursery', 'slug' => 'bahga-demo']);
+        $tenant = Tenant::factory()->create(['name' => 'Bahga Demo Nursery', 'slug' => 'bahga-demo', 'settings' => ['pickup_deadline' => '16:00']]);
         $tenant->members()->attach($owner->id, ['member_type' => MemberType::Owner->value, 'status' => 'active']);
 
         // Set tenant context so scoped models receive tenant_id automatically.
@@ -91,6 +91,9 @@ class DemoNurserySeeder extends Seeder
         // Bahga Pay released for the demo nursery, with this month's family invoice.
         Feature::for($tenant)->activate(RolloutFlag::BahgaPay->value);
         app(TuitionBillingService::class)->generate($tenant, CarbonImmutable::now()->startOfMonth(), $owner);
+
+        // Safe Pickup 2.0 too: rotating guardian QR, pickup passes, late pickup alerts.
+        Feature::for($tenant)->activate(RolloutFlag::SafePickupV2->value);
 
         app(TenantContext::class)->forget();
     }

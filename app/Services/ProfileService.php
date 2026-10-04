@@ -91,6 +91,9 @@ class ProfileService
                 'online_payments' => $bahgaPay
                     && $this->entitlements->for($tenant)->allows(Feature::AutoCollection)
                     && $this->gateways->available($tenant) !== [],
+                // Rotating pickup QR, pickup passes and the door-verification screen.
+                'safe_pickup' => $this->rollouts->active($tenant, RolloutFlag::SafePickupV2)
+                    && $this->entitlements->for($tenant)->allows(Feature::PickupPasses),
             ],
         ];
     }

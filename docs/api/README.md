@@ -5,7 +5,7 @@
 ## الملفات
 | الملف | الوصف |
 |---|---|
-| `Bahga-API.postman_collection.json` | المجموعة الكاملة: 33 طلباً في 9 مجلدات، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
+| `Bahga-API.postman_collection.json` | المجموعة الكاملة: 39 طلباً في 10 مجلدات، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
 | `Bahga-API-local.postman_environment.json` | بيئة محلية بحسابات البيانات التجريبية |
 
 ## التشغيل محلياً
@@ -65,7 +65,13 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 | DELETE | `/v1/children/{id}/guardians/{user}` | إدارة | فصل وليّ أمر |
 | GET | `/v1/attendance` | موظفون | كشف الحضور اليومي |
 | POST | `/v1/attendance/check-in` | موظفون | تسجيل حضور |
-| POST | `/v1/attendance/check-out` | موظفون | انصراف مع التحقق من المستلم |
+| POST | `/v1/attendance/check-in/bulk` | موظفون | حضور جماعي / مزامنة بدون إنترنت |
+| POST | `/v1/attendance/check-out` | موظفون | انصراف مع التحقق من المستلم (وصيّ، QR، كود تصريح، أو تجاوز الإدارة) |
+| POST | `/v1/attendance/pickup/verify` | موظفون | شاشة الباب: من المستلم وأي الأطفال مسموح له بهم |
+| GET | `/v1/me/pickup-code` | وليّ أمر | QR الاستلام المتغيّر (60 ثانية) |
+| GET | `/v1/me/wards/{id}/pickup-passes` | وليّ أمر | تصاريح الاستلام لطفلي |
+| POST | `/v1/me/wards/{id}/pickup-passes` | وليّ أمر | تصريح استلام لمرة واحدة (كود SMS) |
+| DELETE | `/v1/me/pickup-passes/{id}` | وليّ أمر | إلغاء تصريح |
 | GET | `/v1/me/wards` | وليّ أمر | أطفالي |
 | GET | `/v1/me/wards/{id}` | وليّ أمر | طفلي |
 | GET | `/v1/me/wards/{id}/attendance` | وليّ أمر | سجل حضور طفلي |
@@ -78,5 +84,7 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 | GET | `/v1/subscription/plans` | إدارة | الخطط |
 | POST | `/v1/subscription/change-plan` | إدارة | تغيير الخطة |
 | POST | `/webhooks/payments/{paymob\|fawry}` | البوابات | إشعارات الدفع (موقّعة) |
+
+مسارات الاستلام الآمن متاحة فقط عندما تكون `capabilities.safe_pickup` مفعّلة للحضانة في `GET /v1/me`.
 
 القواعد العامة (الهيدرز، شكل الاستجابة، المبالغ، أكواد الأخطاء، حدود الطلبات) موجودة في وصف المجموعة نفسها داخل Postman.

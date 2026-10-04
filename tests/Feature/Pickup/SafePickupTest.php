@@ -204,3 +204,15 @@ it('keeps Safe Pickup hidden until released to the nursery', function () {
     $this->actingAs($otherOwner)->withHeader('X-Tenant-Id', $other->id)
         ->postJson('/api/v1/attendance/pickup/verify', ['pass_code' => '123456'])->assertNotFound();
 });
+
+it('updates the same day record when a child is checked in again, whatever the device offset', function () {
+    $this->actingAs($this->teacher)->postJson('/api/v1/attendance/check-out', ['child_id' => $this->layla->id, 'collector_id' => $this->mother->id])->assertOk();
+
+    $scannedAt = now()->subMinutes(10)->startOfMinute();
+    $this->actingAs($this->teacher)->postJson('/api/v1/attendance/check-in/bulk', [
+        'children' => [['child_id' => $this->layla->id, 'checked_in_at' => $scannedAt->copy()->setTimezone('Africa/Cairo')->toIso8601String()]],
+    ])->assertOk();
+
+    $attendance = Attendance::where('child_id', $this->layla->id)->sole();
+    expect($attendance->checked_in_at->equalTo($scannedAt))->toBeTrue();
+});
