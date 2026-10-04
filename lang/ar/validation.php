@@ -22,6 +22,7 @@ return [
     'confirmed' => 'تأكيد :attribute غير مطابق.',
     'current_password' => 'كلمة المرور غير صحيحة.',
     'date' => ':attribute ليس تاريخاً صحيحاً.',
+    'digits' => 'يجب أن يتكون :attribute من :digits أرقام.',
     'date_format' => 'يجب أن يطابق :attribute الصيغة :format.',
     'email' => 'يجب أن يكون :attribute بريداً إلكترونياً صحيحاً.',
     'enum' => 'القيمة المختارة لـ :attribute غير صحيحة.',
@@ -76,5 +77,6 @@ return [
         'subscription_plan_id' => 'الخطة',
         'sms' => 'الرسائل النصية',
         'billing_share_percent' => 'نسبة المساهمة',
+        'code' => 'رمز الدخول',
     ],
 ];

@@ -45,6 +45,25 @@ return [
         'script' => $saveToken('guardian'),
         'description' => 'دخول وليّ الأمر برقم الهاتف. يحفظ `guardian_token`.',
     ],
+    'otp_request' => [
+        'expect' => [202],
+        'folder' => '1. المصادقة — Auth',
+        'name' => 'OTP — request SMS code (parents)',
+        'method' => 'POST', 'path' => 'v1/auth/otp', 'auth' => null, 'tenant' => false,
+        'body' => ['phone' => '{{guardian_login}}'],
+        'description' => "**الدخول بدون كلمة مرور لأولياء الأمور.** يرسل رمزاً من 6 أرقام بالـ SMS صالحاً 5 دقائق.\n\n- يقبل الرقم بأي صيغة: `01…` أو `+20…` أو `0020…`.\n- **الاستجابة واحدة سواء كان الرقم مسجلاً أم لا** (لا يكشف الأرقام المسجلة، ولا تُرسل رسالة لرقم غير مسجل).\n- `resend_after`: الثواني قبل السماح بطلب رمز جديد، `expires_in`: صلاحية الرمز.\n- حد: 5 رموز في الساعة لكل رقم، و6 طلبات في الدقيقة لكل IP."
+            .$errors('`422` | `validation_failed` | رقم غير صحيح، أو طلب جديد قبل 60 ثانية، أو تجاوز 5 رموز في الساعة (`errors.phone`)', '`429` | `too_many_requests` | أكثر من 6 طلبات في الدقيقة'),
+    ],
+    'otp_verify' => [
+        'expect' => [201, 422],
+        'folder' => '1. المصادقة — Auth',
+        'name' => 'OTP — verify code → token',
+        'method' => 'POST', 'path' => 'v1/auth/otp/verify', 'auth' => null, 'tenant' => false,
+        'body' => ['phone' => '{{guardian_login}}', 'code' => '123456', 'device_name' => 'mona-android'],
+        'script' => "if (pm.response.code === 201) {\n    pm.collectionVariables.set('guardian_token', pm.response.json().token);\n}",
+        'description' => "يتحقق من الرمز ويصدر **توكن الجهاز** (مثل الدخول بكلمة المرور) ويوثّق رقم الهاتف.\n\n- الرمز يُستخدم مرة واحدة، و**5 محاولات خاطئة تُبطله**.\n- يحفظ `guardian_token` عند النجاح.\n\n> في Postman ضع الرمز الذي وصلك بالـ SMS (محلياً يُكتب في `storage/logs/laravel.log`)."
+            .$errors('`422` | `validation_failed` | رمز خاطئ أو منتهٍ أو استُنفدت محاولاته (`errors.code`)', '`429` | `too_many_requests` | أكثر من 10 محاولات في الدقيقة'),
+    ],
     'me' => [
         'expect' => [200],
         'folder' => '1. المصادقة — Auth',
@@ -59,6 +78,15 @@ return [
         ]),
         'description' => "**أول طلب يرسله التطبيق بعد الدخول.** لا يحتاج `X-Tenant-Id`.\n\nيعيد بيانات المستخدم وكل حضانة ينتمي إليها مع:\n- `roles`: owner / admin / teacher / guardian (قد تجتمع أدوار، مثلاً معلمة وهي أيضاً وليّة أمر).\n- `capabilities`: ما يقرره التطبيق لعرض الشاشات:\n  - `take_attendance`, `view_children` → شاشات المعلمة\n  - `manage_children`, `manage_nursery` → شاشات الإدارة\n  - `guardian` → شاشات وليّ الأمر\n  - `bahga_pay` → الفواتير، `online_payments` → زر الدفع الإلكتروني\n\nأرسل `id` الحضانة المختارة في الهيدر **`X-Tenant-Id`** في كل الطلبات التالية."
             .$errors('`401` | `unauthenticated` | توكن ناقص أو منتهٍ'),
+    ],
+    'me_update' => [
+        'expect' => [200],
+        'folder' => '1. المصادقة — Auth',
+        'name' => 'Me — update profile',
+        'method' => 'PATCH', 'path' => 'v1/me', 'auth' => 'guardian', 'tenant' => false,
+        'body' => ['name' => 'منى عبد الله', 'email' => 'mona@example.com'],
+        'description' => 'تعديل الاسم والبريد (كلاهما اختياري). رقم الهاتف هو هوية الحساب ولا يُغيَّر إلا من الحضانة. تغيير البريد يلغي توثيقه.'
+            .$errors('`422` | `validation_failed` | بريد غير صحيح أو مستخدم من قبل'),
     ],
     'logout' => [
         'expect' => [204],

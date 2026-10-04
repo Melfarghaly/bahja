@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\ChildController;
 use App\Http\Controllers\Api\V1\ClassroomController;
 use App\Http\Controllers\Api\V1\GuardianController;
 use App\Http\Controllers\Api\V1\MyInvoiceController;
+use App\Http\Controllers\Api\V1\OtpController;
 use App\Http\Controllers\Api\V1\ProfileController;
 use App\Http\Controllers\Api\V1\SubscriptionController;
 use App\Http\Controllers\Api\V1\WardController;
@@ -29,13 +30,18 @@ Route::post('webhooks/payments/{provider}', PaymentWebhookController::class)
     ->name('webhooks.payments');
 
 Route::prefix('v1/auth')->group(function () {
-    Route::post('tokens', [AuthTokenController::class, 'store'])->middleware('throttle:6,1');
+    Route::post('tokens', [AuthTokenController::class, 'store'])->middleware('throttle:login');
+
+    // Passwordless sign-in by SMS code (parents).
+    Route::post('otp', [OtpController::class, 'store'])->middleware('throttle:otp-send');
+    Route::post('otp/verify', [OtpController::class, 'verify'])->middleware('throttle:otp-verify');
     Route::delete('tokens/current', [AuthTokenController::class, 'destroy'])->middleware('auth:sanctum');
 });
 
 // Who am I, and in which nurseries (no X-Tenant-Id needed).
 Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     Route::get('me', [ProfileController::class, 'show']);
+    Route::patch('me', [ProfileController::class, 'update']);
 });
 
 Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
@@ -51,7 +57,7 @@ Route::prefix('v1')->middleware(['auth:sanctum', 'tenant'])->group(function () {
         Route::get('me/invoices', [MyInvoiceController::class, 'index']);
         Route::get('me/invoices/{invoice}', [MyInvoiceController::class, 'show']);
         Route::post('me/invoices/{invoice}/checkout', [MyInvoiceController::class, 'checkout'])
-            ->middleware(['entitled:auto_collection', 'throttle:10,1']);
+            ->middleware(['entitled:auto_collection', 'throttle:checkout']);
     });
 
     // Staff: classrooms and children.

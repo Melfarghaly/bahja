@@ -77,6 +77,13 @@ class AppServiceProvider extends ServiceProvider
         // API: 120 requests/minute per signed-in user (or per IP for guests).
         RateLimiter::for('api', fn (Request $request) => Limit::perMinute(120)->by($request->user()?->id ?: $request->ip()));
 
+        // Separate counters per action, so a few failed password logins don't
+        // also block requesting an SMS code (numeric throttles share one key).
+        RateLimiter::for('login', fn (Request $request) => Limit::perMinute(6)->by('login|'.$request->ip()));
+        RateLimiter::for('otp-send', fn (Request $request) => Limit::perMinute(6)->by('otp-send|'.$request->ip()));
+        RateLimiter::for('otp-verify', fn (Request $request) => Limit::perMinute(10)->by('otp-verify|'.$request->ip()));
+        RateLimiter::for('checkout', fn (Request $request) => Limit::perMinute(10)->by('checkout|'.($request->user()?->id ?: $request->ip())));
+
         // Queue workers reuse one process and DB session across jobs: start each
         // job with no tenant and no RLS bypass so nothing carries over.
         Queue::before(function (): void {

@@ -29,6 +29,7 @@ use App\Models\User;
 use App\Services\AttendanceService;
 use App\Services\EntitlementService;
 use App\Services\GuardianService;
+use App\Services\Messaging\SmsGateway;
 use App\Services\Tuition\TuitionBillingService;
 use App\Support\TenantContext;
 use Carbon\CarbonImmutable;
@@ -36,6 +37,7 @@ use Database\Seeders\SubscriptionPlanSeeder;
 use Illuminate\Support\Facades\Http;
 use Laravel\Pennant\Feature;
 use Tests\Postman\PostmanCollection;
+use Tests\Support\FakeSmsGateway;
 
 it('generates the Postman collection from real API responses', function () {
     $this->travelTo(CarbonImmutable::parse('2026-10-04 09:30:00'));
@@ -190,10 +192,23 @@ it('generates the Postman collection from real API responses', function () {
     $run('login_guardian', 'محاولة سادسة خلال دقيقة (مسموح)', 422, ['body' => ['login' => '01000000002', 'password' => 'x', 'device_name' => 'mona-android']]);
     $run('login_guardian', 'محاولات كثيرة', 429, ['body' => ['login' => '01000000002', 'password' => 'x', 'device_name' => 'mona-android']]);
 
+    $sms = new FakeSmsGateway;
+    $this->app->instance(SmsGateway::class, $sms);
+    $run('otp_request', 'إرسال رمز الدخول', 202, ['body' => ['phone' => '+201000000002']]);
+    $run('otp_request', 'طلب رمز جديد قبل 60 ثانية', 422, ['body' => ['phone' => '01000000002']]);
+    $run('otp_request', 'رقم غير صحيح', 422, ['body' => ['phone' => '12345']]);
+    preg_match('/\d{6}/', $sms->sent[0]['message'], $m);
+    $run('otp_verify', 'رمز خاطئ', 422, ['body' => ['phone' => '01000000002', 'code' => '000000', 'device_name' => 'mona-android']]);
+    $run('otp_verify', 'رمز صحيح → توكن', 201, ['body' => ['phone' => '01000000002', 'code' => $m[0], 'device_name' => 'mona-android']]);
+    $run('otp_verify', 'نفس الرمز مرة ثانية', 422, ['body' => ['phone' => '01000000002', 'code' => $m[0], 'device_name' => 'mona-android']]);
+
     $run('me', 'المالكة', 200, ['as' => 'owner']);
     $run('me', 'المعلمة', 200, ['as' => 'teacher']);
     $run('me', 'وليّ الأمر', 200, ['as' => 'guardian']);
     $run('me', 'بدون توكن', 401, ['as' => null]);
+
+    $run('me_update', 'تعديل الاسم والبريد', 200);
+    $run('me_update', 'بريد مستخدم من قبل', 422, ['body' => ['email' => 'owner@bahga.test']]);
 
     $throwaway = $owner->createToken('to-revoke')->plainTextToken;
     $run('logout', 'تسجيل الخروج من هذا الجهاز', 204, ['token' => $throwaway]);

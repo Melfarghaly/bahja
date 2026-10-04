@@ -5,7 +5,7 @@
 ## الملفات
 | الملف | الوصف |
 |---|---|
-| `Bahga-API.postman_collection.json` | المجموعة الكاملة: 30 طلباً في 9 مجلدات، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
+| `Bahga-API.postman_collection.json` | المجموعة الكاملة: 33 طلباً في 9 مجلدات، ولكل طلب أمثلة نجاح وخطأ **حقيقية** |
 | `Bahga-API-local.postman_environment.json` | بيئة محلية بحسابات البيانات التجريبية |
 
 ## التشغيل محلياً
@@ -51,6 +51,9 @@ npx newman run docs/api/Bahga-API.postman_collection.json \
 | الطريقة | المسار | من | الوصف |
 |---|---|---|---|
 | POST | `/v1/auth/tokens` | الجميع | دخول (بريد أو هاتف) → توكن |
+| POST | `/v1/auth/otp` | وليّ أمر | طلب رمز دخول بالـ SMS |
+| POST | `/v1/auth/otp/verify` | وليّ أمر | التحقق من الرمز → توكن |
+| PATCH | `/v1/me` | الجميع | تعديل الاسم والبريد |
 | DELETE | `/v1/auth/tokens/current` | الجميع | تسجيل خروج من هذا الجهاز |
 | GET | `/v1/me` | الجميع | الملف + الحضانات + الأدوار والصلاحيات |
 | GET | `/v1/classrooms` | موظفون | الفصول |

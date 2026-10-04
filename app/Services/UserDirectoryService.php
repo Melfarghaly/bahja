@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Support\PhoneNumber;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -18,6 +19,8 @@ class UserDirectoryService
      */
     public function findOrCreateByPhone(string $phone, array $attributes = []): User
     {
+        $phone = PhoneNumber::normalize($phone);
+
         $user = User::where('phone', $phone)->first();
 
         if ($user !== null) {
