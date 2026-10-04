@@ -8,6 +8,7 @@ use App\Models\ChildFeePlan;
 use App\Models\Classroom;
 use App\Models\FeeDiscount;
 use App\Models\FeePlan;
+use App\Models\TenantEntitlementOverride;
 
 beforeEach(function () {
     [$this->tenant, $this->owner] = createNurseryWithOwner();
@@ -141,4 +142,13 @@ it('lets the nursery choose its invoice due day without wiping other settings', 
         ->assertSessionHasErrors('tuition_due_day');
 
     $this->actingAs($this->owner)->get(route('nursery.settings.edit'))->assertOk()->assertSee('يوم استحقاق فواتير المصروفات');
+});
+
+it('hides Bahga Pay links when the finance feature is switched off for the nursery', function () {
+    TenantEntitlementOverride::factory()->create(['tenant_id' => $this->tenant->id, 'key' => 'finance_ledger', 'value' => false]);
+    $child = Child::factory()->create(['tenant_id' => $this->tenant->id]);
+
+    $this->actingAs($this->owner)->get(route('nursery.children.show', $child))
+        ->assertOk()->assertDontSee('الرسوم المسجّلة')->assertDontSee(route('nursery.finance.invoices.index'));
+    $this->actingAs($this->owner)->get(route('nursery.finance.setup'))->assertStatus(402);
 });

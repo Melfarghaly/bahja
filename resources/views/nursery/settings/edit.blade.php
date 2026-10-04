@@ -17,6 +17,7 @@
             <textarea name="address" rows="2" class="w-full rounded-lg border-gray-200 text-sm">{{ old('address', $tenant->address) }}</textarea>
         </div>
         @rolledout('bahga-pay')
+        @entitled('finance_ledger')
             <div class="pt-4 border-t border-gray-50">
                 <label for="tuition_due_day" class="block text-sm font-medium mb-1">يوم استحقاق فواتير المصروفات</label>
                 <select id="tuition_due_day" name="tuition_due_day" class="rounded-lg border-gray-200 text-sm">
@@ -28,6 +29,7 @@
                 <p class="text-xs text-gray-500 mt-1">يسري على الفواتير التي تصدر بعد الحفظ.</p>
                 @error('tuition_due_day')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
             </div>
+        @endentitled
         @endrolledout
         <div class="pt-4 border-t border-gray-50">
             <button class="brand-bg text-white px-6 py-2 rounded-lg text-sm font-medium">حفظ الإعدادات</button>

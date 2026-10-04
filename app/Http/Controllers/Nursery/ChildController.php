@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Nursery;
 
 use App\Enums\DiscountType;
+use App\Enums\Feature;
 use App\Enums\RolloutFlag;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Nursery\StoreChildRequest;
@@ -12,6 +13,7 @@ use App\Models\Classroom;
 use App\Models\FeeDiscount;
 use App\Models\FeePlan;
 use App\Services\ChildService;
+use App\Services\EntitlementService;
 use App\Services\Exceptions\PlanLimitException;
 use App\Services\RolloutService;
 use App\Support\TenantContext;
@@ -24,6 +26,7 @@ class ChildController extends Controller
     public function __construct(
         private ChildService $children,
         private RolloutService $rollouts,
+        private EntitlementService $entitlements,
         private TenantContext $tenantContext,
     ) {}
 
@@ -70,7 +73,8 @@ class ChildController extends Controller
     {
         $tenant = $this->tenantContext->get();
         $managesFees = $request->user()->manages($tenant)
-            && $this->rollouts->active($tenant, RolloutFlag::BahgaPay);
+            && $this->rollouts->active($tenant, RolloutFlag::BahgaPay)
+            && $this->entitlements->for($tenant)->allows(Feature::FinanceLedger);
 
         $child->load([
             'classroom',
