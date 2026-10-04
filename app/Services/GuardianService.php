@@ -7,6 +7,7 @@ use App\Enums\MemberType;
 use App\Models\Child;
 use App\Models\Tenant;
 use App\Models\User;
+use App\Support\Money;
 use BackedEnum;
 
 /**
@@ -46,6 +47,10 @@ class GuardianService
             'can_view_wall' => $attributes['can_view_wall'] ?? true,
             'can_pickup' => $attributes['can_pickup'] ?? false,
             'is_payer' => $attributes['is_payer'] ?? false,
+            // Percent → basis points ("33.33" → 3333), only meaningful for payers.
+            'billing_share_bp' => ($attributes['is_payer'] ?? false) && filled($attributes['billing_share_percent'] ?? null)
+                ? Money::fromPounds((string) $attributes['billing_share_percent'])->piasters
+                : null,
             'custody_flag' => $attributes['custody_flag'] ?? 'none',
         ];
 
@@ -107,7 +112,7 @@ class GuardianService
         $pivot = $child->guardians()->whereKey($guardian->id)->first()?->pivot;
 
         return $pivot === null ? null : $this->normalize($pivot->only([
-            'relationship', 'role', 'can_view_wall', 'can_pickup', 'is_payer', 'custody_flag',
+            'relationship', 'role', 'can_view_wall', 'can_pickup', 'is_payer', 'billing_share_bp', 'custody_flag',
         ]));
     }
 
@@ -120,6 +125,7 @@ class GuardianService
         foreach (['can_view_wall', 'can_pickup', 'is_payer'] as $flag) {
             $permissions[$flag] = (bool) $permissions[$flag];
         }
+        $permissions['billing_share_bp'] = isset($permissions['billing_share_bp']) ? (int) $permissions['billing_share_bp'] : null;
 
         return array_map(fn ($value) => $value instanceof BackedEnum ? $value->value : $value, $permissions);
     }

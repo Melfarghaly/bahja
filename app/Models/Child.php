@@ -71,6 +71,7 @@ class Child extends Model
                 'can_view_wall',
                 'can_pickup',
                 'is_payer',
+                'billing_share_bp',
                 'custody_flag',
                 'notify_preferences',
             ])

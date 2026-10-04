@@ -19,6 +19,7 @@ use App\Services\AuditLogger;
 use App\Services\DocumentNumberService;
 use App\Support\Money;
 use App\Support\Tuition\BillingRunResult;
+use App\Support\Tuition\ShareAllocator;
 use Carbon\CarbonImmutable;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Support\Collection;
@@ -57,19 +58,27 @@ class TuitionBillingService
 
         $families = [];
         $unbillable = [];
+        $shareWarnings = [];
 
         foreach ($byChild as $assignments) {
             /** @var Child $child */
             $child = $assignments->first()->child;
-            $payer = $this->payerFor($child);
+            $childName = trim($child->first_name.' '.$child->last_name);
+            [$shares, $sharesValid] = $this->payerShares($child);
 
-            if ($payer === null) {
-                $unbillable[] = trim($child->first_name.' '.$child->last_name);
+            if ($shares === []) {
+                $unbillable[] = $childName;
 
                 continue;
             }
 
-            $families[$payer->id][$child->id] = $assignments;
+            if (! $sharesValid) {
+                $shareWarnings[] = $childName;
+            }
+
+            foreach (array_keys($shares) as $payerId) {
+                $families[$payerId][$child->id] = ['assignments' => $assignments, 'shares' => $shares];
+            }
         }
 
         $created = 0;
@@ -91,7 +100,7 @@ class TuitionBillingService
             $billed += $invoice->total_piasters;
         }
 
-        $result = new BillingRunResult($created, $alreadyInvoiced, $unbillable, $billed);
+        $result = new BillingRunResult($created, $alreadyInvoiced, $unbillable, $billed, $shareWarnings);
 
         if ($created > 0 || $unbillable !== []) {
             $this->audit->record(AuditAction::TuitionInvoicesGenerated, $tenant, [
@@ -99,6 +108,7 @@ class TuitionBillingService
                 'created' => $created,
                 'already_invoiced' => $alreadyInvoiced,
                 'unbillable_children' => $unbillable,
+                'share_warnings' => $shareWarnings,
                 'total_piasters' => $billed,
             ], $actor, $tenant->id);
         }
@@ -130,21 +140,45 @@ class TuitionBillingService
     }
 
     /**
-     * The guardian who receives the child's invoice: a guardian flagged as payer,
-     * else the primary guardian. Custody-blocked guardians never qualify.
+     * Who pays for the child and in which proportion (basis points by user id).
+     * Payers are the guardians flagged is_payer, else the primary guardian;
+     * custody-blocked guardians never qualify. Several payers use their
+     * billing shares when those add up to 100%, otherwise an equal split
+     * (and the second value is false so the run can warn about it).
+     *
+     * @return array{0: array<int, int>, 1: bool}
      */
-    private function payerFor(Child $child): ?User
+    private function payerShares(Child $child): array
     {
         $eligible = $child->guardians
             ->reject(fn (User $g) => $g->pivot->custody_flag === CustodyFlag::Blocked->value)
             ->sortBy('id');
 
-        return $eligible->first(fn (User $g) => (bool) $g->pivot->is_payer)
-            ?? $eligible->first(fn (User $g) => $g->pivot->role === GuardianRole::Primary->value);
+        $payers = $eligible->filter(fn (User $g) => (bool) $g->pivot->is_payer)->values();
+
+        if ($payers->isEmpty()) {
+            $primary = $eligible->first(fn (User $g) => $g->pivot->role === GuardianRole::Primary->value);
+
+            return [$primary === null ? [] : [$primary->id => 10_000], true];
+        }
+
+        if ($payers->count() === 1) {
+            return [[$payers->first()->id => 10_000], true];
+        }
+
+        $declared = $payers->mapWithKeys(fn (User $g) => [$g->id => (int) $g->pivot->billing_share_bp])->all();
+
+        if (array_sum($declared) === 10_000 && min($declared) > 0) {
+            ksort($declared);
+
+            return [$declared, true];
+        }
+
+        return [ShareAllocator::equal(array_keys($declared)), false];
     }
 
     /**
-     * @param  array<int, Collection<int, ChildFeePlan>>  $children  each child's assignments, in sibling order
+     * @param  array<int, array{assignments: Collection<int, ChildFeePlan>, shares: array<int, int>}>  $children  in sibling order
      */
     private function issueFamilyInvoice(Tenant $tenant, CarbonImmutable $period, int $payerId, array $children, ?FeeDiscount $siblingDiscount): ?TuitionInvoice
     {
@@ -159,7 +193,7 @@ class TuitionBillingService
             return null;
         }
 
-        $lines = $this->buildLines($children, $siblingDiscount);
+        $lines = $this->buildLines($children, $payerId, $siblingDiscount);
         $subtotal = array_sum(array_map(fn ($l) => max(0, $l['amount_piasters']), $lines));
         $discount = -array_sum(array_map(fn ($l) => min(0, $l['amount_piasters']), $lines));
         $total = $subtotal - $discount;
@@ -197,36 +231,47 @@ class TuitionBillingService
     }
 
     /**
-     * @param  array<int, Collection<int, ChildFeePlan>>  $children
+     * Invoice lines for one payer. Every amount is computed on the child's
+     * full fee first, then the payer's part is taken with an exact allocation,
+     * so split families together pay exactly what one family would.
+     *
+     * @param  array<int, array{assignments: Collection<int, ChildFeePlan>, shares: array<int, int>}>  $children
      * @return array<int, array<string, mixed>>
      */
-    private function buildLines(array $children, ?FeeDiscount $siblingDiscount): array
+    private function buildLines(array $children, int $payerId, ?FeeDiscount $siblingDiscount): array
     {
         $lines = [];
 
-        foreach ($children as $siblingIndex => $assignments) {
+        foreach ($children as $siblingIndex => ['assignments' => $assignments, 'shares' => $shares]) {
+            $split = count($shares) > 1;
+            $suffix = $split ? ' ('.rtrim(rtrim(number_format($shares[$payerId] / 100, 2), '0'), '.').'%)' : '';
+            $part = fn (int $amount) => ShareAllocator::allocate($amount, $shares)[$payerId];
+
             foreach ($assignments as $assignment) {
                 $child = $assignment->child;
                 $plan = $assignment->feePlan;
-                $childName = $child->first_name;
-                $remaining = $plan->amount();
+                $childName = $child->first_name.$suffix;
+                $fee = $plan->amount();
 
                 $lines[] = [
                     'child_id' => $child->id,
                     'fee_plan_id' => $plan->id,
                     'kind' => InvoiceItemKind::Fee,
                     'description' => "{$plan->name} — {$childName}",
-                    'amount_piasters' => $remaining->piasters,
+                    'amount_piasters' => $part($fee->piasters),
                 ];
 
+                $remaining = $fee;
+
                 if ($assignment->discount !== null && $assignment->discount->is_active) {
-                    $off = $assignment->discount->discountOn($remaining);
-                    $lines[] = $this->discountLine($child->id, $assignment->discount, $off, $childName);
-                    $remaining = $remaining->minus($off);
+                    $off = $assignment->discount->discountOn($fee);
+                    $lines[] = $this->discountLine($child->id, $assignment->discount, Money::of($part($off->piasters)), $childName);
+                    $remaining = $fee->minus($off);
                 }
 
                 if ($siblingIndex > 0 && $siblingDiscount !== null && $remaining->isPositive()) {
-                    $lines[] = $this->discountLine($child->id, $siblingDiscount, $siblingDiscount->discountOn($remaining), $childName);
+                    $off = $siblingDiscount->discountOn($remaining);
+                    $lines[] = $this->discountLine($child->id, $siblingDiscount, Money::of($part($off->piasters)), $childName);
                 }
             }
         }
