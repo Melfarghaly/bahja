@@ -10,6 +10,9 @@ enum AuditAction: string
     case PickupPassIssued = 'pickup.pass_issued';
     case PickupPassRevoked = 'pickup.pass_revoked';
     case LatePickupAlerted = 'pickup.late_alerted';
+    case MediaConsentGranted = 'wall.consent_granted';
+    case MediaConsentRevoked = 'wall.consent_revoked';
+    case MomentDeleted = 'wall.moment_deleted';
     case GuardianAttached = 'guardian.attached';
     case GuardianUpdated = 'guardian.updated';
     case GuardianDetached = 'guardian.detached';

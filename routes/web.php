@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\RolloutController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\Nursery\AttendanceController;
 use App\Http\Controllers\Nursery\ChildController;
 use App\Http\Controllers\Nursery\ChildImportController;
@@ -185,5 +186,15 @@ Route::middleware(['signed', 'tenant.route', 'throttle:30,1'])->group(function (
     Route::get('pay/{tenant}/{invoice}', [PayController::class, 'show'])->name('pay.show');
     Route::post('pay/{tenant}/{invoice}/{gateway}', [PayController::class, 'checkout'])->name('pay.checkout');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Daily Wall photos — short-lived signed links (see App\Services\Wall\MediaUrls)
+|--------------------------------------------------------------------------
+*/
+Route::get('media/{tenant}/{media}/{variant}', [MediaController::class, 'show'])
+    ->middleware(['signed', 'tenant.route', 'throttle:600,1'])
+    ->whereIn('variant', ['full', 'thumb'])
+    ->name('media.show');
 
 require __DIR__.'/auth.php';

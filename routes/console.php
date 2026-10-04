@@ -34,3 +34,10 @@ Schedule::command('notifications:deliver-deferred')
     ->everyFiveMinutes()
     ->withoutOverlapping()
     ->onOneServer();
+
+// Daily Wall: photos past the plan's retention (Free: 30 days) are erased.
+Schedule::command('wall:prune-media')
+    ->dailyAt('03:30')
+    ->timezone('Africa/Cairo')
+    ->withoutOverlapping()
+    ->onOneServer();

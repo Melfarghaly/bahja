@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\ConsentScope;
 use App\Enums\MemberType;
 use App\Enums\RolloutFlag;
 use App\Models\Child;
@@ -9,6 +10,7 @@ use App\Models\ChildFeePlan;
 use App\Models\Classroom;
 use App\Models\FeeDiscount;
 use App\Models\FeePlan;
+use App\Models\MediaConsent;
 use App\Models\SubscriptionPlan;
 use App\Models\Tenant;
 use App\Models\User;
@@ -82,6 +84,11 @@ class DemoNurserySeeder extends Seeder
             ]);
 
             ChildFeePlan::create(['child_id' => $child->id, 'fee_plan_id' => $monthly->id, 'starts_on' => now()->startOfMonth()]);
+
+            // The mother allows photos (and group photos) on the Daily Wall.
+            foreach ([ConsentScope::Wall, ConsentScope::GroupPhotos] as $scope) {
+                MediaConsent::create(['child_id' => $child->id, 'scope' => $scope, 'granted_by' => $mother->id, 'granted_at' => now()]);
+            }
         }
 
         foreach ([$mother, $driver] as $guardian) {
@@ -97,6 +104,9 @@ class DemoNurserySeeder extends Seeder
 
         // Messaging Hub: arrival / pickup notifications to the family.
         Feature::for($tenant)->activate(RolloutFlag::MessagingHub->value);
+
+        // Daily Wall: moments, photos and incident reports.
+        Feature::for($tenant)->activate(RolloutFlag::DailyWall->value);
 
         app(TenantContext::class)->forget();
     }
