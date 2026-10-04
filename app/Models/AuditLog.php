@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\AuditAction;
 use App\Models\Concerns\BelongsToTenant;
+use Database\Factories\AuditLogFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -15,7 +17,8 @@ use LogicException;
  */
 class AuditLog extends Model
 {
-    use BelongsToTenant;
+    /** @use HasFactory<AuditLogFactory> */
+    use BelongsToTenant, HasFactory;
 
     public const UPDATED_AT = null;
 
