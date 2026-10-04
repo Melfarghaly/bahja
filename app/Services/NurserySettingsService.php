@@ -14,7 +14,12 @@ class NurserySettingsService
     /**
      * Keys of the request that live inside the `settings` JSON column.
      */
-    private const SETTINGS_KEYS = ['tuition_due_day'];
+    private const SETTINGS_KEYS = ['tuition_due_day', 'pickup_deadline'];
+
+    /**
+     * Keys stored as integers (the others are kept as strings).
+     */
+    private const INTEGER_KEYS = ['tuition_due_day'];
 
     /**
      * @param  array<string, mixed>  $data
@@ -25,7 +30,11 @@ class NurserySettingsService
 
         foreach (self::SETTINGS_KEYS as $key) {
             if (array_key_exists($key, $data)) {
-                $data[$key] === null ? Arr::forget($settings, $key) : $settings[$key] = (int) $data[$key];
+                if ($data[$key] === null || $data[$key] === '') {
+                    Arr::forget($settings, $key);
+                } else {
+                    $settings[$key] = in_array($key, self::INTEGER_KEYS, true) ? (int) $data[$key] : (string) $data[$key];
+                }
             }
         }
 

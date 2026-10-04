@@ -25,6 +25,7 @@ class AttendanceSheetRowResource extends JsonResource
                 'classroom' => $child->classroom ? ['id' => $child->classroom->id, 'name' => $child->classroom->name] : null,
             ],
             'status' => $this->resource['status'],
+            'late_pickup' => $this->resource['late_pickup'],
             'attendance' => $this->resource['attendance'] ? new AttendanceResource($this->resource['attendance']) : null,
         ];
     }

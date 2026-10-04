@@ -37,7 +37,7 @@ class AttendanceController extends Controller
         $sheet = $sheets->forDate($date, $request->validated('classroom_id'));
 
         return AttendanceSheetRowResource::collection($sheet['rows'])
-            ->additional(['date' => $date->toDateString(), 'summary' => $sheet['summary']])
+            ->additional(['date' => $date->toDateString(), 'pickup_deadline' => $sheet['pickup_deadline'], 'summary' => $sheet['summary']])
             ->response();
     }
 

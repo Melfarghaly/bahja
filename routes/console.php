@@ -22,3 +22,9 @@ Schedule::command('tuition:remind')
     ->timezone('Africa/Cairo')
     ->withoutOverlapping()
     ->onOneServer();
+
+// Safe Pickup: children still at the nursery after its pickup deadline.
+Schedule::command('pickup:late-alerts')
+    ->everyFifteenMinutes()
+    ->withoutOverlapping()
+    ->onOneServer();
